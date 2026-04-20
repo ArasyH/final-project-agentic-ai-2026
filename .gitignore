@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.ipynb_checkpoints
+
+# Virtual environment
+venv/
+.env
+
+# Logs
+*.log
+
+# ETL temporary data
+etl/raw_data/
+etl/processed_data/
+
+# IDE / OS
+.DS_Store
+.idea/
+.vscode/
+
+# Docker Compose
+docker_compose.yml
+
+# FOLDER USERS
+Users/
+
+# Chroma db
+chroma_db/
+
+#Other files
+catatan.txt
+proses.ipynb
+test_chromadbconn.py
+test.py
+app/evaluate_ragas.ipynb
