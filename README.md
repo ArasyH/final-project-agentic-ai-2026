@@ -2,3 +2,21 @@ FINAL PROJECTS 2026
 IMPLEMENTATION OF AGENTIC AI USING THE SEMANTIC
 CACHING METHOD TO ADDRESS THE HALLUCINATION PROBLEM
 IN AN INDONESIAN STOCK MARKET DATA CHATBOT
+
+python version = 3.11.7
+
+library:
+requests==2.31.0
+pandas==2.1.0
+sentence-transformers==2.2.2
+chromadb==1.5.5
+schedule==1.2.0
+langchain==1.2.15
+langchain-core==1.3.0
+langgraph==1.1.6
+pydantic==2.12.5
+langfuse==3.14.6
+httpx==0.28.1
+groq==0.37.1
+fastapi==0.13
+python-dotenv==1.2.2

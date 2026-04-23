@@ -3,6 +3,12 @@ from langfuse import Langfuse
 from langfuse import observe, propagate_attributes
 from config import (
     LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY, LANGFUSE_HOST)
+"""
+1. Setup Langfuse client
+2. Setup CallbackHandler
+3. Setup tracing wrapper
+4. Possibly custom metrics
+"""
 
 langfuse_client = Langfuse(
     public_key=LANGFUSE_PUBLIC_KEY,

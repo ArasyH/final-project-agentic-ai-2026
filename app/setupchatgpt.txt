@@ -1,0 +1,35 @@
+Model usage inside this setup
+Coding chat → GPT-5.3 Instant
+Architecture / evaluation / writing → GPT-5.4 Thinking
+
+2️⃣ Inside that Project → create separate chats (your idea is correct)
+Use this structure:
+🔹 Chat 1 — Architecture & Research
+system design
+agent strategy
+evaluation methods
+🔹 Chat 2 — Implementation
+LangChain code
+Groq integration
+debugging
+🔹 Chat 3 — Writing (Thesis / Paper)
+abstract
+methodology
+results
+🔹 Chat 4 — Evaluation & Analysis
+hallucination metrics
+experiment results
+Langfuse log interpretation
+👉 This is the right way to “combine” them — not merging chats, but grouping them in one Project.
+⚠️ Important (most people get this wrong)
+❌ Don’t do this:
+Mix coding + writing + research in ONE chat
+→ results get worse over time
+✅ Do this:
+Keep chats clean and focused
+Treat each chat like a specialized assistant
+📂 How the Project helps you
+Inside a Project, you can:
+Upload files (your code, logs, dataset)
+Maintain shared context across chats
+Keep everything organized for your thesis
