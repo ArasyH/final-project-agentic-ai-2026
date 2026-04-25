@@ -1,0 +1,50 @@
+Mode eksperimen 1/2/3 yang eksplisit
+Query normalizer
+Orchestrator service terpusat
+Validator/critic service
+Structured internal JSON schema
+Tool abstraction yang jelas
+Fallback policy yang konsisten
+Telemetry service yang mencatat per-step latency, mode, validator result, cache status
+Test formal untuk freshness, validator, mode switching, fallback
+README arsitektur yang menggambarkan tiga mode
+
+Tempat terbaik menyisipkan mode 1, 2, 3
+Paling aman:
+pertahankan main.py sebagai entry point API
+ganti logika process_chat() agar memanggil orchestrator_service.run(...)
+orchestrator_service yang memilih mode:
+mode_1_baseline_llm
+mode_2_rag_only
+mode_3_full_agentic
+Jadi endpoint tetap stabil, tetapi isi alurnya dimodularisasi.
+
+2. Rencana integrasi mode 1, 2, 3
+Prinsip integrasi
+Jangan bongkar total. Refactor bertahap:
+Mode 1 baseline
+jalankan LLM tanpa retrieval, tanpa validator, tanpa semantic cache
+tetap log ke telemetry agar evaluasi fair
+Mode 2 RAG only
+pakai retrieval service + answer composer
+tanpa semantic cache
+tanpa validator agent
+tetap trace sources
+Mode 3 full agentic
+query normalization
+semantic cache lookup
+retrieval/tool caller
+answer composer
+validator/critic
+fallback aman
+telemetry penuh
+
+Alur target
+chat_api -> orchestrator_service -> mode runner -> structured output -> response
+Kenapa ini paling aman
+Karena:
+endpoint existing tetap dipakai
+RAG chain existing tetap bisa direuse dulu di tahap awal
+semantic cache existing tetap dipakai lalu diperkaya
+Langfuse existing tetap dipakai lalu dipusatkan lewat telemetry service
+
