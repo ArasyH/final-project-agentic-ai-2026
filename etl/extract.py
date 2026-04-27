@@ -28,14 +28,14 @@ BASE_URL = "https://api.sectors.app/v2"
 def fetch_stock_price(ticker: str) -> dict:
     """Ambil data harga historis 1 tahun terakhir."""
     url = f"{BASE_URL}/daily/{ticker}/?start=2025-01-01&end={date.today()}"
-    resp = requests.get(url, headers=HEADERS, timeout=10)
+    resp = requests.get(url, headers=HEADERS, timeout=30)
     resp.raise_for_status()
     return resp.json()
 
 def fetch_company_report(ticker: str) -> dict:
     """Ambil laporan fundamental perusahaan."""
     url = f"{BASE_URL}/company/report/{ticker}/"
-    resp = requests.get(url, headers=HEADERS, timeout=10)
+    resp = requests.get(url, headers=HEADERS, timeout=30)
     resp.raise_for_status()
     return resp.json()
 

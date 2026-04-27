@@ -1,5 +1,12 @@
-# run_etl.py — jalankan semua fase berurutan
+# run_etl.py — menjalankan semua fase berurutan
 import extract, transform, load
+import os
+import sys
+import time
+from datetime import datetime
+from pathlib import Path
+
+
 
 if __name__ == "__main__":
     print("=== Mulai ETL Pipeline ===")
