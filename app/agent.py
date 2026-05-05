@@ -10,7 +10,7 @@ from config import (
 
 # Embedding model — sama persis dengan yang dipakai ETL
 # PENTING: harus model yang sama, beda model = dimensi vektor berbeda = error
-embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L12-v2")
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 # Knowledge base dari hasil ETL
 knowledge_base = Chroma(

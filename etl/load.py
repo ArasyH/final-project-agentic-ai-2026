@@ -1,9 +1,8 @@
 # Membaca narasi teks, membuat embedding, dan memasukkannya ke vector databse (chromaDB)
 # TASK 3
-
 import os
 from datetime import date
-from sentence_transformers import SentenceTransformer
+from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 import chromadb
 from dotenv import load_dotenv
 
@@ -13,43 +12,60 @@ PROCESSED_DATA_DIR = os.getenv("PROCESSED_DATA_DIR")
 CHROMA_API_KEY = os.getenv("CHROMA_API_KEY")
 CHROMA_TENANT = os.getenv("CHROMA_TENANT")
 CHROMA_DB_PATH = os.getenv("CHROMA_DB_PATH", "./chroma_db")
+EMBEDDING_MODEL_NAME = os.getenv(
+    "EMBEDDING_MODEL_NAME",
+    "sentence-transformers/all-MiniLM-L6-v2",
+)
 
 def load_to_vector_db():
-    today     = date.today().isoformat()
-    model     = SentenceTransformer("all-MiniLM-L6-v2")
-    client    = chromadb.PersistentClient(path=CHROMA_DB_PATH)
-    
-    # Gunakan satu koleksi untuk knowledge base
-    collection = client.get_or_create_collection(
+    today = date.today().isoformat()
+
+    # Cek file tersedia
+    txt_files = [f for f in os.listdir(PROCESSED_DATA_DIR)
+                 if f.endswith(f"{today}.txt")]
+
+    if not txt_files:
+        print(f"⚠ Tidak ada file .txt untuk {today}")
+        print(f"  Jalankan transform.py terlebih dahulu.")
+        return
+
+    print(f"Ditemukan {len(txt_files)} file — mulai loading ke ChromaDB...")
+    print(f"Path  : {os.path.abspath(CHROMA_DB_PATH)}")
+    print(f"Model : {EMBEDDING_MODEL_NAME}\n")
+
+    # Embedding function — ChromaDB yang handle, bukan manual encode
+    embed_fn = SentenceTransformerEmbeddingFunction(model_name=EMBEDDING_MODEL_NAME)
+
+    client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
+    col    = client.get_or_create_collection(
         name="stock_knowledge_base",
+        embedding_function=embed_fn,
         metadata={"hnsw:space": "cosine"}
     )
-    
-    loaded, skipped = 0, 0
-    for filename in os.listdir(PROCESSED_DATA_DIR):
-        if not filename.endswith(f"{today}.txt"):
-            skipped += 1
-            continue
-        ticker   = filename.split("_")[0]
-        filepath = os.path.join(PROCESSED_DATA_DIR, filename)
 
-        with open(filepath) as f:
-            text = f.read()
+    print(f"Dokumen sebelum load: {col.count()}")
 
-        embedding = model.encode(text).tolist()
-        doc_id    = f"{ticker}_{today}"
+    ok, err = 0, 0
+    for filename in sorted(txt_files):
+        ticker = filename.split("_")[0]
+        try:
+            with open(os.path.join(PROCESSED_DATA_DIR, filename), encoding="utf-8") as f:
+                text = f.read()
 
-        collection.upsert(
-            ids=[doc_id],
-            embeddings=[embedding],
-            documents=[text],
-            metadatas=[{
-                "ticker": ticker,
-                "date":   today,
-                "type":   "daily_narrative"  # metadata tambahan untuk filter agent
-            }]
-        )
-        print(f"  Loaded {ticker} → {doc_id}")
-        loaded += 1
+            col.upsert(
+                ids=[f"{ticker}_{today}"],
+                documents=[text],           # ChromaDB auto-embed
+                metadatas=[{"ticker": ticker, "date": today}]
+            )
+            print(f"  ✓ {ticker}")
+            ok += 1
 
-    print(f"\nLoad selesai: {loaded} dokumen, {skipped} dilewati")
+        except Exception as e:
+            print(f"  ✗ {ticker}: {e}")
+            err += 1
+
+    print(f"\nSelesai: {ok} berhasil, {err} error")
+    print(f"Total dokumen sekarang: {col.count()}")
+
+if __name__ == "__main__":
+    load_to_vector_db()
