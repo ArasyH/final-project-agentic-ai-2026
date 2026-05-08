@@ -22,25 +22,6 @@ load_dotenv()
 RAW_DATA_DIR       = os.getenv("RAW_DATA_DIR")
 PROCESSED_DATA_DIR = os.getenv("PROCESSED_DATA_DIR")
 
-def _safe(val, fmt=None, fallback="N/A"):
-    """Konversi nilai ke string dengan aman — handle NaN, None, dan format angka."""
-    if val is None:
-        return fallback
-    if isinstance(val, float) and math.isnan(val):
-        return fallback
-    if fmt == "rp":
-        try:
-            return f"Rp {float(val):,.0f}"
-        except (TypeError, ValueError):
-            return fallback
-    if fmt == "pct":
-        try:
-            return f"{float(val):.2f}%"
-        except (TypeError, ValueError):
-            return fallback
-    return str(val) if val != "" else fallback
-
-
 def calculate_eda(price_df: pd.DataFrame) -> dict:
     """Hitung metrik EDA. Return dict dengan fallback N/A jika data tidak cukup."""
     # Guard: minimal butuh 2 baris untuk pct_change
@@ -104,78 +85,146 @@ def _get_sections(data: dict) -> dict:
     )
     sections["symbol"] = sections.get("symbol") or data.get("ticker", "")
     return sections
+def _safe_idr(val, fallback="N/A") -> str:
+    """Format angka besar ke rupiah yang human-readable."""
+    try:
+        v = float(val)
+        if v >= 1_000_000_000_000:
+            return f"Rp {v/1_000_000_000_000:.2f} T"
+        if v >= 1_000_000_000:
+            return f"Rp {v/1_000_000_000:.2f} M"
+        if v >= 1_000_000:
+            return f"Rp {v/1_000_000:.2f} jt"
+        return f"Rp {v:,.0f}"
+    except (TypeError, ValueError):
+        return fallback
 
+def _safe_pct(val, fallback="N/A") -> str:
+    """Format float 0-1 ke persen."""
+    try:
+        return f"{float(val)*100:.2f}%"
+    except (TypeError, ValueError):
+        return fallback
+    
+def _quarter_sort_key(q_label: str) -> tuple:
+    """Sort 'Q1-2024' → (2024, 1) untuk pengurutan kronologis."""
+    try:
+        q, y = q_label.split("-")
+        return (int(y), int(q[1:]))
+    except (ValueError, IndexError):
+        return (0, 0)
 
-def build_narrative(ticker: str, eda: dict, sections: dict, quarterly: list) -> str:
+def build_quarterly_narrative(historical_q: dict, n_quarters: int = 6) -> str:
+    """
+    Bangun narasi tren kuartalan dari historical_financials_quarterly.
+    Ambil n_quarters terakhir, urutkan kronologis (terlama ke terbaru).
+    """
+    if not historical_q or not isinstance(historical_q, dict):
+        return " Data tidak tersedia"
+
+    # Sort kuartal kronologis, ambil n_quarters terakhir
+    sorted_quarters = sorted(historical_q.keys(), key=_quarter_sort_key)
+    selected = sorted_quarters[-n_quarters:]
+
+    lines = ""
+    for q in selected:
+        data = historical_q[q]
+        revenue   = _safe_idr(data.get("revenue"))
+        earnings  = _safe_idr(data.get("earnings"))
+        ebitda    = _safe_idr(data.get("ebitda"))
+        total_dbt = _safe_idr(data.get("total_debt"))
+        lines += f"\n  {q}: Revenue={revenue}, Laba={earnings}, EBITDA={ebitda}, Utang={total_dbt}"
+    return lines
+
+def build_yearly_narrative(historical_y: list, ratios: list) -> str:
+    """Bangun narasi keuangan tahunan + rasio."""
+    if not historical_y:
+        return " Data tidak tersedia"
+
+    # Map year → ratio data untuk lookup cepat
+    ratio_map = {str(r.get("year")): r for r in (ratios or []) if r.get("year")}
+
+    lines = ""
+    for entry in sorted(historical_y, key=lambda x: x.get("year", 0)):
+        year     = entry.get("year")
+        revenue  = _safe_idr(entry.get("revenue"))
+        earnings = _safe_idr(entry.get("earnings"))
+
+        # Tarik rasio dari historical_financial_ratio
+        ratio    = ratio_map.get(str(year), {})
+        prof     = ratio.get("profitability", {}) if isinstance(ratio.get("profitability"), dict) else {}
+        roe      = _safe_pct(prof.get("roe"))
+        roa      = _safe_pct(prof.get("roa"))
+        net_marg = _safe_pct(prof.get("net_profit_margin"))
+
+        lines += f"\n  {year}: Revenue={revenue}, Laba={earnings}, ROE={roe}, ROA={roa}, Net margin={net_marg}"
+    return lines
+
+def build_narrative(ticker: str, eda: dict, sections: dict, _legacy_quarterly_unused=None) -> str:
+    """Build narasi lengkap. Parameter quarterly tidak dipakai lagi (dari historical)."""
     ov  = sections.get("overview",   {})
     val = sections.get("valuation",  {})
     fin = sections.get("financials", {})
     div = sections.get("dividend",   {})
     fut = sections.get("future",     {})
 
-    # ── company_name dari top-level sections (bukan dari overview) ──
-    company_name = sections.get("company_name") or ticker
+    # ── Quarterly historis dari historical_financials_quarterly ──
+    quarterly_hist  = fin.get("historical_financials_quarterly", {})
+    yearly_hist     = fin.get("historical_financials", [])
+    yearly_ratios   = fin.get("historical_financial_ratio", [])
+    yoy_revenue     = fin.get("yoy_quarter_revenue_growth")
+    yoy_earnings    = fin.get("yoy_quarter_earnings_growth")
 
-    # ── sector/sub_sector ada di overview ──
-    sector     = ov.get("sector",     val.get("sector",     "N/A"))
-    sub_sector = ov.get("sub_sector", "N/A")
-    industry   = ov.get("industry",   ov.get("sub_industry", "N/A"))
-    employees  = ov.get("employee_num", "N/A")
-    listing    = ov.get("listing_date", "N/A")
-    website    = ov.get("website", "N/A")
+    quarterly_text  = build_quarterly_narrative(quarterly_hist, n_quarters=6)
+    yearly_text     = build_yearly_narrative(yearly_hist, yearly_ratios)
 
+    # Format growth YoY
+    yoy_rev_str  = _safe_pct(yoy_revenue)  if yoy_revenue  is not None else "N/A"
+    yoy_earn_str = _safe_pct(yoy_earnings) if yoy_earnings is not None else "N/A"
+
+    # Profil
+    company_name   = sections.get("company_name") or ticker
+    market_cap_raw = ov.get("market_cap") or val.get("market_cap")
+
+    # Teknikal
     change = eda.get("change_30d_pct")
-    import math
+    change_str = "N/A"
     if change is not None and not (isinstance(change, float) and math.isnan(change)):
         change_str = f"{'naik' if change > 0 else 'turun'} {abs(change):.2f}%"
-    else:
-        change_str = "N/A"
-
-    quarterly_lines = ""
-    for q in (quarterly or [])[:4]:
-        period = q.get("period") or q.get("report_date", "")
-        rev    = q.get("revenue", q.get("total_revenue", "N/A"))
-        earn   = q.get("earnings", q.get("net_income", "N/A"))
-        if period:
-            quarterly_lines += f"\n  {period}: Revenue={rev}, Laba bersih={earn}"
 
     return f"""
 Saham {ticker} — {date.today().isoformat()}
 
 == Profil ==
 Nama: {company_name}
-Sektor: {sector} | Sub-sektor: {sub_sector}
-Industri: {industry}
-Karyawan: {employees} | Listing: {listing}
-Website: {website}
+Sektor: {ov.get('sector', 'N/A')} | Sub-sektor: {ov.get('sub_sector', 'N/A')}
+Industri: {ov.get('industry', 'N/A')}
+Karyawan: {ov.get('employee_num', 'N/A')} | Listing: {ov.get('listing_date', 'N/A')}
 
 == Harga & Teknikal ==
-Harga terakhir: {_safe(eda.get('latest_price'), 'rp')}
+Harga terakhir: {_safe_idr(eda.get('latest_price'), 'rp')}
 Pergerakan 30 hari: {change_str}
-Volatilitas 30 hari: {_safe(eda.get('volatility_30d'), 'pct')}
-MA 7 hari: {_safe(eda.get('ma_7'), 'rp')} | MA 30 hari: {_safe(eda.get('ma_30'), 'rp')}
-52-week high: {_safe(eda.get('high_52w'), 'rp')} | 52-week low: {_safe(eda.get('low_52w'), 'rp')}
+Volatilitas 30 hari: {_safe_idr(eda.get('volatility_30d'), 'pct')}
+MA 7 hari: {_safe_idr(eda.get('ma_7'), 'rp')} | MA 30 hari: {_safe_idr(eda.get('ma_30'), 'rp')}
+52-week high: {_safe_idr(eda.get('high_52w'), 'rp')} | 52-week low: {_safe_idr(eda.get('low_52w'), 'rp')}
 
 == Valuasi ==
 P/E TTM: {val.get('pe_ttm', 'N/A')} | P/B MRQ: {val.get('pb_mrq', 'N/A')}
 ROE TTM: {val.get('roe_ttm', 'N/A')} | ROA TTM: {val.get('roa_ttm', 'N/A')}
-Market cap: {ov.get('market_cap', val.get('market_cap', 'N/A'))}
+Market cap: {_safe_idr(market_cap_raw)}
 
-== Keuangan Tahunan ==
-Revenue: {fin.get('revenue', 'N/A')} | Laba: {fin.get('earnings', 'N/A')}
-EBITDA: {fin.get('ebitda', 'N/A')} | Net margin: {fin.get('net_profit_margin', 'N/A')}
+== Tren Pertumbuhan (YoY Q-on-Q) ==
+Revenue growth YoY: {yoy_rev_str}
+Earnings growth YoY: {yoy_earn_str}
 
-== Proyeksi Analis ==
-EPS growth forecast: {fut.get('forecast_eps_growth', 'N/A')}
-Revenue growth forecast: {fut.get('forecast_revenue_growth', 'N/A')}
+== Keuangan Tahunan (3 tahun terakhir) =={yearly_text}
+
+== Keuangan Kuartalan (6 kuartal terakhir) =={quarterly_text}
 
 == Dividen ==
-Yield TTM: {div.get('yield_ttm', 'N/A')} | Payout ratio: {div.get('payout_ratio', 'N/A')}
+Yield TTM: {_safe_pct(div.get('yield_ttm'))} | Payout ratio: {_safe_pct(div.get('payout_ratio'))}
 Ex-div terakhir: {div.get('last_ex_dividend_date', 'N/A')}
-
-== Keuangan Kuartalan =={quarterly_lines if quarterly_lines else ' Data tidak tersedia'}
 """.strip()
-
 
 def transform_all():
     os.makedirs(PROCESSED_DATA_DIR, exist_ok=True)
@@ -184,7 +233,6 @@ def transform_all():
 
     for filename in sorted(os.listdir(RAW_DATA_DIR)):
         if not filename.endswith(f"{today}.json") or "backup" in filename:
-            skip += 1
             continue
 
         ticker   = filename.split("_")[0]
@@ -203,8 +251,8 @@ def transform_all():
             price_df  = pd.DataFrame(price_list)
             eda       = calculate_eda(price_df)
             sections  = _get_sections(data)
-            quarterly = data.get("quarterly", [])
-            narrative = build_narrative(ticker, eda, sections, quarterly)
+            # Quarterly tidak perlu di-pass terpisah lagi
+            narrative = build_narrative(ticker, eda, sections)
 
             out_path = os.path.join(PROCESSED_DATA_DIR, f"{ticker}_{today}.txt")
             with open(out_path, "w", encoding="utf-8") as f:
@@ -212,12 +260,127 @@ def transform_all():
 
             print(f"  ✓ {ticker}")
             ok += 1
-
         except Exception as e:
             print(f"  ✗ {ticker}: {e}")
             err += 1
 
     print(f"\nTransform selesai: {ok} OK, {skip} skip, {err} error")
+
+
+
+
+# def build_narrative(ticker: str, eda: dict, sections: dict, quarterly: list) -> str:
+#     ov  = sections.get("overview",   {})
+#     val = sections.get("valuation",  {})
+#     fin = sections.get("financials", {})
+#     div = sections.get("dividend",   {})
+#     fut = sections.get("future",     {})
+
+#     # ── company_name dari top-level sections (bukan dari overview) ──
+#     company_name = sections.get("company_name") or ticker
+
+#     # ── sector/sub_sector ada di overview ──
+#     sector     = ov.get("sector",     val.get("sector",     "N/A"))
+#     sub_sector = ov.get("sub_sector", "N/A")
+#     industry   = ov.get("industry",   ov.get("sub_industry", "N/A"))
+#     employees  = ov.get("employee_num", "N/A")
+#     listing    = ov.get("listing_date", "N/A")
+#     website    = ov.get("website", "N/A")
+
+#     change = eda.get("change_30d_pct")
+#     import math
+#     if change is not None and not (isinstance(change, float) and math.isnan(change)):
+#         change_str = f"{'naik' if change > 0 else 'turun'} {abs(change):.2f}%"
+#     else:
+#         change_str = "N/A"
+
+#     quarterly_lines = ""
+#     for q in (quarterly or [])[:4]:
+#         period = q.get("period") or q.get("report_date", "")
+#         rev    = q.get("revenue", q.get("total_revenue", "N/A"))
+#         earn   = q.get("earnings", q.get("net_income", "N/A"))
+#         if period:
+#             quarterly_lines += f"\n  {period}: Revenue={rev}, Laba bersih={earn}"
+
+#     return f"""
+# Saham {ticker} — {date.today().isoformat()}
+
+# == Profil ==
+# Nama: {company_name}
+# Sektor: {sector} | Sub-sektor: {sub_sector}
+# Industri: {industry}
+# Karyawan: {employees} | Listing: {listing}
+# Website: {website}
+
+# == Harga & Teknikal ==
+# Harga terakhir: {_safe(eda.get('latest_price'), 'rp')}
+# Pergerakan 30 hari: {change_str}
+# Volatilitas 30 hari: {_safe(eda.get('volatility_30d'), 'pct')}
+# MA 7 hari: {_safe(eda.get('ma_7'), 'rp')} | MA 30 hari: {_safe(eda.get('ma_30'), 'rp')}
+# 52-week high: {_safe(eda.get('high_52w'), 'rp')} | 52-week low: {_safe(eda.get('low_52w'), 'rp')}
+
+# == Valuasi ==
+# P/E TTM: {val.get('pe_ttm', 'N/A')} | P/B MRQ: {val.get('pb_mrq', 'N/A')}
+# ROE TTM: {val.get('roe_ttm', 'N/A')} | ROA TTM: {val.get('roa_ttm', 'N/A')}
+# Market cap: {ov.get('market_cap', val.get('market_cap', 'N/A'))}
+
+# == Keuangan Tahunan ==
+# Revenue: {fin.get('revenue', 'N/A')} | Laba: {fin.get('earnings', 'N/A')}
+# EBITDA: {fin.get('ebitda', 'N/A')} | Net margin: {fin.get('net_profit_margin', 'N/A')}
+
+# == Proyeksi Analis ==
+# EPS growth forecast: {fut.get('forecast_eps_growth', 'N/A')}
+# Revenue growth forecast: {fut.get('forecast_revenue_growth', 'N/A')}
+
+# == Dividen ==
+# Yield TTM: {div.get('yield_ttm', 'N/A')} | Payout ratio: {div.get('payout_ratio', 'N/A')}
+# Ex-div terakhir: {div.get('last_ex_dividend_date', 'N/A')}
+
+# == Keuangan Kuartalan =={quarterly_lines if quarterly_lines else ' Data tidak tersedia'}
+# """.strip()
+
+
+# def transform_all():
+#     os.makedirs(PROCESSED_DATA_DIR, exist_ok=True)
+#     today = date.today().isoformat()
+#     ok, skip, err = 0, 0, 0
+
+#     for filename in sorted(os.listdir(RAW_DATA_DIR)):
+#         if not filename.endswith(f"{today}.json") or "backup" in filename:
+#             skip += 1
+#             continue
+
+#         ticker   = filename.split("_")[0]
+#         filepath = os.path.join(RAW_DATA_DIR, filename)
+
+#         try:
+#             with open(filepath) as f:
+#                 data = json.load(f)
+
+#             price_list = data.get("price_history", [])
+#             if not price_list:
+#                 print(f"  SKIP {ticker}: price_history kosong")
+#                 skip += 1
+#                 continue
+
+#             price_df  = pd.DataFrame(price_list)
+#             eda       = calculate_eda(price_df)
+#             sections  = _get_sections(data)
+#             quarterly = data.get("quarterly", [])
+#             narrative = build_narrative(ticker, eda, sections, quarterly)
+
+#             out_path = os.path.join(PROCESSED_DATA_DIR, f"{ticker}_{today}.txt")
+#             with open(out_path, "w", encoding="utf-8") as f:
+#                 f.write(narrative)
+
+#             print(f"  ✓ {ticker}")
+#             ok += 1
+
+#         except Exception as e:
+#             print(f"  ✗ {ticker}: {e}")
+#             err += 1
+
+#     print(f"\nTransform selesai: {ok} OK, {skip} skip, {err} error")
 
 
 if __name__ == "__main__":

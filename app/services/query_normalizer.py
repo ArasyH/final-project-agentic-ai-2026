@@ -10,6 +10,11 @@ class NormalizedQuery:
     normalized_query: str
     detected_tickers: list[str]
     intent: str
+IDX30_TICKERS = {
+    "AADI","ADRO","AMRT","ANTM","ASII","BBCA","BBNI","BBRI","BMRI","BRPT",
+    "BUMI","CPIN","EMTK","GOTO","ICBP","INCO","INDF","INKP","ISAT","JPFA",
+    "KLBF","MBMA","MDKA","MEDC","PGAS","PGEO","PTBA","TLKM","UNTR","UNVR"
+}
 
 ISSUER_SYNONYMS = {
     "bank central asia": "BBCA",
@@ -40,26 +45,28 @@ def infer_intent(query: str) -> str:
     return "general_stock_qa"
 
 def normalize_query(question: str) -> NormalizedQuery:
-    q = question.strip().lower()
-    q = re.sub(r"\s+", " ", q)
+    q        = question.strip().lower()
+    q        = re.sub(r"\s+", " ", q)
+    detected = []  # ← wajib diinisialisasi di sini sebelum dipakai
 
+    # Koreksi typo
     for wrong, correct in TYPO_MAP.items():
         q = re.sub(rf"\b{re.escape(wrong)}\b", correct, q)
 
-    detected = []
+    # Deteksi via sinonim nama perusahaan
     for name, ticker in ISSUER_SYNONYMS.items():
         if re.search(rf"\b{re.escape(name)}\b", q):
             q = re.sub(rf"\b{re.escape(name)}\b", ticker.lower(), q)
             if ticker not in detected:
                 detected.append(ticker)
 
-    for token in re.findall(r"\b[A-Za-z]{4}\b", q):
-        token = token.upper()
-        if token in {"BBCA", "BBRI", "BMRI", "TLKM"} and token not in detected:
+    # Deteksi semua IDX30 ticker langsung dari teks
+    for token in re.findall(r"\b[A-Za-z]{3,5}\b", q.upper()):
+        if token in IDX30_TICKERS and token not in detected:
             detected.append(token)
 
-    q = q.replace("saham ", "")
-    q = q.replace("emiten ", "")
+    # Bersihkan noise
+    q = q.replace("saham ", "").replace("emiten ", "")
 
     return NormalizedQuery(
         raw_query=question,

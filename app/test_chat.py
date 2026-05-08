@@ -8,7 +8,7 @@ def ask(question: str, session_id: str = "test-session-001"):
     resp = httpx.post(
         f"{BASE_URL}/chat",
         json={"question": question, "session_id": session_id},
-        timeout=30,
+        timeout=60,
     )
     print(resp.text)
     resp.raise_for_status()

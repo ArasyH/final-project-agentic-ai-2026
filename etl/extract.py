@@ -54,32 +54,32 @@ def fetch_stock_price(ticker: str, start="2025-01-01") -> list:
 def fetch_company_report(ticker: str) -> dict:
     return _get(f"{BASE_URL}/company/report/{ticker}/")
 
-def fetch_quarterly_financials(ticker: str) -> list:
-    """Ambil data keuangan kuartalan. v2 endpoint."""
-    # Coba v2 dulu, fallback ke v1 jika gagal
-    for url in [
-        f"{BASE_URL}/financials/quarterly/{ticker}/",
-        f"https://api.sectors.app/v1/financials/quarterly/{ticker}/?approx=true",
-    ]:
-        try:
-            data = _get(url)
-            return data if isinstance(data, list) else data.get("data", [])
-        except Exception:
-            continue
-    return []
+# def fetch_quarterly_financials(ticker: str) -> list:
+#     """Ambil data keuangan kuartalan. v2 endpoint."""
+#     # Coba v2 dulu, fallback ke v1 jika gagal
+#     for url in [
+#         f"{BASE_URL}/financials/quarterly/{ticker}/",
+#         f"https://api.sectors.app/v1/financials/quarterly/{ticker}/?approx=true",
+#     ]:
+#         try:
+#             data = _get(url)
+#             return data if isinstance(data, list) else data.get("data", [])
+#         except Exception:
+#             continue
+#     return []
 
-def fetch_quarterly_dates(ticker: str) -> list:
-    """Ambil tanggal laporan kuartalan yang tersedia."""
-    for url in [
-        f"{BASE_URL}/company/{ticker}/quarterly-financials/dates/",
-        f"https://api.sectors.app/v1/company/get_quarterly_financial_dates/{ticker}/",
-    ]:
-        try:
-            data = _get(url)
-            return data if isinstance(data, list) else data.get("dates", [])
-        except Exception:
-            continue
-    return []
+# def fetch_quarterly_dates(ticker: str) -> list:
+#     """Ambil tanggal laporan kuartalan yang tersedia."""
+#     for url in [
+#         f"{BASE_URL}/company/{ticker}/quarterly-financials/dates/",
+#         f"https://api.sectors.app/v1/company/get_quarterly_financial_dates/{ticker}/",
+#     ]:
+#         try:
+#             data = _get(url)
+#             return data if isinstance(data, list) else data.get("dates", [])
+#         except Exception:
+#             continue
+#     return []
 
 # ── extract_all: simpan semua 4 dataset ────────────────────────────────────
 def extract_all():
@@ -94,8 +94,6 @@ def extract_all():
                 "extracted_at":  today,
                 "price_history": fetch_stock_price(ticker),    # list panjang
                 "fundamentals":  fetch_company_report(ticker), # dict 
-                "quarterly":     fetch_quarterly_financials(ticker), # list
-                "quarterly_dates": fetch_quarterly_dates(ticker),    # list
             }
             filepath = os.path.join(RAW_DATA_DIR, f"{ticker}_{today}.json")
             with open(filepath, "w") as f:
@@ -107,4 +105,4 @@ def extract_all():
 
 if __name__ == "__main__":
     extract_all()
-    print("Transform selesai.")
+    print("Extract selesai.")

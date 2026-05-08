@@ -54,7 +54,10 @@ def run_mode_3(question: str) -> InternalResponse:
     llm = build_llm()
     validator = ValidatorService()
 
-    docs = retriever.retrieve(normalized.normalized_query)
+    docs = retriever.retrieve(
+    normalized.normalized_query,
+    tickers=normalized.detected_tickers  # pass ticker yang terdeteksi
+)
     if not docs:
         return InternalResponse(
             answer="Data tidak cukup untuk menjawab pertanyaan ini.",
