@@ -11,7 +11,7 @@ Jika tidak yakin, katakan bahwa informasi belum dapat diverifikasi.
 """
 
 def run_mode_1(question: str) -> InternalResponse:
-    llm = build_llm(temperature=0.1)
+    llm = build_llm(temperature=0.0)
     answer = llm.invoke(f"{SYSTEM_PROMPT}\n\nPertanyaan: {question}").content
 
     return InternalResponse(
