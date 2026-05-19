@@ -10,6 +10,10 @@ APP_VERSION = os.getenv("APP_VERSION", "1.0.0")
 
 GROQ_API_KEY         = os.getenv("GROQ_API_KEY")
 GROQ_MODEL_NAME = os.getenv("GROQ_MODEL_NAME", "llama-3.1-8b-instant")
+# Generator final: Llama-3.1-8B-Instant
+GROQ_GENERATOR_MODEL = os.getenv("GROQ_GENERATOR_MODEL", GROQ_MODEL_NAME)
+# Critic Agent: Llama-3.3-70B-Versatile
+GROQ_CRITIC_MODEL = os.getenv("GROQ_CRITIC_MODEL", "llama-3.3-70b-versatile")
 
 LANGFUSE_PUBLIC_KEY  = os.getenv("LANGFUSE_PUBLIC_KEY")
 LANGFUSE_SECRET_KEY  = os.getenv("LANGFUSE_SECRET_KEY")
@@ -28,5 +32,9 @@ SIMILARITY_THRESHOLD = float(os.getenv("SIMILARITY_THRESHOLD", 0.85))
 CACHE_TTL_HOURS = int(os.getenv("CACHE_TTL_HOURS", 8))# Cache akan kadaluarsa setelah 8 jam (1 sesi market)
 RETRIEVAL_TOP_K = int(os.getenv("RETRIEVAL_TOP_K", 3))
 
-DEFAULT_EXPERIMENT_MODE = os.getenv("DEFAULT_EXPERIMENT_MODE", "mode_3_full_agentic")
+# H3 (Stale Timestamp) staleness threshold (default 30 jam)
+# Untuk cover weekend BEI kalender libur
+MAX_EVIDENCE_AGE_HOURS = int(os.getenv("MAX_EVIDENCE_AGE_HOURS", 30))
+
+DEFAULT_EXPERIMENT_MODE = os.getenv("DEFAULT_EXPERIMENT_MODE", "mode_2_rag_only")
  

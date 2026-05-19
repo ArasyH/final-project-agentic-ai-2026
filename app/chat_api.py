@@ -21,7 +21,7 @@ async def chat(req: ChatRequest):
     started = time.perf_counter()
 
     try:
-        result = orchestrator.run(question=req.question, mode=mode)
+        result = orchestrator.run(question=req.question, session_id=session_id, mode=mode)
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
