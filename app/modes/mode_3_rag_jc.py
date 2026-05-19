@@ -8,6 +8,7 @@ Alur: normalize_query → GeneratorAgent (ReAct) → GuardrailsService (H1, H3)
 Caller (run_mode_3 / run_mode_4) menyediakan trace + telemetry instance;
 pipeline hanya mencatat latency per stage pada trace yang sudah ada.
 """
+import time
 from datetime import datetime, timezone
 from typing import Any
 
@@ -65,16 +66,26 @@ def _run_rag_jc_pipeline(
         telemetry_service=telemetry,
     )
 
-    with telemetry.measure_latency(trace, "retrieval"):
-        normalized = normalize_query(question)
-        tickers = normalized.detected_tickers
+    normalized = normalize_query(question)
+    tickers = normalized.detected_tickers
 
-    with telemetry.measure_latency(trace, "generation"):
-        gen_output = generator.generate(
-            question=question,
-            session_id=session_id,
-            tickers=tickers or None,
-        )
+    # Manual timer: measure_latency tidak expose elapsed_ms via as-clause,
+    # sehingga pemisahan retrieval vs generation dilakukan manual.
+    _gen_start = time.perf_counter()
+    gen_output = generator.generate(
+        question=question,
+        session_id=session_id,
+        tickers=tickers or None,
+    )
+    _gen_total_ms = round((time.perf_counter() - _gen_start) * 1000, 2)
+
+    # Retrieval: akumulasi waktu semua retrieve_from_kb calls dalam ReAct loop
+    telemetry._record_latency(trace, "retrieval", round(gen_output.retrieval_latency_ms, 2))
+    # Generation pure: total ReAct loop minus waktu KB retrieval (pure LLM compute)
+    telemetry._record_latency(
+        trace, "generation",
+        max(0.0, round(_gen_total_ms - gen_output.retrieval_latency_ms, 2)),
+    )
 
     if not gen_output.succeeded:
         telemetry._record_latency(trace, "critic", 0.0)

@@ -9,6 +9,7 @@ Prompt version: REACT_PROMPT_V1 (Bahasa Indonesia).
 Max iterasi: REACT_MAX_ITERATIONS dari app/config.py (default 5).
 """
 import re
+import time
 from typing import Any
 
 import groq
@@ -60,12 +61,16 @@ class GeneratorOutput(BaseModel):
         answer: teks jawaban final atau fail-safe message.
         evidence: list EvidenceItem yang di-retrieve selama loop.
         iterations_used: jumlah iterasi ReAct yang berjalan.
+        retrieval_latency_ms: akumulasi wall-clock ms semua retrieve_from_kb calls
+            dalam satu generate() — dipakai pipeline untuk memisahkan
+            latency_ms_retrieval dari latency_ms_generation di telemetry.
         error: None jika berhasil; pesan error singkat jika gagal.
     """
 
     answer: str
     evidence: list[EvidenceItem]
     iterations_used: int
+    retrieval_latency_ms: float = 0.0
     error: str | None = None
 
     @property
@@ -98,6 +103,10 @@ class GeneratorAgent:
         self._telemetry = telemetry_service
         self._llm = llm or build_generator_llm(temperature=GENERATOR_TEMPERATURE)
         self.prompt_version: str = PROMPT_VERSION
+        # Accumulator untuk retrieval latency — di-reset tiap generate() call.
+        # Catatan thread-safety: instance ini tidak thread-safe untuk concurrent
+        # generate() calls. Gunakan satu instance per request.
+        self._current_retrieval_latency_ms: float = 0.0
 
     # ── public ───────────────────────────────────────────────────────────────
 
@@ -131,6 +140,7 @@ class GeneratorAgent:
 
         scratchpad = ""
         all_evidence: list[EvidenceItem] = []
+        self._current_retrieval_latency_ms = 0.0
 
         for iteration in range(1, REACT_MAX_ITERATIONS + 1):
             prompt = REACT_PROMPT_V1.format(question=question, scratchpad=scratchpad)
@@ -147,6 +157,7 @@ class GeneratorAgent:
                     answer=FAILSAFE_ANSWER,
                     evidence=all_evidence,
                     iterations_used=iteration,
+                    retrieval_latency_ms=self._current_retrieval_latency_ms,
                     error=f"llm_error: {type(exc).__name__}",
                 )
 
@@ -168,6 +179,7 @@ class GeneratorAgent:
                     answer=answer,
                     evidence=all_evidence,
                     iterations_used=iteration,
+                    retrieval_latency_ms=self._current_retrieval_latency_ms,
                 )
 
             # ── ReAct step branch ────────────────────────────────────────
@@ -183,6 +195,7 @@ class GeneratorAgent:
                     answer=FAILSAFE_ANSWER,
                     evidence=all_evidence,
                     iterations_used=iteration,
+                    retrieval_latency_ms=self._current_retrieval_latency_ms,
                     error=f"parse_error: {exc}",
                 )
 
@@ -223,6 +236,7 @@ class GeneratorAgent:
             answer=FAILSAFE_ANSWER,
             evidence=all_evidence,
             iterations_used=REACT_MAX_ITERATIONS,
+            retrieval_latency_ms=self._current_retrieval_latency_ms,
             error="max_iterations_reached",
         )
 
@@ -235,6 +249,9 @@ class GeneratorAgent:
     ) -> tuple[str, list[EvidenceItem]]:
         """Panggil RetrievalService dan format sebagai teks observasi.
 
+        Waktu KB lookup di-akumulasikan ke `_current_retrieval_latency_ms`
+        via try/finally agar tercatat bahkan jika retrieve() melempar exception.
+
         Args:
             query: query string untuk KB lookup.
             tickers: ticker filter untuk metadata retrieval (opsional).
@@ -242,7 +259,11 @@ class GeneratorAgent:
         Returns:
             Tuple (observation_string, list_of_EvidenceItem).
         """
-        docs = self._retriever.retrieve(query, tickers=tickers)
+        _start = time.perf_counter()
+        try:
+            docs = self._retriever.retrieve(query, tickers=tickers)
+        finally:
+            self._current_retrieval_latency_ms += (time.perf_counter() - _start) * 1000.0
         if not docs:
             return "(tidak ada data relevan di knowledge base)", []
 

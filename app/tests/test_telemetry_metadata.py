@@ -7,10 +7,10 @@ Strategi mock:
 - LLM, RetrievalService, GeneratorAgent, CriticAgent, GuardrailsService, CacheService
   di-mock di namespace module masing-masing.
 """
+import time as _time
 from unittest.mock import MagicMock, patch
 
-import pytest
-
+from app.agents.generator_agent import GeneratorAgent, GeneratorOutput
 from app.modes.mode_1_llm_only import run_mode_1
 from app.modes.mode_2_rag_only import run_mode_2
 from app.modes.mode_3_rag_jc import run_mode_3
@@ -100,19 +100,29 @@ def test_mode_1_metadata_complete():
 
 def test_mode_2_metadata_complete():
     mock_trace = _make_trace_mock()
+
+    def _slow_retrieve(q, **_kw):
+        _time.sleep(0.015)  # 15ms — memastikan retrieval latency terukur
+        return [_fake_doc()]
+
     with (
         patch("app.services.telemetry_service.Langfuse") as MockLF,
         patch("app.modes.mode_2_rag_only.build_llm", return_value=_fake_llm()),
         patch("app.modes.mode_2_rag_only.RetrievalService") as MockRetriever,
     ):
         MockLF.return_value.trace.return_value = mock_trace
-        MockRetriever.return_value.retrieve.return_value = [_fake_doc()]
+        MockRetriever.return_value.retrieve.side_effect = _slow_retrieve
 
         run_mode_2("Berapa harga BBCA?", "s1", "Q001")
 
     meta = _extract_end_trace_metadata(mock_trace)
     assert _REQUIRED_KEYS.issubset(meta.keys()), f"Missing keys: {_REQUIRED_KEYS - meta.keys()}"
     assert meta["latency_ms_critic"] == 0.0
+    # Retrieval harus reflect real KB lookup time (>= 10ms dari sleep)
+    assert meta["latency_ms_retrieval"] >= 10.0, (
+        f"latency_ms_retrieval={meta['latency_ms_retrieval']} terlalu kecil — "
+        "mode_2 harus measure real retrieval time"
+    )
     assert meta["question_id"] == "Q001"
     assert meta["mode"] == "mode_2_rag_only"
     assert meta["evidence_count"] == 1
@@ -263,3 +273,138 @@ def test_mode_4_cache_miss_single_trace():
         call_kwargs = mock_pipeline.call_args[1]
         assert call_kwargs["trace"] is mock_trace
         assert call_kwargs["telemetry"] is mock_tel_instance
+
+
+# ── Test 9: GeneratorOutput.retrieval_latency_ms accumulator ─────────────────
+
+def test_generator_retrieval_latency_accumulator():
+    """retrieval_latency_ms mengakumulasi semua retrieve_from_kb calls dalam 1 generate()."""
+
+    def _slow_retrieve(query, tickers=None):
+        _time.sleep(0.015)  # 15ms per call
+        doc = MagicMock()
+        doc.page_content = "BBCA close: 9125."
+        return [doc]
+
+    fake_retriever = MagicMock()
+    fake_retriever.retrieve.side_effect = _slow_retrieve
+
+    fake_telemetry = MagicMock()
+    fake_trace = MagicMock()
+    fake_telemetry.start_trace.return_value = fake_trace
+
+    # LLM: iterasi 1 → ReAct step; iterasi 2 → Jawaban Final
+    fake_llm = MagicMock()
+    fake_llm.invoke.side_effect = [
+        MagicMock(content="Pikiran: perlu data BBCA\nAksi: retrieve_from_kb\nInput Aksi: harga BBCA"),
+        MagicMock(content="Pikiran: sudah cukup\nJawaban Final: Harga BBCA adalah 9125."),
+    ]
+
+    agent = GeneratorAgent(
+        retrieval_service=fake_retriever,
+        telemetry_service=fake_telemetry,
+        llm=fake_llm,
+    )
+
+    output = agent.generate(question="Berapa harga BBCA?", session_id="s1")
+
+    assert output.succeeded
+    # retrieve dipanggil 1x (1 ReAct iteration), jadi >= 10ms
+    assert output.retrieval_latency_ms >= 10.0, (
+        f"retrieval_latency_ms={output.retrieval_latency_ms:.2f} terlalu kecil"
+    )
+    assert fake_retriever.retrieve.call_count == 1
+
+
+# ── Test 10: mode_3 pipeline gunakan retrieval_latency_ms dari Generator ──────
+
+def test_mode_3_pipeline_retrieval_from_generator():
+    """latency_ms_retrieval di trace harus mencerminkan gen_output.retrieval_latency_ms."""
+    mock_trace = _make_trace_mock()
+
+    mock_gen_output = GeneratorOutput(
+        answer="Harga BBCA 9125.",
+        evidence=[],
+        iterations_used=2,
+        retrieval_latency_ms=20.0,  # 20ms simulasi KB retrieval
+    )
+
+    mock_guardrail = MagicMock()
+    mock_guardrail.overall_status = "passed"
+    mock_guardrail.hallucination_flags = []
+
+    mock_verdict = MagicMock()
+    mock_verdict.overall_verdict = "pass"
+    mock_verdict.H2_fabricated_metric.flag = False
+    mock_verdict.H4_incorrect_inference.flag = False
+
+    with (
+        patch("app.services.telemetry_service.Langfuse") as MockLF,
+        patch("app.modes.mode_3_rag_jc.GeneratorAgent") as MockGen,
+        patch("app.modes.mode_3_rag_jc.GuardrailsService") as MockGuards,
+        patch("app.modes.mode_3_rag_jc.CriticAgent") as MockCritic,
+        patch("app.modes.mode_3_rag_jc.RetrievalService"),
+    ):
+        MockLF.return_value.trace.return_value = mock_trace
+        MockGen.return_value.generate.return_value = mock_gen_output
+        MockGuards.return_value.check.return_value = mock_guardrail
+        MockCritic.return_value.validate.return_value = mock_verdict
+
+        run_mode_3("Berapa harga BBCA?", "s1", "Q001")
+
+    meta = _extract_end_trace_metadata(mock_trace)
+    assert meta["latency_ms_retrieval"] == 20.0, (
+        f"latency_ms_retrieval={meta['latency_ms_retrieval']} harus 20.0 "
+        "(dari gen_output.retrieval_latency_ms)"
+    )
+    # generation pure <= total (tidak bisa lebih besar dari total)
+    assert meta["latency_ms_generation"] >= 0.0
+    assert meta["latency_ms_generation"] <= meta["latency_ms_total"] + 1.0
+
+
+# ── Test 11: mode_4 cache miss — trace unifikasi + retrieval dari Generator ───
+
+def test_mode_4_miss_logs_retrieval_from_generator():
+    """mode_4 cache miss: latency_ms_retrieval dari pipeline, bukan normalize_query."""
+    mock_trace = _make_trace_mock()
+    miss_dict = {"hit": False, "status": "miss", "score": 0.1}
+
+    mock_gen_output = GeneratorOutput(
+        answer="Harga BBCA 9125.",
+        evidence=[],
+        iterations_used=1,
+        retrieval_latency_ms=18.0,
+    )
+
+    mock_guardrail = MagicMock()
+    mock_guardrail.overall_status = "passed"
+    mock_guardrail.hallucination_flags = []
+
+    mock_verdict = MagicMock()
+    mock_verdict.overall_verdict = "pass"
+    mock_verdict.H2_fabricated_metric.flag = False
+    mock_verdict.H4_incorrect_inference.flag = False
+
+    with (
+        patch("app.services.telemetry_service.Langfuse") as MockLF,
+        patch("app.modes.mode_4_rag_jc_cache.CacheService") as MockCache,
+        patch("app.modes.mode_3_rag_jc.GeneratorAgent") as MockGen,
+        patch("app.modes.mode_3_rag_jc.GuardrailsService") as MockGuards,
+        patch("app.modes.mode_3_rag_jc.CriticAgent") as MockCritic,
+        patch("app.modes.mode_3_rag_jc.RetrievalService"),
+    ):
+        MockLF.return_value.trace.return_value = mock_trace
+        MockCache.return_value.lookup.return_value = miss_dict
+        MockCache.return_value.store.return_value = None
+        MockGen.return_value.generate.return_value = mock_gen_output
+        MockGuards.return_value.check.return_value = mock_guardrail
+        MockCritic.return_value.validate.return_value = mock_verdict
+
+        run_mode_4("Berapa harga BBCA?", "s1", "Q001")
+
+    meta = _extract_end_trace_metadata(mock_trace)
+    assert meta["latency_ms_retrieval"] == 18.0, (
+        f"latency_ms_retrieval={meta['latency_ms_retrieval']} harus 18.0"
+    )
+    assert meta["cache_status"] == "miss"
+    assert meta["latency_ms_generation"] >= 0.0
