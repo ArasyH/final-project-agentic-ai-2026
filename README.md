@@ -3,20 +3,59 @@ IMPLEMENTATION OF AGENTIC AI USING THE SEMANTIC
 CACHING METHOD TO ADDRESS THE HALLUCINATION PROBLEM
 IN AN INDONESIAN STOCK MARKET DATA CHATBOT
 
-python version = 3.11.7
+# IDX30 Multi-Agent Stock Chatbot Backend
 
-library:
-requests==2.31.0
-pandas==2.1.0
-sentence-transformers==2.2.2
-chromadb==1.5.5
-schedule==1.2.0
-langchain==1.2.15
-langchain-core==1.3.0
-langgraph==1.1.6
-pydantic==2.12.5
-langfuse==3.14.6
-httpx==0.28.1
-groq==0.37.1
-fastapi==0.13
-python-dotenv==1.2.2
+Backend chatbot pasar saham Indonesia untuk eksperimen skripsi dengan 3 mode:
+
+1. `mode_1_baseline_llm`
+   - LLM only
+   - tanpa retrieval
+   - tanpa validator
+   - tanpa semantic cache
+
+2. `mode_2_rag_only`
+   - retrieval dari knowledge base
+   - tanpa validator
+   - tanpa semantic cache
+
+3. `mode_3_full_agentic`
+   - query normalization
+   - semantic cache
+   - retrieval/tool use
+   - answer composer
+   - validator
+   - observability
+
+## Arsitektur Sistem
+
+Komponen utama:
+- `query_normalizer`: normalisasi sinonim emiten, typo ringan, dan variasi pertanyaan
+- `cache_service`: semantic cache berbasis ChromaDB
+- `retrieval_service`: retrieval dari vector knowledge base
+- `orchestrator_service`: pengendali utama mode eksperimen
+- `validator_service`: validasi evidence, angka, ticker, periode, dan unsupported claim
+- `telemetry_service`: logging Langfuse
+- `chat_api`: endpoint FastAPI
+
+## Alur Tiap Mode
+
+### Mode 1
+`question -> LLM -> answer`
+
+### Mode 2
+`question -> retrieval -> LLM with context -> answer`
+
+### Mode 3
+`question -> normalization -> semantic cache lookup -> retrieval/tool use -> answer composer -> validator -> fallback/cache store -> answer`
+
+## Struktur Folder
+
+```text
+app/
+  chat_api.py
+  schemas.py
+  services/
+  modes/
+tests/
+main.py
+config.py

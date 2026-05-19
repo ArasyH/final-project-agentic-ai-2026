@@ -1,0 +1,1 @@
+"""Agent layer: Generator (ReAct) + Critic (LLM-based validation)."""

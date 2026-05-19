@@ -1,0 +1,391 @@
+INFO:     Will watch for changes in these directories: ['/Users/aci/Developer/ta-2026']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [77538] using WatchFiles
+INFO:     Started server process [77541]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+Server siap.
+[SCHEDULER] ETL scheduler started.
+INFO:     127.0.0.1:56529 - "POST /chat HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:56538 - "POST /chat HTTP/1.1" 500 Internal Server Error
+WARNING:  WatchFiles detected changes in 'app/services/query_normalizer.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [77541]
+WARNING:  WatchFiles detected changes in 'app/services/query_normalizer.py'. Reloading...
+INFO:     Started server process [79018]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [79018]
+WARNING:  WatchFiles detected changes in 'app/services/query_normalizer.py'. Reloading...
+INFO:     Started server process [79037]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [79037]
+INFO:     Started server process [79057]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+Server siap.
+[SCHEDULER] ETL scheduler started.
+INFO:     127.0.0.1:56558 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56567 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56581 - "POST /chat HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/test_chat.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [79057]
+INFO:     Started server process [80789]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+Server siap.
+[SCHEDULER] ETL scheduler started.
+INFO:     127.0.0.1:56599 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56602 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56623 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "POST /chat HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'etl/load.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [80789]
+INFO:     Started server process [87160]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'etl/extract.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [87160]
+INFO:     Started server process [88042]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'etl/extract.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [88042]
+INFO:     Started server process [88176]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'etl/extract.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [88176]
+INFO:     Started server process [88368]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/services/validator_service.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [88368]
+INFO:     Started server process [88533]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+Server siap.
+[SCHEDULER] ETL scheduler started.
+INFO:     127.0.0.1:58066 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58096 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58103 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58105 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58109 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58113 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58116 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58749 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58769 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58791 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58796 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58799 - "POST /chat HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:58802 - "POST /chat HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'etl/extract.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [88533]
+INFO:     Started server process [79155]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'etl/extract.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [79155]
+INFO:     Started server process [79209]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'etl/extract.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [79209]
+INFO:     Started server process [79301]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'etl/transform.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [79301]
+INFO:     Started server process [79704]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'etl/transform.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [79704]
+INFO:     Started server process [79780]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'etl/transform.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [79780]
+INFO:     Started server process [79966]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'etl/transform.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [79966]
+INFO:     Started server process [80139]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'etl/transform.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [80139]
+INFO:     Started server process [80272]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'etl/transform.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [80272]
+INFO:     Started server process [80301]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'etl/extract.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [80301]
+INFO:     Started server process [80350]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+Server siap.
+[SCHEDULER] ETL scheduler started.
+INFO:     127.0.0.1:62769 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62782 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62787 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62796 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62808 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62831 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63345 - "POST /chat HTTP/1.1" 200 OK
+'(ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')), '(Request ID: 3637cd48-06a4-4f4b-9cf6-42ac4c20a335)')' thrown while requesting HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/./modules.json
+Retrying in 1s [Retry 1/5].
+INFO:     127.0.0.1:63348 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63369 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63496 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63499 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63505 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63734 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63753 - "POST /chat HTTP/1.1" 200 OK
+Run time of job "run_etl_job (trigger: cron[day_of_week='fri', hour='16', minute='0'], next run at: 2026-05-08 16:00:00 WIB)" was missed by 0:31:16.567733
+WARNING:  WatchFiles detected changes in 'app/config.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [80350]
+WARNING:  WatchFiles detected changes in 'app/config.py'. Reloading...
+INFO:     Started server process [30796]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [30796]
+INFO:     Started server process [30815]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/modes/mode_1_baseline_llm.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [30815]
+INFO:     Started server process [30891]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/agents/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [30891]
+INFO:     Started server process [53898]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/agents/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [53898]
+INFO:     Started server process [53929]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/agents/critic_agent.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [53929]
+INFO:     Started server process [53978]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/agents/guardrails._service.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [53978]
+INFO:     Started server process [54014]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/services/guardrails._service.py', 'app/agents/guardrails._service.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [54014]
+INFO:     Started server process [54086]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/tests/test_guardrails_service.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [54086]
+INFO:     Started server process [54188]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/tests/test_critic_agent.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [54188]
+INFO:     Started server process [54224]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/agents/critic_agent.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [54224]
+WARNING:  WatchFiles detected changes in 'app/agents/critic_agent.py'. Reloading...
+INFO:     Started server process [54283]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [54283]
+INFO:     Started server process [54302]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/services/guardrails._service.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [54302]
+INFO:     Started server process [54415]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/config.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [54415]
+INFO:     Started server process [54696]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/config.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [54696]
+INFO:     Started server process [54919]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/config.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [54919]
+INFO:     Started server process [55127]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/config.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [55127]
+INFO:     Started server process [55414]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/config.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [55414]
+INFO:     Started server process [55500]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/config.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [55500]
+INFO:     Started server process [55521]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/services/llm_service.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [55521]
+INFO:     Started server process [55696]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/tests/test_guardrails_service.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [55696]
+INFO:     Started server process [55746]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/tests/test_critic_agent.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [55746]
+INFO:     Started server process [55885]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/tests/test_critic_agent.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [55885]
+INFO:     Started server process [55930]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
