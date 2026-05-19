@@ -6,6 +6,8 @@ Alur: normalize_query → GeneratorAgent (ReAct) → GuardrailsService (H1, H3)
 
 Tujuan eksperimen: mengukur kontribusi pola Judge & Critic terhadap reduksi
 halusinasi dibandingkan mode_2 (RAG-only). Tidak ada cache di mode ini.
+
+`_run_rag_jc_pipeline` adalah shared helper yang juga dipakai mode_4.
 """
 from datetime import datetime, timezone
 
@@ -23,19 +25,30 @@ _FAILSAFE_ANSWER = (
 )
 
 
-def run_mode_3(question: str, session_id: str) -> InternalResponse:
-    """Mode 3: RAG + Generator ReAct + Domain Guardrails + Critic Agent.
+def _run_rag_jc_pipeline(
+    question: str,
+    session_id: str,
+    mode_str: str,
+    cache_status: str = "bypassed",
+) -> InternalResponse:
+    """Shared pipeline: normalize → GeneratorAgent (ReAct) → Guardrails → Critic.
+
+    Dipakai oleh run_mode_3 (cache_status="bypassed") dan run_mode_4
+    pada cache-miss path (cache_status="miss").
 
     Args:
         question: pertanyaan asli pengguna.
         session_id: ID sesi untuk Langfuse trace.
+        mode_str: nilai ExperimentMode yang diisi ke InternalResponse.
+        cache_status: nilai CacheStatus yang diisi ke InternalResponse.
+            "bypassed" untuk mode_3, "miss" untuk mode_4 cache-miss path.
 
     Returns:
-        InternalResponse dengan validator_status berdasarkan hasil gabungan
-        GuardrailsService (H1, H3) dan CriticAgent (H2, H4).
+        InternalResponse dengan validator_status dan hallucination_flags
+        berdasarkan hasil gabungan GuardrailsService (H1, H3) dan
+        CriticAgent (H2, H4).
         confidence: 0.85 jika validator passed, 0.50 jika failed,
             0.20 jika generator gagal (fail-safe path).
-        cache_status: selalu "bypassed" di mode ini.
     """
     telemetry = TelemetryService()
     retriever = RetrievalService()
@@ -49,7 +62,7 @@ def run_mode_3(question: str, session_id: str) -> InternalResponse:
     trace = telemetry.start_trace(
         session_id=session_id,
         question=question,
-        mode="mode_3_rag_jc",
+        mode=mode_str,
     )
 
     normalized = normalize_query(question)
@@ -78,8 +91,8 @@ def run_mode_3(question: str, session_id: str) -> InternalResponse:
             timestamp=datetime.now(timezone.utc).isoformat(),
             confidence=0.2,
             validator_status="failed",
-            cache_status="bypassed",
-            mode="mode_3_rag_jc",
+            cache_status=cache_status,
+            mode=mode_str,
             hallucination_flags=[],
             metadata={
                 "generator_error": gen_output.error,
@@ -131,7 +144,7 @@ def run_mode_3(question: str, session_id: str) -> InternalResponse:
 
     telemetry.event(
         trace,
-        name="mode_3_complete",
+        name="pipeline_complete",
         output_data=gen_output.answer,
         metadata={
             "validator_status": validator_status,
@@ -152,8 +165,8 @@ def run_mode_3(question: str, session_id: str) -> InternalResponse:
         timestamp=datetime.now(timezone.utc).isoformat(),
         confidence=confidence,
         validator_status=validator_status,
-        cache_status="bypassed",
-        mode="mode_3_rag_jc",
+        cache_status=cache_status,
+        mode=mode_str,
         hallucination_flags=all_flags,
         metadata={
             "iterations_used": gen_output.iterations_used,
@@ -162,4 +175,25 @@ def run_mode_3(question: str, session_id: str) -> InternalResponse:
             "guardrails_status": guardrail_result.overall_status,
             "critic_verdict": critic_verdict.overall_verdict,
         },
+    )
+
+
+def run_mode_3(question: str, session_id: str) -> InternalResponse:
+    """Mode 3: RAG + Judge & Critic tanpa cache.
+
+    Wrapper tipis di atas _run_rag_jc_pipeline dengan mode_str dan
+    cache_status tetap untuk mode ini.
+
+    Args:
+        question: pertanyaan asli pengguna.
+        session_id: ID sesi untuk Langfuse trace.
+
+    Returns:
+        InternalResponse dari _run_rag_jc_pipeline.
+    """
+    return _run_rag_jc_pipeline(
+        question=question,
+        session_id=session_id,
+        mode_str="mode_3_rag_jc",
+        cache_status="bypassed",
     )
