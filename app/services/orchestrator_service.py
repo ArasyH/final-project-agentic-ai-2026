@@ -31,8 +31,7 @@ class OrchestratorService:
         if mode == "mode_1_llm_only":
             return run_mode_1(question, session_id)
         if mode == "mode_2_rag_only":
-            # run_mode_2 signature belum terima session_id — diupdate di task #5
-            return run_mode_2(question)
+            return run_mode_2(question, session_id)
         if mode == "mode_3_rag_jc":
             raise NotImplementedError("mode_3_rag_jc belum diimplementasi — task #8")
         if mode == "mode_4_rag_jc_cache":
