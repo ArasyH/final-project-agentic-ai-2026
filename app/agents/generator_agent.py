@@ -101,7 +101,12 @@ class GeneratorAgent:
 
     # ── public ───────────────────────────────────────────────────────────────
 
-    def generate(self, question: str, session_id: str) -> GeneratorOutput:
+    def generate(
+        self,
+        question: str,
+        session_id: str,
+        tickers: list[str] | None = None,
+    ) -> GeneratorOutput:
         """Jalankan ReAct loop dan kembalikan jawaban + evidence.
 
         Loop berhenti jika LLM menghasilkan "Jawaban Final:" atau max iterasi
@@ -110,6 +115,8 @@ class GeneratorAgent:
         Args:
             question: pertanyaan asli pengguna.
             session_id: ID sesi untuk Langfuse trace span.
+            tickers: daftar ticker IDX30 yang terdeteksi dari query (opsional).
+                Diteruskan ke RetrievalService untuk filter metadata KB.
 
         Returns:
             GeneratorOutput. Jika error, field `error` non-None dan `answer`
@@ -185,7 +192,7 @@ class GeneratorAgent:
                 output_data=thought,
             )
 
-            observation, retrieved = self._retrieve(action_input)
+            observation, retrieved = self._retrieve(action_input, tickers=tickers)
             all_evidence.extend(retrieved)
 
             self._telemetry.event(
@@ -221,16 +228,21 @@ class GeneratorAgent:
 
     # ── private helpers ──────────────────────────────────────────────────────
 
-    def _retrieve(self, query: str) -> tuple[str, list[EvidenceItem]]:
+    def _retrieve(
+        self,
+        query: str,
+        tickers: list[str] | None = None,
+    ) -> tuple[str, list[EvidenceItem]]:
         """Panggil RetrievalService dan format sebagai teks observasi.
 
         Args:
             query: query string untuk KB lookup.
+            tickers: ticker filter untuk metadata retrieval (opsional).
 
         Returns:
             Tuple (observation_string, list_of_EvidenceItem).
         """
-        docs = self._retriever.retrieve(query)
+        docs = self._retriever.retrieve(query, tickers=tickers)
         if not docs:
             return "(tidak ada data relevan di knowledge base)", []
 

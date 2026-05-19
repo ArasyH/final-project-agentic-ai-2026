@@ -3,6 +3,7 @@ from __future__ import annotations
 from app.schemas import ExperimentMode, InternalResponse
 from app.modes.mode_1_llm_only import run_mode_1
 from app.modes.mode_2_rag_only import run_mode_2
+from app.modes.mode_3_rag_jc import run_mode_3
 
 
 class OrchestratorService:
@@ -33,7 +34,7 @@ class OrchestratorService:
         if mode == "mode_2_rag_only":
             return run_mode_2(question, session_id)
         if mode == "mode_3_rag_jc":
-            raise NotImplementedError("mode_3_rag_jc belum diimplementasi — task #8")
+            return run_mode_3(question, session_id)
         if mode == "mode_4_rag_jc_cache":
             raise NotImplementedError("mode_4_rag_jc_cache belum diimplementasi — task #9")
         raise ValueError(f"Unsupported mode: {mode}")
