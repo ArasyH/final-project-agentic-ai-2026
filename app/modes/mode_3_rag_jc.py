@@ -4,16 +4,16 @@ from __future__ import annotations
 Alur: normalize_query → GeneratorAgent (ReAct) → GuardrailsService (H1, H3)
       → CriticAgent (H2, H4) → aggregate flags → InternalResponse.
 
-Tujuan eksperimen: mengukur kontribusi pola Judge & Critic terhadap reduksi
-halusinasi dibandingkan mode_2 (RAG-only). Tidak ada cache di mode ini.
-
 `_run_rag_jc_pipeline` adalah shared helper yang juga dipakai mode_4.
+Caller (run_mode_3 / run_mode_4) menyediakan trace + telemetry instance;
+pipeline hanya mencatat latency per stage pada trace yang sudah ada.
 """
 from datetime import datetime, timezone
+from typing import Any
 
 from app.agents.critic_agent import CriticAgent
 from app.agents.generator_agent import GeneratorAgent
-from app.schemas import EvidenceItem, InternalResponse, SourceItem
+from app.schemas import InternalResponse, SourceItem
 from app.services.guardrails_service import GuardrailsService
 from app.services.query_normalizer import normalize_query
 from app.services.retrieval_service import RetrievalService
@@ -28,29 +28,35 @@ _FAILSAFE_ANSWER = (
 def _run_rag_jc_pipeline(
     question: str,
     session_id: str,
+    question_id: str,
     mode_str: str,
-    cache_status: str = "bypassed",
+    cache_status: str,
+    trace: Any,
+    telemetry: TelemetryService,
 ) -> InternalResponse:
     """Shared pipeline: normalize → GeneratorAgent (ReAct) → Guardrails → Critic.
 
-    Dipakai oleh run_mode_3 (cache_status="bypassed") dan run_mode_4
-    pada cache-miss path (cache_status="miss").
+    Caller (run_mode_3 / run_mode_4) bertanggung jawab atas:
+    - Membuat trace via start_trace()
+    - Mengukur latency_ms_total via measure_latency(trace, "total")
+    - Memanggil end_trace() setelah pipeline selesai
+
+    Pipeline ini mencatat latency_ms_retrieval, latency_ms_generation,
+    latency_ms_critic pada trace yang diterima.
 
     Args:
         question: pertanyaan asli pengguna.
-        session_id: ID sesi untuk Langfuse trace.
-        mode_str: nilai ExperimentMode yang diisi ke InternalResponse.
-        cache_status: nilai CacheStatus yang diisi ke InternalResponse.
-            "bypassed" untuk mode_3, "miss" untuk mode_4 cache-miss path.
+        session_id: ID sesi untuk Langfuse span dalam generator.
+        question_id: ID pertanyaan untuk paired comparison.
+        mode_str: ExperimentMode string untuk InternalResponse.
+        cache_status: CacheStatus string ("bypassed" / "miss").
+        trace: Langfuse trace object dari caller.
+        telemetry: TelemetryService instance dari caller (shared, untuk latency dict).
 
     Returns:
-        InternalResponse dengan validator_status dan hallucination_flags
-        berdasarkan hasil gabungan GuardrailsService (H1, H3) dan
-        CriticAgent (H2, H4).
-        confidence: 0.85 jika validator passed, 0.50 jika failed,
-            0.20 jika generator gagal (fail-safe path).
+        InternalResponse. Jika generator gagal, confidence=0.2 dan
+        validator_status="failed" (fail-safe path).
     """
-    telemetry = TelemetryService()
     retriever = RetrievalService()
     guardrails = GuardrailsService()
     critic = CriticAgent()
@@ -59,22 +65,19 @@ def _run_rag_jc_pipeline(
         telemetry_service=telemetry,
     )
 
-    trace = telemetry.start_trace(
-        session_id=session_id,
-        question=question,
-        mode=mode_str,
-    )
+    with telemetry.measure_latency(trace, "retrieval"):
+        normalized = normalize_query(question)
+        tickers = normalized.detected_tickers
 
-    normalized = normalize_query(question)
-    tickers = normalized.detected_tickers
-
-    gen_output = generator.generate(
-        question=question,
-        session_id=session_id,
-        tickers=tickers or None,
-    )
+    with telemetry.measure_latency(trace, "generation"):
+        gen_output = generator.generate(
+            question=question,
+            session_id=session_id,
+            tickers=tickers or None,
+        )
 
     if not gen_output.succeeded:
+        telemetry._record_latency(trace, "critic", 0.0)
         telemetry.event(
             trace,
             name="generator_failed",
@@ -105,17 +108,17 @@ def _run_rag_jc_pipeline(
         for item in gen_output.evidence
     ]
 
-    guardrail_result = guardrails.check(
-        answer=gen_output.answer,
-        evidence=evidence_dicts,
-        now=datetime.now(timezone.utc),
-    )
-
-    critic_verdict = critic.validate(
-        question=question,
-        answer=gen_output.answer,
-        evidence=evidence_dicts,
-    )
+    with telemetry.measure_latency(trace, "critic"):
+        guardrail_result = guardrails.check(
+            answer=gen_output.answer,
+            evidence=evidence_dicts,
+            now=datetime.now(timezone.utc),
+        )
+        critic_verdict = critic.validate(
+            question=question,
+            answer=gen_output.answer,
+            evidence=evidence_dicts,
+        )
 
     critic_flags: list[str] = []
     if critic_verdict.H2_fabricated_metric.flag:
@@ -131,7 +134,6 @@ def _run_rag_jc_pipeline(
         and critic_verdict.overall_verdict == "pass"
         else "failed"
     )
-
     confidence = 0.85 if validator_status == "passed" else 0.50
 
     sources = [
@@ -141,21 +143,6 @@ def _run_rag_jc_pipeline(
         )
         for i, item in enumerate(gen_output.evidence)
     ]
-
-    telemetry.event(
-        trace,
-        name="pipeline_complete",
-        output_data=gen_output.answer,
-        metadata={
-            "validator_status": validator_status,
-            "hallucination_flags": all_flags,
-            "guardrails_status": guardrail_result.overall_status,
-            "critic_verdict": critic_verdict.overall_verdict,
-            "iterations_used": gen_output.iterations_used,
-            "evidence_count": len(gen_output.evidence),
-            "confidence": confidence,
-        },
-    )
 
     return InternalResponse(
         answer=gen_output.answer,
@@ -178,22 +165,47 @@ def _run_rag_jc_pipeline(
     )
 
 
-def run_mode_3(question: str, session_id: str) -> InternalResponse:
+def run_mode_3(question: str, session_id: str, question_id: str) -> InternalResponse:
     """Mode 3: RAG + Judge & Critic tanpa cache.
 
-    Wrapper tipis di atas _run_rag_jc_pipeline dengan mode_str dan
-    cache_status tetap untuk mode ini.
+    Wrapper: membuat trace, mengukur latency_ms_total, memanggil pipeline,
+    memanggil end_trace dengan 11 field metadata wajib §15.
 
     Args:
         question: pertanyaan asli pengguna.
         session_id: ID sesi untuk Langfuse trace.
+        question_id: ID pertanyaan untuk paired comparison lintas mode.
 
     Returns:
         InternalResponse dari _run_rag_jc_pipeline.
     """
-    return _run_rag_jc_pipeline(
-        question=question,
+    telemetry = TelemetryService()
+    trace = telemetry.start_trace(
         session_id=session_id,
-        mode_str="mode_3_rag_jc",
-        cache_status="bypassed",
+        question=question,
+        mode="mode_3_rag_jc",
+        question_id=question_id,
     )
+
+    with telemetry.measure_latency(trace, "total"):
+        result = _run_rag_jc_pipeline(
+            question=question,
+            session_id=session_id,
+            question_id=question_id,
+            mode_str="mode_3_rag_jc",
+            cache_status="bypassed",
+            trace=trace,
+            telemetry=telemetry,
+        )
+
+    telemetry.end_trace(trace, metadata={
+        "mode": "mode_3_rag_jc",
+        "question_id": question_id,
+        "cache_status": result.cache_status,
+        "validator_status": result.validator_status,
+        "hallucination_flags": result.hallucination_flags,
+        "evidence_count": len(result.evidence),
+        "confidence": result.confidence,
+    })
+
+    return result

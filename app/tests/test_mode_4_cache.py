@@ -59,7 +59,7 @@ def test_cache_hit_bypasses_pipeline():
         mock_cache_instance = MockCache.return_value
         mock_cache_instance.lookup.return_value = _HIT_DICT
 
-        result = run_mode_4("Berapa harga BBCA?", "s1")
+        result = run_mode_4("Berapa harga BBCA?", "s1", "Q001")
 
         assert result.cache_status == "hit"
         assert result.mode == "mode_4_rag_jc_cache"
@@ -80,7 +80,7 @@ def test_cache_miss_passing_validator_stores():
         mock_cache_instance.lookup.return_value = _MISS_DICT
         mock_pipeline.return_value = _make_passed_response()
 
-        result = run_mode_4("Berapa harga BBCA?", "s1")
+        result = run_mode_4("Berapa harga BBCA?", "s1", "Q001")
 
         assert result.cache_status == "miss"
         assert result.validator_status == "passed"
@@ -99,7 +99,7 @@ def test_cache_miss_failing_validator_not_stored():
         mock_cache_instance.lookup.return_value = _MISS_DICT
         mock_pipeline.return_value = _make_failed_response()
 
-        result = run_mode_4("Berapa harga BBCA?", "s1")
+        result = run_mode_4("Berapa harga BBCA?", "s1", "Q001")
 
         assert result.cache_status == "miss"
         assert result.validator_status == "failed"

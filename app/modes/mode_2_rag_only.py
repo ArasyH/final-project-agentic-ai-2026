@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from app.schemas import EvidenceItem, InternalResponse, SourceItem
 from app.services.llm_service import build_llm
 from app.services.retrieval_service import RetrievalService
+from app.services.telemetry_service import TelemetryService
 
 RAG_PROMPT = """Jawab hanya berdasarkan konteks berikut.
 Jika informasi tidak tersedia, katakan data tidak tersedia.
@@ -16,7 +17,7 @@ Pertanyaan:
 {question}"""
 
 
-def run_mode_2(question: str, session_id: str) -> InternalResponse:
+def run_mode_2(question: str, session_id: str, question_id: str) -> InternalResponse:
     """Mode 2: RAG-only tanpa cache, guardrails, atau critic.
 
     Digunakan untuk mengukur kontribusi retrieval (RAG) terhadap reduksi
@@ -24,20 +25,36 @@ def run_mode_2(question: str, session_id: str) -> InternalResponse:
 
     Args:
         question: pertanyaan asli pengguna.
-        session_id: ID sesi untuk Langfuse trace (dipakai oleh task #10).
+        session_id: ID sesi untuk Langfuse trace.
+        question_id: ID pertanyaan untuk paired comparison lintas mode.
 
     Returns:
         InternalResponse dengan validator_status="skipped", cache_status="bypassed",
         hallucination_flags=[] (tidak ada checker yang berjalan di mode ini).
         confidence: 0.7 jika dokumen berhasil di-retrieve, 0.3 jika tidak ada.
-            Nilai ini adalah intrinsic property mode_2, bukan hyperparameter eksperimen.
+        latency_ms_critic=0 (stage tidak ada di mode ini).
     """
+    telemetry = TelemetryService()
     retriever = RetrievalService()
     llm = build_llm(temperature=0.0)
 
-    docs = retriever.retrieve(question)
-    context = "\n\n".join(doc.page_content for doc in docs)
-    answer = llm.invoke(RAG_PROMPT.format(context=context, question=question)).content
+    trace = telemetry.start_trace(
+        session_id=session_id,
+        question=question,
+        mode="mode_2_rag_only",
+        question_id=question_id,
+    )
+
+    with telemetry.measure_latency(trace, "total"):
+        with telemetry.measure_latency(trace, "retrieval"):
+            docs = retriever.retrieve(question)
+
+        context = "\n\n".join(doc.page_content for doc in docs)
+
+        with telemetry.measure_latency(trace, "generation"):
+            answer = llm.invoke(RAG_PROMPT.format(context=context, question=question)).content
+
+        telemetry._record_latency(trace, "critic", 0.0)
 
     evidence = [
         EvidenceItem(content=doc.page_content, source_id=f"kb_{i}")
@@ -53,7 +70,7 @@ def run_mode_2(question: str, session_id: str) -> InternalResponse:
         for i, doc in enumerate(docs)
     ]
 
-    return InternalResponse(
+    result = InternalResponse(
         answer=answer,
         evidence=evidence,
         sources=sources,
@@ -65,3 +82,15 @@ def run_mode_2(question: str, session_id: str) -> InternalResponse:
         mode="mode_2_rag_only",
         hallucination_flags=[],
     )
+
+    telemetry.end_trace(trace, metadata={
+        "mode": "mode_2_rag_only",
+        "question_id": question_id,
+        "cache_status": "bypassed",
+        "validator_status": "skipped",
+        "hallucination_flags": [],
+        "evidence_count": len(docs),
+        "confidence": result.confidence,
+    })
+
+    return result

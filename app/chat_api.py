@@ -1,5 +1,4 @@
 from __future__ import annotations
-# Memisahkan layer HTTP dari core logic untuk menjaga modularitas dan kemudahan testing.
 # app/chat_api.py
 import time
 import uuid
@@ -17,11 +16,17 @@ async def chat(req: ChatRequest):
         raise HTTPException(status_code=400, detail="Pertanyaan kosong.")
 
     session_id = req.session_id or str(uuid.uuid4())
+    question_id = req.question_id or f"Q-{uuid.uuid4().hex[:8]}"
     mode = req.mode or DEFAULT_EXPERIMENT_MODE
     started = time.perf_counter()
 
     try:
-        result = orchestrator.run(question=req.question, session_id=session_id, mode=mode)
+        result = orchestrator.run(
+            question=req.question,
+            session_id=session_id,
+            question_id=question_id,
+            mode=mode,
+        )
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
