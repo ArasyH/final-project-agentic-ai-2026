@@ -1,7 +1,7 @@
 from __future__ import annotations
 # app/services/orchestrator_service.py
 from app.schemas import ExperimentMode, InternalResponse
-from app.modes.mode_1_baseline_llm import run_mode_1
+from app.modes.mode_1_llm_only import run_mode_1
 from app.modes.mode_2_rag_only import run_mode_2
 
 
@@ -29,8 +29,7 @@ class OrchestratorService:
                 diimplementasi.
         """
         if mode == "mode_1_llm_only":
-            # run_mode_1 signature belum terima session_id — diupdate di task #5
-            return run_mode_1(question)
+            return run_mode_1(question, session_id)
         if mode == "mode_2_rag_only":
             # run_mode_2 signature belum terima session_id — diupdate di task #5
             return run_mode_2(question)
