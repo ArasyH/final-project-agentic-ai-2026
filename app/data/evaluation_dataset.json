@@ -1,0 +1,714 @@
+[
+  {
+    "question_id": "Q001",
+    "question": "Berapa harga penutupan terakhir saham BBCA?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "BBCA"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H2"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q002",
+    "question": "Berapa harga penutupan saham BBRI pada 30 April 2026?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "BBRI"
+    ],
+    "expected_kb_coverage": "none",
+    "trigger_hallucination": [
+      "H1",
+      "H3"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q003",
+    "question": "Berapa harga tertinggi saham TLKM dalam 52 minggu terakhir?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "TLKM"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q004",
+    "question": "Berapa volume perdagangan saham ASII pada hari perdagangan terakhir?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "ASII"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H3"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q005",
+    "question": "Berapa harga terendah saham ADRO selama satu tahun terakhir?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "ADRO"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q006",
+    "question": "Berapa persen perubahan harga saham BMRI dalam 30 hari terakhir?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "BMRI"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q007",
+    "question": "Berapa nilai Moving Average (MA) 7 hari saham GOTO?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "GOTO"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q008",
+    "question": "Berapa kapitalisasi pasar terkini saham UNVR?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "UNVR"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H3"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q009",
+    "question": "Berapa volatilitas saham PTBA dalam 30 hari terakhir?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "PTBA"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q010",
+    "question": "Berapa harga penutupan saham KLBF pada 31 Maret 2026?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "KLBF"
+    ],
+    "expected_kb_coverage": "none",
+    "trigger_hallucination": [
+      "H1",
+      "H3"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q011",
+    "question": "Berapa rasio P/E (Price-to-Earnings) TTM (Trailing Twelve Months) saham BBNI?",
+    "category": "fundamental_metric",
+    "expected_tickers": [
+      "BBNI"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H2"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q012",
+    "question": "Berapa rasio P/B (Price-to-Book) saham UNTR berdasarkan kuartal terakhir?",
+    "category": "fundamental_metric",
+    "expected_tickers": [
+      "UNTR"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H2"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q013",
+    "question": "Berapa ROE (Return on Equity) ANTM pada tahun 2024?",
+    "category": "fundamental_metric",
+    "expected_tickers": [
+      "ANTM"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H2"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q014",
+    "question": "Berapa dividend yield TTM (Trailing Twelve Months) saham PGAS?",
+    "category": "fundamental_metric",
+    "expected_tickers": [
+      "PGAS"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q015",
+    "question": "Berapa pendapatan tahunan ICBP pada tahun 2024?",
+    "category": "fundamental_metric",
+    "expected_tickers": [
+      "ICBP"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q016",
+    "question": "Berapa net profit margin INDF pada tahun 2023?",
+    "category": "fundamental_metric",
+    "expected_tickers": [
+      "INDF"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H2"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q017",
+    "question": "Berapa total utang INCO pada akhir tahun fiskal 2024?",
+    "category": "fundamental_metric",
+    "expected_tickers": [
+      "INCO"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q018",
+    "question": "Berapa payout ratio JPFA terkini?",
+    "category": "fundamental_metric",
+    "expected_tickers": [
+      "JPFA"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q019",
+    "question": "Berapa EPS (Earnings Per Share) MEDC pada tahun 2024?",
+    "category": "fundamental_metric",
+    "expected_tickers": [
+      "MEDC"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H2"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q020",
+    "question": "Berapa Forward P/E (Forward Price-to-Earnings) AMRT?",
+    "category": "fundamental_metric",
+    "expected_tickers": [
+      "AMRT"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H2"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q021",
+    "question": "Berapa pertumbuhan pendapatan TLKM dari tahun 2023 ke 2024?",
+    "category": "fundamental_metric",
+    "expected_tickers": [
+      "TLKM"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q022",
+    "question": "Berapa total dividen yang dibayarkan BBCA selama tahun 2024?",
+    "category": "fundamental_metric",
+    "expected_tickers": [
+      "BBCA"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q023",
+    "question": "Berapa ROE (Return on Equity) INKP pada tahun 2022?",
+    "category": "fundamental_metric",
+    "expected_tickers": [
+      "INKP"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H2"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q024",
+    "question": "Berapa laba bersih MDKA pada tahun fiskal 2024?",
+    "category": "fundamental_metric",
+    "expected_tickers": [
+      "MDKA"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q025",
+    "question": "Apa 3 saham IDX30 dengan kapitalisasi pasar terbesar saat ini?",
+    "category": "ranking",
+    "expected_tickers": [],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q026",
+    "question": "Saham IDX30 mana yang memiliki ROE (Return on Equity) tertinggi pada tahun 2024?",
+    "category": "ranking",
+    "expected_tickers": [],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q027",
+    "question": "Saham IDX30 mana yang memiliki P/E (Price-to-Earnings) TTM (Trailing Twelve Months) terendah saat ini?",
+    "category": "ranking",
+    "expected_tickers": [],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q028",
+    "question": "Apa 3 saham IDX30 dengan dividend yield TTM (Trailing Twelve Months) tertinggi?",
+    "category": "ranking",
+    "expected_tickers": [],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q029",
+    "question": "Bank mana di IDX30 yang memiliki ROE (Return on Equity) terbesar saat ini?",
+    "category": "ranking",
+    "expected_tickers": [
+      "BBCA",
+      "BBNI",
+      "BBRI",
+      "BMRI"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q030",
+    "question": "Saham IDX30 mana yang mencatat pertumbuhan pendapatan tahunan tertinggi pada tahun 2024?",
+    "category": "ranking",
+    "expected_tickers": [],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q031",
+    "question": "Apa 5 saham IDX30 dengan rasio P/B (Price-to-Book) terendah berdasarkan kuartal terakhir?",
+    "category": "ranking",
+    "expected_tickers": [],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q032",
+    "question": "Saham IDX30 mana yang memiliki kinerja harga terbaik year-to-date 2026 (Year-to-Date, dari 1 Januari 2026)?",
+    "category": "ranking",
+    "expected_tickers": [],
+    "expected_kb_coverage": "none",
+    "trigger_hallucination": [
+      "H1",
+      "H3",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q033",
+    "question": "Apa 3 saham IDX30 dengan total utang terbesar pada akhir tahun fiskal 2024?",
+    "category": "ranking",
+    "expected_tickers": [],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q034",
+    "question": "Saham IDX30 mana yang mengalami penurunan harga terbesar dalam 30 hari terakhir?",
+    "category": "ranking",
+    "expected_tickers": [],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q035",
+    "question": "Berapa harga penutupan saham PTBA pada akhir tahun 2024?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "PTBA"
+    ],
+    "expected_kb_coverage": "none",
+    "trigger_hallucination": [
+      "H1",
+      "H3"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q036",
+    "question": "Berapa harga rata-rata saham ISAT selama bulan Januari 2026?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "ISAT"
+    ],
+    "expected_kb_coverage": "none",
+    "trigger_hallucination": [
+      "H1",
+      "H3"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q037",
+    "question": "Berapa harga saham BRPT pada awal tahun 2025?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "BRPT"
+    ],
+    "expected_kb_coverage": "none",
+    "trigger_hallucination": [
+      "H1",
+      "H3"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q038",
+    "question": "Bagaimana perubahan harga saham CPIN dari kuartal terakhir ke saat ini secara QoQ (Quarter-on-Quarter)?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "CPIN"
+    ],
+    "expected_kb_coverage": "none",
+    "trigger_hallucination": [
+      "H1",
+      "H3",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q039",
+    "question": "Berapa harga tertinggi saham BUMI sepanjang tahun 2025?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "BUMI"
+    ],
+    "expected_kb_coverage": "none",
+    "trigger_hallucination": [
+      "H1",
+      "H3"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q040",
+    "question": "Berapa rata-rata volume perdagangan EMTK dalam 90 hari terakhir?",
+    "category": "price_snapshot",
+    "expected_tickers": [
+      "EMTK"
+    ],
+    "expected_kb_coverage": "none",
+    "trigger_hallucination": [
+      "H1",
+      "H3"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q041",
+    "question": "Berapa rata-rata ROE (Return on Equity) dari semua bank di IDX30 pada tahun 2024?",
+    "category": "sector_query",
+    "expected_tickers": [
+      "BBCA",
+      "BBNI",
+      "BBRI",
+      "BMRI"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q042",
+    "question": "Saham Basic Materials mana di IDX30 yang memiliki kapitalisasi pasar terbesar?",
+    "category": "sector_query",
+    "expected_tickers": [
+      "ANTM",
+      "BRPT",
+      "INCO",
+      "INKP",
+      "MBMA",
+      "MDKA"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q043",
+    "question": "Berapa total kapitalisasi pasar sektor Oil, Gas & Coal di IDX30 saat ini?",
+    "category": "sector_query",
+    "expected_tickers": [
+      "AADI",
+      "ADRO",
+      "BUMI",
+      "MEDC",
+      "PGAS",
+      "PTBA"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q044",
+    "question": "Saham Food & Beverage mana di IDX30 yang memiliki dividend yield TTM (Trailing Twelve Months) tertinggi?",
+    "category": "sector_query",
+    "expected_tickers": [
+      "CPIN",
+      "ICBP",
+      "INDF",
+      "JPFA"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q045",
+    "question": "Bandingkan rasio P/E (Price-to-Earnings) TTM (Trailing Twelve Months) antara TLKM dan ISAT.",
+    "category": "sector_query",
+    "expected_tickers": [
+      "TLKM",
+      "ISAT"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H2",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q046",
+    "question": "Berapa harga penutupan terakhir PGEO sebagai satu-satunya saham Utilities di IDX30?",
+    "category": "sector_query",
+    "expected_tickers": [
+      "PGEO"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H2"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q047",
+    "question": "Bandingkan kinerja harga 30 hari terakhir antara sektor Banks dan sektor Oil, Gas & Coal di IDX30.",
+    "category": "sector_query",
+    "expected_tickers": [
+      "BBCA",
+      "BBNI",
+      "BBRI",
+      "BMRI",
+      "AADI",
+      "ADRO",
+      "BUMI",
+      "MEDC",
+      "PGAS",
+      "PTBA"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q048",
+    "question": "Bandingkan net profit margin antara ICBP dan INDF pada tahun 2024.",
+    "category": "sector_query",
+    "expected_tickers": [
+      "ICBP",
+      "INDF"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q049",
+    "question": "Saham Basic Materials mana di IDX30 yang memiliki P/B (Price-to-Book) MRQ (Most Recent Quarter) terendah?",
+    "category": "sector_query",
+    "expected_tickers": [
+      "ANTM",
+      "BRPT",
+      "INCO",
+      "INKP",
+      "MBMA",
+      "MDKA"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  },
+  {
+    "question_id": "Q050",
+    "question": "Berapa rata-rata pendapatan tahunan saham Banks di IDX30 pada tahun 2024?",
+    "category": "sector_query",
+    "expected_tickers": [
+      "BBCA",
+      "BBNI",
+      "BBRI",
+      "BMRI"
+    ],
+    "expected_kb_coverage": "full",
+    "trigger_hallucination": [
+      "H1",
+      "H4"
+    ],
+    "ground_truth": null
+  }
+]
