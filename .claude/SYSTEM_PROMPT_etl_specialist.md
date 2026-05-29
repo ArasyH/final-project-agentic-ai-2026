@@ -79,7 +79,7 @@ ETL menghasilkan **knowledge base ChromaDB** dengan dokumen-dokumen pendek (<128
 
 ### Endpoint 1: Company Report (UTAMA)
 
-URL pattern: `https://api.sectors.app/v1/company/report/{symbol}/`
+URL pattern: `https://api.sectors.app/v2/company/report/{symbol}/`
 
 Response berisi:
 - `overview`: nama, sektor, sub-sektor, industri, market_cap, market_cap_rank, listing_board, address
@@ -93,7 +93,7 @@ Response berisi:
 
 ### Endpoint 2: Daily Transaction (OPTIONAL untuk price snapshot)
 
-URL pattern: `https://api.sectors.app/v1/transaction/daily/{symbol}/`
+URL pattern: `https://api.sectors.app/v2/transaction/daily/{symbol}/`
 
 Limit: **90 hari per request**. Untuk snapshot 30 hari terakhir, **1 request cukup** (tidak perlu chunking).
 
@@ -302,7 +302,7 @@ Konten dokumen `.txt` **WAJIB dalam Bahasa Indonesia** (karena Generator dan Cri
 ## 14. Eskalasi Wajib (§7.1 detail)
 
 STOP dan tanya peneliti dalam kondisi berikut:
-
+- cc-etl tidak boleh memulai task baru sebelum menerima task spec eksplisit untuk task tersebut, walaupun(a)task berikutnya sudah jelas dari progress sebelumnya, (b) task tersebut tertulis di laporan progres, (c)ada guard inline di task spec sebelumnya yang menyebut larangan ini. Setiap task = satu spec eksplisit.Tidak ada pengecualian.
 - API response berisi field yang tidak terdokumentasi di §5 (mungkin perubahan API)
 - Saham IDX30 berubah komposisi (delisting, IPO baru masuk index)
 - Dokumen yang akan dihasilkan ternyata >128 tokens setelah formatting (perlu split lebih lanjut atau redesign)

@@ -1,164 +1,221 @@
-# Membaca narasi teks, membuat embedding, dan memasukkannya ke vector databse (chromaDB)
-# TASK 3
-import os
-from datetime import date
-from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+"""
+Upsert dokumen hasil transform ke ChromaDB knowledge base.
+
+Posisi dalam pipeline ETL:
+    transform.py → list[DocOutput] → load.py → ChromaDB collection
+
+Idempotent Full Refresh: setiap doc di-upsert via ``doc_id`` sebagai
+ChromaDB ID. Upsert pada doc_id yang sama tidak menghasilkan duplikat.
+``load_all(reset=True)`` (default) menghapus collection lama lalu
+recreate sebelum upsert — memastikan KB bersih dari dokumen stale.
+
+Embedding function yang dipakai SAMA dengan ``app/services/retrieval_service.py``
+(model ``paraphrase-multilingual-MiniLM-L12-v2``) dan jarak yang sama dengan
+``app/services/cache_service.py`` (``hnsw:space: cosine``). Cosine similarity
+antara embedding ETL vs LangChain HuggingFaceEmbeddings = 1.000000 (verified).
+
+Referensi:
+    §3  #4 — Idempotent Full Refresh
+    §15 — ChromaDB Metadata Schema (7 field)
+"""
+
+from __future__ import annotations
+
+from typing import Any
+
 import chromadb
-from dotenv import load_dotenv
+from chromadb.utils import embedding_functions
+
+from etl import config
+from etl.schemas import DocOutput
+from etl.aggregate import aggregate_all
+from etl.transform import transform_all
 
 
-load_dotenv()
-PROCESSED_DATA_DIR = os.getenv("PROCESSED_DATA_DIR")
-CHROMA_API_KEY = os.getenv("CHROMA_API_KEY")
-CHROMA_TENANT = os.getenv("CHROMA_TENANT")
-CHROMA_DB_PATH = os.getenv("CHROMA_DB_PATH", "./chroma_db")
-EMBEDDING_MODEL_NAME = os.getenv(
-    "EMBEDDING_MODEL_NAME",
-    "sentence-transformers/all-MiniLM-L6-v2",
-)
+# ── Module-level singletons ───────────────────────────────────────────────────
 
-def load_fundamental(ticker: str, report_data: dict):
-    """Load company report ke collection 'fundamental'."""
-    client = get_chroma_client()
-    col = client.get_or_create_collection("fundamental", embedding_function=embed_fn)
-    
-    # Buat teks yang semantically rich untuk di-embed
-    text = f"""
-    Ticker: {ticker}
-    Nama: {report_data.get('company_name', '')}
-    Sektor: {report_data.get('sector', '')}
-    Sub-sektor: {report_data.get('sub_sector', '')}
-    Revenue TTM: {report_data.get('total_revenue_mrq', 'N/A')}
-    ROE TTM: {report_data.get('roe_ttm', 'N/A')}
-    P/E TTM: {report_data.get('pe_ttm', 'N/A')}
-    Deskripsi bisnis: {report_data.get('business_description', '')}
+_client: Any = None
+_embedding_fn: Any = None
+
+
+# ── Private helpers ───────────────────────────────────────────────────────────
+
+def _get_embedding_function() -> Any:
+    """Kembalikan singleton SentenceTransformerEmbeddingFunction.
+
+    Menggunakan ``config.EMBEDDER_MODEL`` (paraphrase-multilingual-MiniLM-L12-v2).
+    Model yang sama dengan ``app/services/retrieval_service.py`` →
+    vektor embedding identik (cosine similarity = 1.0, verified).
+
+    Returns:
+        SentenceTransformerEmbeddingFunction yang sudah diinisialisasi.
     """
-    
-    col.upsert(
-        ids=[f"{ticker}_fundamental"],
-        documents=[text.strip()],
-        metadatas=[{
-            "ticker": ticker,
-            "type": "fundamental",
-            "updated_at": date.today().isoformat(),
-            **{k: str(v) for k, v in report_data.items() if isinstance(v, (str, int, float))}
-        }]
-    )
-
-def load_quarterly(ticker: str, quarter: str, fin_data: dict):
-    """Load quarterly financials. quarter format: '2025-Q1'"""
-    client = get_chroma_client()
-    col = client.get_or_create_collection("quarterly", embedding_function=embed_fn)
-    
-    text = f"""
-    Ticker: {ticker} | Periode: {quarter}
-    Revenue: {fin_data.get('revenue', 'N/A')}
-    Laba bersih: {fin_data.get('earnings', 'N/A')}
-    EBITDA: {fin_data.get('ebitda', 'N/A')}
-    Total aset: {fin_data.get('total_assets', 'N/A')}
-    Total utang: {fin_data.get('total_debt', 'N/A')}
-    """
-    
-    col.upsert(
-        ids=[f"{ticker}_{quarter}"],
-        documents=[text.strip()],
-        metadatas=[{
-            "ticker": ticker,
-            "quarter": quarter,
-            "type": "quarterly",
-            **{k: str(v) for k, v in fin_data.items() if isinstance(v, (str, int, float))}
-        }]
-    )
-
-def load_daily(ticker: str, records: list):
-    """Bulk upsert daily transactions."""
-    if not records:
-        return
-    
-    client = get_chroma_client()
-    col = client.get_or_create_collection("daily_tx", embedding_function=embed_fn)
-    
-    ids, docs, metas = [], [], []
-    for r in records:
-        tx_date = r.get("date") or r.get("transaction_date")
-        if not tx_date:
-            continue
-        
-        ids.append(f"{ticker}_{tx_date}")
-        docs.append(
-            f"Ticker {ticker} pada {tx_date}: "
-            f"Close {r.get('close', 'N/A')}, "
-            f"Volume {r.get('volume', 'N/A')}, "
-            f"Foreign buy {r.get('foreign_buy', 'N/A')}, "
-            f"Foreign sell {r.get('foreign_sell', 'N/A')}"
-        )
-        metas.append({
-            "ticker": ticker,
-            "date": tx_date,
-            "type": "daily",
-            **{k: str(v) for k, v in r.items() if isinstance(v, (str, int, float))}
-        })
-    
-    # Upsert batch 100 dokumen sekaligus
-    batch_size = 100
-    for i in range(0, len(ids), batch_size):
-        col.upsert(
-            ids=ids[i:i+batch_size],
-            documents=docs[i:i+batch_size],
-            metadatas=metas[i:i+batch_size]
-        )
-    
-    print(f"  [{ticker}] Loaded {len(ids)} daily records ke ChromaDB")
-
-def load_to_vector_db():
-    today = date.today().isoformat()
-
-    # Cek file tersedia
-    txt_files = [f for f in os.listdir(PROCESSED_DATA_DIR)
-                 if f.endswith(f"{today}.txt")]
-
-    if not txt_files:
-        print(f"⚠ Tidak ada file .txt untuk {today}")
-        print(f"  Jalankan transform.py terlebih dahulu.")
-        return
-
-    print(f"Ditemukan {len(txt_files)} file — mulai loading ke ChromaDB...")
-    print(f"Path  : {os.path.abspath(CHROMA_DB_PATH)}")
-    print(f"Model : {EMBEDDING_MODEL_NAME}\n")
-
-    # Embedding function — ChromaDB yang handle, bukan manual encode
-    embed_fn = SentenceTransformerEmbeddingFunction(model_name=EMBEDDING_MODEL_NAME)
-
-    client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
-    col    = client.get_or_create_collection(
-        name="stock_knowledge_base",
-        embedding_function=embed_fn,
-        metadata={"hnsw:space": "cosine"}
-    )
-
-    print(f"Dokumen sebelum load: {col.count()}")
-
-    ok, err = 0, 0
-    for filename in sorted(txt_files):
-        ticker = filename.split("_")[0]
-        try:
-            with open(os.path.join(PROCESSED_DATA_DIR, filename), encoding="utf-8") as f:
-                text = f.read()
-
-            col.upsert(
-                ids=[f"{ticker}_{today}"],
-                documents=[text],           # ChromaDB auto-embed
-                metadatas=[{"ticker": ticker, "date": today}]
+    global _embedding_fn
+    if _embedding_fn is None:
+        _embedding_fn = (
+            embedding_functions.SentenceTransformerEmbeddingFunction(
+                model_name=config.EMBEDDER_MODEL
             )
-            print(f"  ✓ {ticker}")
-            ok += 1
+        )
+    return _embedding_fn
 
-        except Exception as e:
-            print(f"  ✗ {ticker}: {e}")
-            err += 1
 
-    print(f"\nSelesai: {ok} berhasil, {err} error")
-    print(f"Total dokumen sekarang: {col.count()}")
+def _get_client() -> Any:
+    """Kembalikan singleton chromadb.PersistentClient.
 
-if __name__ == "__main__":
-    load_to_vector_db()
+    Path diambil dari ``config.CHROMA_DB_PATH`` agar konsisten dengan
+    ``app/config.py`` yang membaca dari env var yang sama (``CHROMA_DB_PATH``).
+    Lazy-init: client dibuat hanya pada pemanggilan pertama.
+
+    Returns:
+        chromadb.PersistentClient yang sudah terhubung ke CHROMA_DB_PATH.
+    """
+    global _client
+    if _client is None:
+        _client = chromadb.PersistentClient(path=str(config.CHROMA_DB_PATH))
+    return _client
+
+
+def _sanitize_metadata(doc: DocOutput) -> dict[str, Any]:
+    """Konversi DocMetadata ke dict ChromaDB yang aman (tanpa nilai None).
+
+    ChromaDB v1.5.x raise ``ValueError`` jika ada metadata value berupa
+    ``None``. Field ``source_endpoint`` bisa ``None`` untuk aggregate docs.
+    Strategi: ganti ``None`` dengan string kosong ``""`` agar semua key
+    tetap hadir — filter di app/ tetap bisa menggunakan field ini.
+
+    Args:
+        doc: DocOutput yang metadata-nya akan disanitasi.
+
+    Returns:
+        Dict metadata siap upsert ke ChromaDB, semua value berupa str.
+    """
+    raw = doc.metadata.model_dump()
+    return {k: ("" if v is None else str(v)) for k, v in raw.items()}
+
+
+# ── Public functions ──────────────────────────────────────────────────────────
+
+def get_or_create_collection(reset: bool = False) -> Any:
+    """Ambil atau buat collection ChromaDB untuk knowledge base.
+
+    Collection dibuat dengan:
+    - Nama: ``config.CHROMA_COLLECTION_NAME`` (``"stock_knowledge_base"``)
+    - Embedding function: ``SentenceTransformerEmbeddingFunction`` (config.EMBEDDER_MODEL)
+    - Distance metric: cosine (``hnsw:space: cosine``) — match dengan
+      ``app/services/cache_service.py`` dan sesuai model sentence-transformers.
+
+    Jika ``reset=True``, collection lama di-delete terlebih dahulu lalu
+    di-recreate dari scratch. Ini adalah operasi **destruktif** —
+    semua dokumen lama hilang. Gunakan hanya saat Idempotent Full Refresh
+    yang disengaja.
+
+    Args:
+        reset: Jika ``True``, hapus collection existing dan recreate.
+            Default ``False`` (upsert-over ke collection existing).
+
+    Returns:
+        chromadb Collection object.
+    """
+    client = _get_client()
+    ef = _get_embedding_function()
+    name = config.CHROMA_COLLECTION_NAME
+
+    if reset:
+        try:
+            client.delete_collection(name)
+        except Exception:
+            # Collection belum ada — expected, bukan error
+            pass
+
+    return client.get_or_create_collection(
+        name=name,
+        embedding_function=ef,
+        metadata={"hnsw:space": "cosine"},
+    )
+
+
+def load_documents(docs: list[DocOutput], collection: Any) -> int:
+    """Batch upsert list DocOutput ke ChromaDB collection.
+
+    Setiap dokumen di-upsert dengan:
+    - ``ids``       = ``doc.metadata.doc_id``
+    - ``documents`` = ``doc.content`` (teks yang akan di-embed)
+    - ``metadatas`` = dict 7-field yang sudah disanitasi (tanpa None)
+
+    Upsert (bukan insert) — dokumen dengan ``doc_id`` yang sama
+    di-overwrite, bukan ditambahkan. Ini menjamin idempotency.
+
+    Batch size 100 untuk efisiensi. Untuk 30 saham × 15 doc ≈ 450 doc
+    + ~15 aggregate = ~465 doc, batch ini cukup dalam 5 call.
+
+    Args:
+        docs: List DocOutput dari transform.py.
+        collection: chromadb Collection object dari
+            ``get_or_create_collection()``.
+
+    Returns:
+        Jumlah dokumen yang di-upsert (int).
+    """
+    if not docs:
+        return 0
+
+    batch_size = 100
+    total = 0
+
+    for i in range(0, len(docs), batch_size):
+        batch = docs[i : i + batch_size]
+        collection.upsert(
+            ids=[d.metadata.doc_id for d in batch],
+            documents=[d.content for d in batch],
+            metadatas=[_sanitize_metadata(d) for d in batch],
+        )
+        total += len(batch)
+
+    return total
+
+
+def load_all(snapshot_date: str, reset: bool = True) -> dict[str, int]:
+    """Orchestrate transform → flatten → load untuk semua ticker IDX30.
+
+    Urutan:
+    1. ``transform_all(snapshot_date)`` — hasilkan dict {ticker: list[DocOutput]}
+    2. Flatten semua DocOutput ke satu list
+    3. ``get_or_create_collection(reset=reset)``
+    4. ``load_documents(flat_docs, collection)``
+
+    Default ``reset=True`` untuk Idempotent Full Refresh: collection lama
+    dihapus dan dibuat ulang sebelum upsert, sehingga tidak ada dokumen
+    stale dari snapshot sebelumnya yang tersisa.
+
+    **PERINGATAN**: ``reset=True`` akan menghapus semua dokumen existing
+    di collection ``config.CHROMA_COLLECTION_NAME``. Jalankan ke DB asli
+    hanya setelah konfirmasi peneliti.
+
+    Args:
+        snapshot_date: Tanggal snapshot ISO 8601, mis. ``"2026-05-28"``.
+        reset: Jika ``True`` (default), wipe + recreate collection sebelum
+            load. Jika ``False``, upsert-over ke collection existing.
+
+    Returns:
+        Dict summary: ``{"tickers": N, "documents": M, "aggregate_docs": K}``
+        di mana N = jumlah ticker berhasil di-transform, M = total dokumen
+        di-upsert (per-saham + aggregate), K = jumlah aggregate docs.
+    """
+    ticker_docs: dict[str, list[DocOutput]] = transform_all(snapshot_date)
+    agg_docs: list[DocOutput] = aggregate_all(snapshot_date)
+
+    flat_docs: list[DocOutput] = [
+        doc
+        for docs_per_ticker in ticker_docs.values()
+        for doc in docs_per_ticker
+    ] + agg_docs
+
+    collection = get_or_create_collection(reset=reset)
+    total_docs = load_documents(flat_docs, collection)
+
+    return {
+        "tickers": len(ticker_docs),
+        "documents": total_docs,
+        "aggregate_docs": len(agg_docs),
+    }
