@@ -20,13 +20,13 @@ class RetrievalService:
             # Filter exact ticker
             return self.kb.similarity_search(
                 query, k=k,
-                filter={"ticker": tickers[0]}
+                filter={"symbol": tickers[0]}
             )
         elif tickers and len(tickers) > 1:
             # Filter salah satu dari beberapa ticker
             return self.kb.similarity_search(
                 query, k=k,
-                filter={"ticker": {"$in": tickers}}
+                filter={"symbol": {"$in": tickers}}
             )
         # Tidak ada ticker → semantic search biasa
         return self.kb.similarity_search(query, k=k)

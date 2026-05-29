@@ -195,7 +195,7 @@ def _extract_evidence_timestamps(evidence: list[dict]) -> list[datetime]:
     out: list[datetime] = []
     for e in evidence:
         metadata = e.get("metadata") or {}
-        ts_str = metadata.get("timestamp") or metadata.get("date")
+        ts_str = metadata.get("timestamp") or metadata.get("snapshot_date")
         if not ts_str:
             continue
         try:
