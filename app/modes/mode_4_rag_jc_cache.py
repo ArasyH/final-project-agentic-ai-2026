@@ -10,18 +10,29 @@ Alur:
 
 Trace unifikasi: 1 request = 1 Langfuse trace (bukan 2). Pipeline menerima
 trace dari run_mode_4 via parameter; tidak membuat trace sendiri.
+
+Semua services di-init SEBELUM measure_latency("total") — fairness §15 SINTA 2.
 """
 from datetime import datetime, timezone
 
+from app.agents.critic_agent import CriticAgent
+from app.agents.generator_agent import GeneratorAgent
 from app.modes.mode_3_rag_jc import _run_rag_jc_pipeline
 from app.schemas import EvidenceItem, InternalResponse, SourceItem
 from app.services.cache_service import CacheService
+from app.services.guardrails_service import GuardrailsService
 from app.services.query_normalizer import normalize_query
+from app.services.retrieval_service import RetrievalService
 from app.services.telemetry_service import TelemetryService
 
 
 def run_mode_4(question: str, session_id: str, question_id: str) -> InternalResponse:
     """Mode 4: RAG + Judge & Critic + Semantic Cache.
+
+    Semua services (termasuk RetrievalService, CriticAgent, GuardrailsService,
+    GeneratorAgent) di-init SEBELUM measure_latency("total") agar latency_ms_total
+    hanya mengukur pipeline execution + cache ops — konsisten dengan mode_1/2/3
+    untuk fairness comparison §15 SINTA 2.
 
     Args:
         question: pertanyaan asli pengguna.
@@ -36,8 +47,18 @@ def run_mode_4(question: str, session_id: str, question_id: str) -> InternalResp
           semua latency non-zero (diukur per stage).
         confidence: 0.85 untuk cache hit; 0.85/0.50 untuk miss sesuai validator.
     """
+    # Service init di luar measure_latency("total") — fairness §15
     telemetry = TelemetryService()
     cache = CacheService()
+    retrieval = RetrievalService()
+    guardrails = GuardrailsService()
+    critic = CriticAgent()
+    normalized = normalize_query(question)
+    tickers = normalized.detected_tickers
+    generator = GeneratorAgent(
+        retrieval_service=retrieval,
+        telemetry_service=telemetry,
+    )
 
     trace = telemetry.start_trace(
         session_id=session_id,
@@ -45,8 +66,6 @@ def run_mode_4(question: str, session_id: str, question_id: str) -> InternalResp
         mode="mode_4_rag_jc_cache",
         question_id=question_id,
     )
-
-    normalized = normalize_query(question)
 
     with telemetry.measure_latency(trace, "total"):
         # ── Cache lookup ─────────────────────────────────────────────────────
@@ -125,8 +144,13 @@ def run_mode_4(question: str, session_id: str, question_id: str) -> InternalResp
                 question_id=question_id,
                 mode_str="mode_4_rag_jc_cache",
                 cache_status="miss",
-                trace=trace,
+                parent_trace=trace,
+                retrieval_service=retrieval,
+                guardrails=guardrails,
+                generator=generator,
+                critic=critic,
                 telemetry=telemetry,
+                tickers=tickers,
             )
 
             # ── Conditional store ─────────────────────────────────────────────
@@ -176,6 +200,6 @@ def run_mode_4(question: str, session_id: str, question_id: str) -> InternalResp
         "hallucination_flags": result.hallucination_flags,
         "evidence_count": len(result.evidence),
         "confidence": result.confidence,
-    })
+    }, output=result.answer)
 
     return result

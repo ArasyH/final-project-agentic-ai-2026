@@ -5,6 +5,9 @@ Implementasi: manual Thought→Action→Observation loop tanpa LangChain agent
 abstraction. Lebih transparent dan reproducible untuk pelaporan metodologi SINTA 2.
 Satu tool: retrieve_from_kb (wraps RetrievalService).
 
+Events di-log ke trace_handle yang diterima dari caller (mode runner) — tidak ada
+sub-trace tersendiri. 1 request = 1 root trace bersih di Langfuse UI.
+
 Prompt version: REACT_PROMPT_V1 (Bahasa Indonesia).
 Max iterasi: REACT_MAX_ITERATIONS dari app/config.py (default 5).
 """
@@ -85,10 +88,11 @@ class GeneratorAgent:
     """LLM generator dengan manual ReAct loop (Thought→Action→Observation).
 
     Hanya satu tool: retrieve_from_kb (wraps RetrievalService).
+    Events di-log ke trace_handle dari caller — tidak membuat sub-trace sendiri.
 
     Args:
         retrieval_service: instance RetrievalService untuk KB lookup.
-        telemetry_service: instance TelemetryService untuk Langfuse span per iterasi.
+        telemetry_service: instance TelemetryService untuk Langfuse event per iterasi.
         llm: optional ChatGroq override untuk dependency injection / testing.
             Jika None, dibuat via build_generator_llm() dengan temperature=0.0.
     """
@@ -115,29 +119,28 @@ class GeneratorAgent:
         question: str,
         session_id: str,
         tickers: list[str] | None = None,
+        trace_handle: Any = None,
     ) -> GeneratorOutput:
         """Jalankan ReAct loop dan kembalikan jawaban + evidence.
 
         Loop berhenti jika LLM menghasilkan "Jawaban Final:" atau max iterasi
-        tercapai. Setiap thought/action/observation di-trace ke Langfuse.
+        tercapai. Setiap thought/action/observation di-log sebagai event ke
+        trace_handle (jika disediakan oleh caller) — tidak ada sub-trace baru.
+        1 request = 1 root trace bersih di Langfuse UI.
 
         Args:
             question: pertanyaan asli pengguna.
-            session_id: ID sesi untuk Langfuse trace span.
+            session_id: ID sesi (dipertahankan di signature untuk dokumentasi).
             tickers: daftar ticker IDX30 yang terdeteksi dari query (opsional).
                 Diteruskan ke RetrievalService untuk filter metadata KB.
+            trace_handle: Langfuse span dari caller mode runner. Jika None,
+                events di-skip (misal: saat dipakai standalone / unit test).
 
         Returns:
             GeneratorOutput. Jika error, field `error` non-None dan `answer`
             berisi FAILSAFE_ANSWER. `succeeded` property bisa dipakai mode runner
             untuk memutuskan apakah perlu fallback.
         """
-        trace = self._telemetry.start_trace(
-            session_id=session_id,
-            question=question,
-            mode="generator_react",
-        )
-
         scratchpad = ""
         all_evidence: list[EvidenceItem] = []
         self._current_retrieval_latency_ms = 0.0
@@ -148,11 +151,12 @@ class GeneratorAgent:
             try:
                 raw = self._llm.invoke(prompt).content
             except (groq.APIError, ConnectionError) as exc:
-                self._telemetry.event(
-                    trace,
-                    name=f"llm_error_iter{iteration}",
-                    metadata={"error": type(exc).__name__, "detail": str(exc)[:300]},
-                )
+                if trace_handle is not None:
+                    self._telemetry.event(
+                        trace_handle,
+                        name=f"llm_error_iter{iteration}",
+                        metadata={"error": type(exc).__name__, "detail": str(exc)[:300]},
+                    )
                 return GeneratorOutput(
                     answer=FAILSAFE_ANSWER,
                     evidence=all_evidence,
@@ -164,17 +168,18 @@ class GeneratorAgent:
             # ── Final answer branch ──────────────────────────────────────
             if "Jawaban Final:" in raw:
                 answer = self._extract_final_answer(raw)
-                self._telemetry.event(
-                    trace,
-                    name=f"final_answer_iter{iteration}",
-                    input_data=question,
-                    output_data=answer,
-                    metadata={
-                        "iterations_used": iteration,
-                        "evidence_count": len(all_evidence),
-                        "prompt_version": PROMPT_VERSION,
-                    },
-                )
+                if trace_handle is not None:
+                    self._telemetry.event(
+                        trace_handle,
+                        name=f"final_answer_iter{iteration}",
+                        input_data=question,
+                        output_data=answer,
+                        metadata={
+                            "iterations_used": iteration,
+                            "evidence_count": len(all_evidence),
+                            "prompt_version": PROMPT_VERSION,
+                        },
+                    )
                 return GeneratorOutput(
                     answer=answer,
                     evidence=all_evidence,
@@ -186,11 +191,12 @@ class GeneratorAgent:
             try:
                 thought, action_input = self._parse_react_step(raw)
             except ValueError as exc:
-                self._telemetry.event(
-                    trace,
-                    name=f"parse_error_iter{iteration}",
-                    metadata={"raw_snippet": raw[:300], "error": str(exc)},
-                )
+                if trace_handle is not None:
+                    self._telemetry.event(
+                        trace_handle,
+                        name=f"parse_error_iter{iteration}",
+                        metadata={"raw_snippet": raw[:300], "error": str(exc)},
+                    )
                 return GeneratorOutput(
                     answer=FAILSAFE_ANSWER,
                     evidence=all_evidence,
@@ -199,22 +205,24 @@ class GeneratorAgent:
                     error=f"parse_error: {exc}",
                 )
 
-            self._telemetry.event(
-                trace,
-                name=f"thought_iter{iteration}",
-                output_data=thought,
-            )
+            if trace_handle is not None:
+                self._telemetry.event(
+                    trace_handle,
+                    name=f"thought_iter{iteration}",
+                    output_data=thought,
+                )
 
             observation, retrieved = self._retrieve(action_input, tickers=tickers)
             all_evidence.extend(retrieved)
 
-            self._telemetry.event(
-                trace,
-                name=f"observation_iter{iteration}",
-                input_data=action_input,
-                output_data=observation[:500],
-                metadata={"evidence_count": len(retrieved)},
-            )
+            if trace_handle is not None:
+                self._telemetry.event(
+                    trace_handle,
+                    name=f"observation_iter{iteration}",
+                    input_data=action_input,
+                    output_data=observation[:500],
+                    metadata={"evidence_count": len(retrieved)},
+                )
 
             scratchpad += (
                 f"Pikiran: {thought}\n"
@@ -224,14 +232,15 @@ class GeneratorAgent:
             )
 
         # Max iterasi tercapai tanpa Jawaban Final
-        self._telemetry.event(
-            trace,
-            name="max_iterations_reached",
-            metadata={
-                "max_iterations": REACT_MAX_ITERATIONS,
-                "evidence_count": len(all_evidence),
-            },
-        )
+        if trace_handle is not None:
+            self._telemetry.event(
+                trace_handle,
+                name="max_iterations_reached",
+                metadata={
+                    "max_iterations": REACT_MAX_ITERATIONS,
+                    "evidence_count": len(all_evidence),
+                },
+            )
         return GeneratorOutput(
             answer=FAILSAFE_ANSWER,
             evidence=all_evidence,

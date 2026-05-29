@@ -91,6 +91,6 @@ def run_mode_2(question: str, session_id: str, question_id: str) -> InternalResp
         "hallucination_flags": [],
         "evidence_count": len(docs),
         "confidence": result.confidence,
-    })
+    }, output=result.answer)
 
     return result

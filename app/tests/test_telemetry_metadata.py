@@ -82,7 +82,7 @@ def test_mode_1_metadata_complete():
         patch("app.services.telemetry_service.Langfuse") as MockLF,
         patch("app.modes.mode_1_llm_only.build_llm", return_value=_fake_llm()),
     ):
-        MockLF.return_value.trace.return_value = mock_trace
+        MockLF.return_value.start_span.return_value = mock_trace
 
         run_mode_1("Berapa harga BBCA?", "s1", "Q001")
 
@@ -110,7 +110,7 @@ def test_mode_2_metadata_complete():
         patch("app.modes.mode_2_rag_only.build_llm", return_value=_fake_llm()),
         patch("app.modes.mode_2_rag_only.RetrievalService") as MockRetriever,
     ):
-        MockLF.return_value.trace.return_value = mock_trace
+        MockLF.return_value.start_span.return_value = mock_trace
         MockRetriever.return_value.retrieve.side_effect = _slow_retrieve
 
         run_mode_2("Berapa harga BBCA?", "s1", "Q001")
@@ -135,8 +135,12 @@ def test_mode_3_metadata_complete():
     with (
         patch("app.services.telemetry_service.Langfuse") as MockLF,
         patch("app.modes.mode_3_rag_jc._run_rag_jc_pipeline") as mock_pipeline,
+        patch("app.modes.mode_3_rag_jc.RetrievalService"),
+        patch("app.modes.mode_3_rag_jc.GuardrailsService"),
+        patch("app.modes.mode_3_rag_jc.CriticAgent"),
+        patch("app.modes.mode_3_rag_jc.GeneratorAgent"),
     ):
-        MockLF.return_value.trace.return_value = mock_trace
+        MockLF.return_value.start_span.return_value = mock_trace
         mock_pipeline.return_value = _passed_response(mode="mode_3_rag_jc", cache_status="bypassed")
 
         run_mode_3("Berapa harga BBCA?", "s1", "Q001")
@@ -162,8 +166,12 @@ def test_mode_4_cache_hit_metadata_complete():
     with (
         patch("app.services.telemetry_service.Langfuse") as MockLF,
         patch("app.modes.mode_4_rag_jc_cache.CacheService") as MockCache,
+        patch("app.modes.mode_4_rag_jc_cache.RetrievalService"),
+        patch("app.modes.mode_4_rag_jc_cache.GuardrailsService"),
+        patch("app.modes.mode_4_rag_jc_cache.CriticAgent"),
+        patch("app.modes.mode_4_rag_jc_cache.GeneratorAgent"),
     ):
-        MockLF.return_value.trace.return_value = mock_trace
+        MockLF.return_value.start_span.return_value = mock_trace
         MockCache.return_value.lookup.return_value = hit_dict
 
         run_mode_4("Berapa harga BBCA?", "s1", "Q001")
@@ -186,8 +194,12 @@ def test_mode_4_cache_miss_metadata_complete():
         patch("app.services.telemetry_service.Langfuse") as MockLF,
         patch("app.modes.mode_4_rag_jc_cache.CacheService") as MockCache,
         patch("app.modes.mode_4_rag_jc_cache._run_rag_jc_pipeline") as mock_pipeline,
+        patch("app.modes.mode_4_rag_jc_cache.RetrievalService"),
+        patch("app.modes.mode_4_rag_jc_cache.GuardrailsService"),
+        patch("app.modes.mode_4_rag_jc_cache.CriticAgent"),
+        patch("app.modes.mode_4_rag_jc_cache.GeneratorAgent"),
     ):
-        MockLF.return_value.trace.return_value = mock_trace
+        MockLF.return_value.start_span.return_value = mock_trace
         MockCache.return_value.lookup.return_value = miss_dict
         mock_pipeline.return_value = _passed_response(
             mode="mode_4_rag_jc_cache", cache_status="miss"
@@ -250,6 +262,10 @@ def test_mode_4_cache_miss_single_trace():
     with (
         patch("app.modes.mode_4_rag_jc_cache.TelemetryService") as MockTelemetry,
         patch("app.modes.mode_4_rag_jc_cache.CacheService") as MockCache,
+        patch("app.modes.mode_4_rag_jc_cache.RetrievalService"),
+        patch("app.modes.mode_4_rag_jc_cache.GuardrailsService"),
+        patch("app.modes.mode_4_rag_jc_cache.CriticAgent"),
+        patch("app.modes.mode_4_rag_jc_cache.GeneratorAgent"),
         patch("app.modes.mode_4_rag_jc_cache._run_rag_jc_pipeline") as mock_pipeline,
     ):
         mock_tel_instance = MockTelemetry.return_value
@@ -269,9 +285,9 @@ def test_mode_4_cache_miss_single_trace():
         assert MockTelemetry.call_count == 1
         # start_trace hanya dipanggil 1x
         assert mock_tel_instance.start_trace.call_count == 1
-        # pipeline menerima trace dari run_mode_4 (bukan membuat trace baru)
+        # pipeline menerima parent_trace dari run_mode_4 (bukan membuat trace baru)
         call_kwargs = mock_pipeline.call_args[1]
-        assert call_kwargs["trace"] is mock_trace
+        assert call_kwargs["parent_trace"] is mock_trace
         assert call_kwargs["telemetry"] is mock_tel_instance
 
 
@@ -345,7 +361,7 @@ def test_mode_3_pipeline_retrieval_from_generator():
         patch("app.modes.mode_3_rag_jc.CriticAgent") as MockCritic,
         patch("app.modes.mode_3_rag_jc.RetrievalService"),
     ):
-        MockLF.return_value.trace.return_value = mock_trace
+        MockLF.return_value.start_span.return_value = mock_trace
         MockGen.return_value.generate.return_value = mock_gen_output
         MockGuards.return_value.check.return_value = mock_guardrail
         MockCritic.return_value.validate.return_value = mock_verdict
@@ -388,12 +404,12 @@ def test_mode_4_miss_logs_retrieval_from_generator():
     with (
         patch("app.services.telemetry_service.Langfuse") as MockLF,
         patch("app.modes.mode_4_rag_jc_cache.CacheService") as MockCache,
-        patch("app.modes.mode_3_rag_jc.GeneratorAgent") as MockGen,
-        patch("app.modes.mode_3_rag_jc.GuardrailsService") as MockGuards,
-        patch("app.modes.mode_3_rag_jc.CriticAgent") as MockCritic,
-        patch("app.modes.mode_3_rag_jc.RetrievalService"),
+        patch("app.modes.mode_4_rag_jc_cache.GeneratorAgent") as MockGen,
+        patch("app.modes.mode_4_rag_jc_cache.GuardrailsService") as MockGuards,
+        patch("app.modes.mode_4_rag_jc_cache.CriticAgent") as MockCritic,
+        patch("app.modes.mode_4_rag_jc_cache.RetrievalService"),
     ):
-        MockLF.return_value.trace.return_value = mock_trace
+        MockLF.return_value.start_span.return_value = mock_trace
         MockCache.return_value.lookup.return_value = miss_dict
         MockCache.return_value.store.return_value = None
         MockGen.return_value.generate.return_value = mock_gen_output

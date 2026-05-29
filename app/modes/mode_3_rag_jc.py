@@ -1,12 +1,14 @@
 from __future__ import annotations
 """Mode 3: RAG + Judge & Critic (tanpa semantic cache).
 
-Alur: normalize_query → GeneratorAgent (ReAct) → GuardrailsService (H1, H3)
-      → CriticAgent (H2, H4) → aggregate flags → InternalResponse.
+Alur: GeneratorAgent (ReAct) → GuardrailsService (H1, H3) → CriticAgent (H2, H4)
+      → aggregate flags → InternalResponse.
+
+Services di-init di `run_mode_3` SEBELUM `measure_latency("total")` untuk fairness
+latency comparison antar mode (§15 SINTA 2). `_run_rag_jc_pipeline` menerima semua
+services sebagai parameter injeksi — tidak ada instantiation di dalam pipeline.
 
 `_run_rag_jc_pipeline` adalah shared helper yang juga dipakai mode_4.
-Caller (run_mode_3 / run_mode_4) menyediakan trace + telemetry instance;
-pipeline hanya mencatat latency per stage pada trace yang sudah ada.
 """
 import time
 from datetime import datetime, timezone
@@ -32,65 +34,69 @@ def _run_rag_jc_pipeline(
     question_id: str,
     mode_str: str,
     cache_status: str,
-    trace: Any,
+    parent_trace: Any,
+    *,
+    retrieval_service: RetrievalService,
+    guardrails: GuardrailsService,
+    generator: GeneratorAgent,
+    critic: CriticAgent,
     telemetry: TelemetryService,
+    tickers: list[str],
 ) -> InternalResponse:
-    """Shared pipeline: normalize → GeneratorAgent (ReAct) → Guardrails → Critic.
+    """Shared pipeline: GeneratorAgent (ReAct) → Guardrails → Critic.
+
+    Services dan tickers HARUS di-init dan di-normalize sebelum call oleh caller.
+    Pipeline tidak memanggil normalize_query atau menginstansiasi service apa pun.
 
     Caller (run_mode_3 / run_mode_4) bertanggung jawab atas:
     - Membuat trace via start_trace()
+    - Pre-init semua services di luar measure_latency("total")
+    - Memanggil normalize_query() dan menyediakan tickers
     - Mengukur latency_ms_total via measure_latency(trace, "total")
     - Memanggil end_trace() setelah pipeline selesai
 
-    Pipeline ini mencatat latency_ms_retrieval, latency_ms_generation,
-    latency_ms_critic pada trace yang diterima.
+    Pipeline mencatat latency_ms_retrieval, latency_ms_generation, latency_ms_critic
+    pada trace yang diterima.
 
     Args:
         question: pertanyaan asli pengguna.
-        session_id: ID sesi untuk Langfuse span dalam generator.
+        session_id: ID sesi (diteruskan ke generator.generate()).
         question_id: ID pertanyaan untuk paired comparison.
         mode_str: ExperimentMode string untuk InternalResponse.
         cache_status: CacheStatus string ("bypassed" / "miss").
-        trace: Langfuse trace object dari caller.
+        parent_trace: Langfuse trace object dari caller.
+        retrieval_service: RetrievalService instance pre-init oleh caller.
+        guardrails: GuardrailsService instance pre-init oleh caller.
+        generator: GeneratorAgent instance pre-init oleh caller.
+        critic: CriticAgent instance pre-init oleh caller.
         telemetry: TelemetryService instance dari caller (shared, untuk latency dict).
+        tickers: ticker list dari normalize_query oleh caller.
 
     Returns:
         InternalResponse. Jika generator gagal, confidence=0.2 dan
         validator_status="failed" (fail-safe path).
     """
-    retriever = RetrievalService()
-    guardrails = GuardrailsService()
-    critic = CriticAgent()
-    generator = GeneratorAgent(
-        retrieval_service=retriever,
-        telemetry_service=telemetry,
-    )
-
-    normalized = normalize_query(question)
-    tickers = normalized.detected_tickers
-
-    # Manual timer: measure_latency tidak expose elapsed_ms via as-clause,
-    # sehingga pemisahan retrieval vs generation dilakukan manual.
     _gen_start = time.perf_counter()
     gen_output = generator.generate(
         question=question,
         session_id=session_id,
         tickers=tickers or None,
+        trace_handle=parent_trace,
     )
     _gen_total_ms = round((time.perf_counter() - _gen_start) * 1000, 2)
 
     # Retrieval: akumulasi waktu semua retrieve_from_kb calls dalam ReAct loop
-    telemetry._record_latency(trace, "retrieval", round(gen_output.retrieval_latency_ms, 2))
+    telemetry._record_latency(parent_trace, "retrieval", round(gen_output.retrieval_latency_ms, 2))
     # Generation pure: total ReAct loop minus waktu KB retrieval (pure LLM compute)
     telemetry._record_latency(
-        trace, "generation",
+        parent_trace, "generation",
         max(0.0, round(_gen_total_ms - gen_output.retrieval_latency_ms, 2)),
     )
 
     if not gen_output.succeeded:
-        telemetry._record_latency(trace, "critic", 0.0)
+        telemetry._record_latency(parent_trace, "critic", 0.0)
         telemetry.event(
-            trace,
+            parent_trace,
             name="generator_failed",
             metadata={
                 "generator_error": gen_output.error,
@@ -119,7 +125,7 @@ def _run_rag_jc_pipeline(
         for item in gen_output.evidence
     ]
 
-    with telemetry.measure_latency(trace, "critic"):
+    with telemetry.measure_latency(parent_trace, "critic"):
         guardrail_result = guardrails.check(
             answer=gen_output.answer,
             evidence=evidence_dicts,
@@ -168,8 +174,6 @@ def _run_rag_jc_pipeline(
         hallucination_flags=all_flags,
         metadata={
             "iterations_used": gen_output.iterations_used,
-            "normalized_query": normalized.normalized_query,
-            "intent": normalized.intent,
             "guardrails_status": guardrail_result.overall_status,
             "critic_verdict": critic_verdict.overall_verdict,
         },
@@ -179,8 +183,9 @@ def _run_rag_jc_pipeline(
 def run_mode_3(question: str, session_id: str, question_id: str) -> InternalResponse:
     """Mode 3: RAG + Judge & Critic tanpa cache.
 
-    Wrapper: membuat trace, mengukur latency_ms_total, memanggil pipeline,
-    memanggil end_trace dengan 11 field metadata wajib §15.
+    Semua services di-init SEBELUM measure_latency("total") agar latency_ms_total
+    hanya mengukur pipeline execution — konsisten dengan mode_1 dan mode_2
+    untuk fairness comparison §15 SINTA 2.
 
     Args:
         question: pertanyaan asli pengguna.
@@ -190,7 +195,17 @@ def run_mode_3(question: str, session_id: str, question_id: str) -> InternalResp
     Returns:
         InternalResponse dari _run_rag_jc_pipeline.
     """
+    # Service init di luar measure_latency("total") — fairness §15
     telemetry = TelemetryService()
+    retrieval = RetrievalService()
+    guardrails = GuardrailsService()
+    critic = CriticAgent()
+    normalized = normalize_query(question)
+    generator = GeneratorAgent(
+        retrieval_service=retrieval,
+        telemetry_service=telemetry,
+    )
+
     trace = telemetry.start_trace(
         session_id=session_id,
         question=question,
@@ -205,8 +220,13 @@ def run_mode_3(question: str, session_id: str, question_id: str) -> InternalResp
             question_id=question_id,
             mode_str="mode_3_rag_jc",
             cache_status="bypassed",
-            trace=trace,
+            parent_trace=trace,
+            retrieval_service=retrieval,
+            guardrails=guardrails,
+            generator=generator,
+            critic=critic,
             telemetry=telemetry,
+            tickers=normalized.detected_tickers,
         )
 
     telemetry.end_trace(trace, metadata={
@@ -217,6 +237,6 @@ def run_mode_3(question: str, session_id: str, question_id: str) -> InternalResp
         "hallucination_flags": result.hallucination_flags,
         "evidence_count": len(result.evidence),
         "confidence": result.confidence,
-    })
+    }, output=result.answer)
 
     return result

@@ -55,6 +55,10 @@ def test_cache_hit_bypasses_pipeline():
         patch("app.modes.mode_4_rag_jc_cache.CacheService") as MockCache,
         patch("app.modes.mode_4_rag_jc_cache._run_rag_jc_pipeline") as mock_pipeline,
         patch("app.modes.mode_4_rag_jc_cache.TelemetryService"),
+        patch("app.modes.mode_4_rag_jc_cache.RetrievalService"),
+        patch("app.modes.mode_4_rag_jc_cache.GuardrailsService"),
+        patch("app.modes.mode_4_rag_jc_cache.CriticAgent"),
+        patch("app.modes.mode_4_rag_jc_cache.GeneratorAgent"),
     ):
         mock_cache_instance = MockCache.return_value
         mock_cache_instance.lookup.return_value = _HIT_DICT
@@ -75,6 +79,10 @@ def test_cache_miss_passing_validator_stores():
         patch("app.modes.mode_4_rag_jc_cache.CacheService") as MockCache,
         patch("app.modes.mode_4_rag_jc_cache._run_rag_jc_pipeline") as mock_pipeline,
         patch("app.modes.mode_4_rag_jc_cache.TelemetryService"),
+        patch("app.modes.mode_4_rag_jc_cache.RetrievalService"),
+        patch("app.modes.mode_4_rag_jc_cache.GuardrailsService"),
+        patch("app.modes.mode_4_rag_jc_cache.CriticAgent"),
+        patch("app.modes.mode_4_rag_jc_cache.GeneratorAgent"),
     ):
         mock_cache_instance = MockCache.return_value
         mock_cache_instance.lookup.return_value = _MISS_DICT
@@ -94,6 +102,10 @@ def test_cache_miss_failing_validator_not_stored():
         patch("app.modes.mode_4_rag_jc_cache.CacheService") as MockCache,
         patch("app.modes.mode_4_rag_jc_cache._run_rag_jc_pipeline") as mock_pipeline,
         patch("app.modes.mode_4_rag_jc_cache.TelemetryService"),
+        patch("app.modes.mode_4_rag_jc_cache.RetrievalService"),
+        patch("app.modes.mode_4_rag_jc_cache.GuardrailsService"),
+        patch("app.modes.mode_4_rag_jc_cache.CriticAgent"),
+        patch("app.modes.mode_4_rag_jc_cache.GeneratorAgent"),
     ):
         mock_cache_instance = MockCache.return_value
         mock_cache_instance.lookup.return_value = _MISS_DICT
