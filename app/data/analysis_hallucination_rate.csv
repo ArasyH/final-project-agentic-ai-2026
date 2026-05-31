@@ -1,0 +1,5 @@
+mode,q_dengan_flags,total_q,hallucination_rate_pct,vs_mode1
+Mode 1 (LLM Only),0,50,0.0,-
+Mode 2 (RAG Only),0,50,0.0,N/A
+Mode 3 (RAG+J&C),9,50,18.0,N/A
+Mode 4 (RAG+J&C+Cache),7,50,14.0,N/A

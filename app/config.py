@@ -1,6 +1,12 @@
 # config.py
 from __future__ import annotations
 import os
+
+# Paksa HuggingFace Hub pakai model cache lokal — cegah timeout ke huggingface.co
+# saat eksperimen. Model sudah di-download; tidak perlu cek update online.
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
+
 from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
 load_dotenv()

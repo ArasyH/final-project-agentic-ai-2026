@@ -1,0 +1,5 @@
+mode,passed,failed,skipped
+Mode 1 (LLM Only),0,0,50
+Mode 2 (RAG Only),0,0,50
+Mode 3 (RAG+J&C),34,16,0
+Mode 4 (RAG+J&C+Cache),37,13,0
