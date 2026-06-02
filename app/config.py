@@ -49,6 +49,6 @@ REACT_MAX_ITERATIONS = int(os.getenv("REACT_MAX_ITERATIONS", "5"))
 # Tambahkan API key di .env; model yang tidak punya key akan dilewati otomatis.
 GOOGLE_API_KEY          = os.getenv("GOOGLE_API_KEY")
 MISTRAL_API_KEY         = os.getenv("MISTRAL_API_KEY")
-RAGAS_JUDGE_GOOGLE_MODEL  = os.getenv("RAGAS_JUDGE_GOOGLE_MODEL",  "gemini-1.5-flash")
+RAGAS_JUDGE_GOOGLE_MODEL  = os.getenv("RAGAS_JUDGE_GOOGLE_MODEL",  "gemini-2.5-flash")
 RAGAS_JUDGE_MISTRAL_MODEL = os.getenv("RAGAS_JUDGE_MISTRAL_MODEL", "mistral-small-latest")
  

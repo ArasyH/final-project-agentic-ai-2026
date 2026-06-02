@@ -1,0 +1,5 @@
+mode,faithfulness_mean,faithfulness_sd,answer_relevancy_mean,answer_relevancy_sd,n_questions,n_nan,models_used
+Mode 1 (LLM Only),,,0.1851,0.3747,50,0,llama-3.3-70b-versatile
+Mode 2 (RAG Only),0.3883,0.4558,0.3246,0.4324,50,0,"llama-3.1-8b-instant, llama-3.3-70b-versatile, mistral-small-latest"
+Mode 3 (RAG+J&C),0.4852,0.4035,0.3554,0.3749,50,0,"llama-3.1-8b-instant, mistral-small-latest"
+Mode 4 (RAG+J&C+Cache),0.4531,0.4241,0.3526,0.3706,50,0,"llama-3.1-8b-instant, llama-3.3-70b-versatile, mistral-small-latest"
