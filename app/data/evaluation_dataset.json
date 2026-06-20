@@ -11,7 +11,7 @@
       "H1",
       "H2"
     ],
-    "ground_truth": null
+    "ground_truth": "Harga penutupan terakhir saham BBCA adalah Rp 5.975 per 2026-05-26, dengan perubahan harian -2,05% dan perubahan 30 hari -0,42%. (Sumber: Dokumen 1, snapshot_date: 2026-05-28)"
   },
   {
     "question_id": "Q002",
@@ -25,7 +25,7 @@
       "H1",
       "H3"
     ],
-    "ground_truth": null
+    "ground_truth": "DATA_TIDAK_TERSEDIA: Harga penutupan saham BBRI pada 30 April 2026 tidak tersedia di dokumen yang diberikan."
   },
   {
     "question_id": "Q003",
@@ -38,7 +38,7 @@
     "trigger_hallucination": [
       "H1"
     ],
-    "ground_truth": null
+    "ground_truth": "Harga tertinggi saham TLKM dalam 52 minggu terakhir adalah Rp 3.990, yang terjadi pada tanggal 2026-01-27. (Sumber: Dokumen 1, snapshot_date: 2026-05-26)"
   },
   {
     "question_id": "Q004",
@@ -52,7 +52,7 @@
       "H1",
       "H3"
     ],
-    "ground_truth": null
+    "ground_truth": "DATA_TIDAK_TERSEDIA: Volume perdagangan saham ASII pada hari perdagangan terakhir tidak tersedia dalam dokumen yang diberikan."
   },
   {
     "question_id": "Q005",
@@ -65,7 +65,7 @@
     "trigger_hallucination": [
       "H1"
     ],
-    "ground_truth": null
+    "ground_truth": "Harga terendah saham ADRO selama satu tahun terakhir adalah Rp 1.625, yang terjadi pada tanggal 2025-10-08. (Sumber: Dokumen 1, snapshot_date: 2026-05-26)"
   },
   {
     "question_id": "Q006",
@@ -78,7 +78,7 @@
     "trigger_hallucination": [
       "H1"
     ],
-    "ground_truth": null
+    "ground_truth": "Persen perubahan harga saham BMRI dalam 30 hari terakhir adalah -6,77% (sumber: Dokumen 1, snapshot_date: 2026-05-26)."
   },
   {
     "question_id": "Q007",
@@ -91,7 +91,7 @@
     "trigger_hallucination": [
       "H1"
     ],
-    "ground_truth": null
+    "ground_truth": "DATA_TIDAK_TERSEDIA: Nilai Moving Average (MA) 7 hari saham GOTO tidak tersedia dalam dokumen yang diberikan."
   },
   {
     "question_id": "Q008",
@@ -105,7 +105,7 @@
       "H1",
       "H3"
     ],
-    "ground_truth": null
+    "ground_truth": "Kapitalisasi pasar terkini saham UNVR adalah Rp 67,1 T per 2026-05-26. (Sumber: price_snapshot_UNVR, snapshot_date: 2026-05-28)"
   },
   {
     "question_id": "Q009",
@@ -118,7 +118,7 @@
     "trigger_hallucination": [
       "H1"
     ],
-    "ground_truth": null
+    "ground_truth": "Berdasarkan Dokumen 2, volatilitas saham PTBA dalam 30 hari terakhir adalah -1,73%."
   },
   {
     "question_id": "Q010",
@@ -132,7 +132,7 @@
       "H1",
       "H3"
     ],
-    "ground_truth": null
+    "ground_truth": "DATA_TIDAK_TERSEDIA: Harga penutupan saham KLBF pada 31 Maret 2026 tidak tersedia dalam dokumen yang diberikan. Dokumen yang tersedia hanya mencakup informasi hingga tanggal 26 Mei 2026."
   },
   {
     "question_id": "Q011",
@@ -146,7 +146,7 @@
       "H1",
       "H2"
     ],
-    "ground_truth": null
+    "ground_truth": "Rasio P/E TTM saham BBNI adalah 6,93 (snapshot_date: 2026-05-26)."
   },
   {
     "question_id": "Q012",
@@ -160,7 +160,7 @@
       "H1",
       "H2"
     ],
-    "ground_truth": null
+    "ground_truth": "Rasio P/B (Price-to-Book) saham UNTR berdasarkan kuartal terakhir adalah 0,92 (dapat dilihat pada Dokumen 1 dengan snapshot_date 2026-05-26)."
   },
   {
     "question_id": "Q013",
@@ -174,7 +174,7 @@
       "H1",
       "H2"
     ],
-    "ground_truth": null
+    "ground_truth": "ROE (Return on Equity) ANTM pada tahun 2024 adalah 11,33%. (Sumber: financials_annual_ANTM_2024, snapshot_date: 2026-05-28)"
   },
   {
     "question_id": "Q014",
@@ -187,7 +187,7 @@
     "trigger_hallucination": [
       "H1"
     ],
-    "ground_truth": null
+    "ground_truth": "Dividend yield TTM (Trailing Twelve Months) saham PGAS adalah 9,61% (sumber: Dokumen 1, snapshot_date: 2026-05-28)."
   },
   {
     "question_id": "Q015",
@@ -200,7 +200,7 @@
     "trigger_hallucination": [
       "H1"
     ],
-    "ground_truth": null
+    "ground_truth": "Pendapatan tahunan ICBP pada tahun 2024 adalah Rp 72,6 T. (Sumber: financials_annual_ICBP_2024, snapshot_date: 2026-05-28)"
   },
   {
     "question_id": "Q016",
@@ -214,7 +214,7 @@
       "H1",
       "H2"
     ],
-    "ground_truth": null
+    "ground_truth": "Net profit margin INDF pada tahun 2023 adalah 7,29% (sumber: Dokumen 3, snapshot_date: 2026-05-28)."
   },
   {
     "question_id": "Q017",
@@ -227,7 +227,7 @@
     "trigger_hallucination": [
       "H1"
     ],
-    "ground_truth": null
+    "ground_truth": "DATA_TIDAK_TERSEDIA: Total utang INCO pada akhir tahun fiskal 2024 tidak tersedia di dokumen yang diberikan."
   },
   {
     "question_id": "Q018",
@@ -240,7 +240,7 @@
     "trigger_hallucination": [
       "H1"
     ],
-    "ground_truth": null
+    "ground_truth": "Payout ratio JPFA terkini adalah 31,94% (sumber: Dokumen 3, snapshot_date: 2026-05-28)."
   },
   {
     "question_id": "Q019",
@@ -254,7 +254,7 @@
       "H1",
       "H2"
     ],
-    "ground_truth": null
+    "ground_truth": "EPS (Earnings Per Share) MEDC pada tahun 2024 adalah Rp 236. (Sumber: financials_annual_MEDC_2024, snapshot_date: 2026-05-28)"
   },
   {
     "question_id": "Q020",
@@ -268,7 +268,7 @@
       "H1",
       "H2"
     ],
-    "ground_truth": null
+    "ground_truth": "Forward P/E (Forward Price-to-Earnings) AMRT adalah 9,96. (Sumber: Dokumen 1, snapshot_date: 2026-05-26)"
   },
   {
     "question_id": "Q021",
@@ -282,7 +282,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Pertumbuhan pendapatan TLKM dari tahun 2023 ke 2024 adalah sekitar +0,54% (revenue 2023: Rp 149,2 T, revenue 2024: Rp 150,0 T). (Sumber: financials_annual_TLKM_2023 dan financials_annual_TLKM_2024, snapshot_date: 2026-05-28)"
   },
   {
     "question_id": "Q022",
@@ -295,7 +295,7 @@
     "trigger_hallucination": [
       "H1"
     ],
-    "ground_truth": null
+    "ground_truth": "DATA_TIDAK_TERSEDIA: Total dividen yang dibayarkan BBCA selama tahun 2024 tidak tersedia dalam dokumen yang diberikan."
   },
   {
     "question_id": "Q023",
@@ -309,7 +309,7 @@
       "H1",
       "H2"
     ],
-    "ground_truth": null
+    "ground_truth": "ROE (Return on Equity) INKP pada tahun 2022 adalah 15,30% (sumber: Dokumen 1, snapshot_date: 2026-05-28)."
   },
   {
     "question_id": "Q024",
@@ -322,7 +322,7 @@
     "trigger_hallucination": [
       "H1"
     ],
-    "ground_truth": null
+    "ground_truth": "Laba bersih MDKA pada tahun fiskal 2024 adalah Rp -900,9 miliar (rugi), EPS Rp -37. (Sumber: financials_annual_MDKA_2024, snapshot_date: 2026-05-28)"
   },
   {
     "question_id": "Q025",
@@ -334,7 +334,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Berdasarkan Dokumen 1, 3 saham IDX30 dengan kapitalisasi pasar terbesar saat ini adalah:\n\n1. BBCA dengan kapitalisasi pasar Rp 729,2 T\n2. BBRI dengan kapitalisasi pasar Rp 460,6 T\n3. BMRI dengan kapitalisasi pasar Rp 381,6 T\n\nSnapshot_date: 2026-05-28"
   },
   {
     "question_id": "Q026",
@@ -346,7 +346,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Saham IDX30 yang memiliki ROE (Return on Equity) tertinggi pada tahun 2024 adalah UNVR dengan nilai ROE sebesar 156,74% (Dokumen 1, snapshot_date: 2026-05-28)."
   },
   {
     "question_id": "Q027",
@@ -358,7 +358,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Saham IDX30 dengan P/E (Price-to-Earnings) TTM (Trailing Twelve Months) terendah saat ini adalah INKP dengan nilai 5,41x (per 2026-05-28)."
   },
   {
     "question_id": "Q028",
@@ -370,7 +370,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Berdasarkan Dokumen 1, 3 saham IDX30 dengan dividend yield TTM (Trailing Twelve Months) tertinggi per 2026-05-28 adalah:\n\n1. ADRO dengan dividend yield TTM sebesar 13,56%\n2. PTBA dengan dividend yield TTM sebesar 11,71%\n3. BMRI dengan dividend yield TTM sebesar 11,55%\n\nSumber: Dokumen 1, snapshot_date: 2026-05-28."
   },
   {
     "question_id": "Q029",
@@ -387,7 +387,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Bank di IDX30 yang memiliki ROE (Return on Equity) tertinggi pada tahun 2024 adalah BBCA dengan ROE sebesar 20,17% (diikuti BBRI 18,98%, BMRI 17,79%, BBNI 12,84%). (Sumber: financials_annual_BBCA_2024, snapshot_date: 2026-05-28)"
   },
   {
     "question_id": "Q030",
@@ -399,7 +399,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Saham IDX30 yang mencatat pertumbuhan pendapatan tahunan tertinggi pada tahun 2024 adalah ANTM dengan pertumbuhan sebesar 68,57% (Dokumen 1, snapshot_date: 2026-05-28)."
   },
   {
     "question_id": "Q031",
@@ -411,7 +411,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Berdasarkan Dokumen 1, 5 saham IDX30 dengan rasio P/B (Price-to-Book) terendah berdasarkan kuartal terakhir per 2026-05-28 adalah:\n\n1. INKP dengan rasio P/B 0,36x\n2. INDF dengan rasio P/B 0,78x\n3. ADRO dengan rasio P/B 0,81x\n4. MEDC dengan rasio P/B 0,84x\n5. BBNI dengan rasio P/B 0,88x"
   },
   {
     "question_id": "Q032",
@@ -424,7 +424,7 @@
       "H3",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "DATA_TIDAK_TERSEDIA: Dokumen tidak menyediakan informasi tentang kinerja harga year-to-date 2026 (YTD 2026) untuk setiap saham IDX30."
   },
   {
     "question_id": "Q033",
@@ -436,7 +436,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Berdasarkan Dokumen 1, 3 saham IDX30 dengan total utang terbesar pada akhir tahun fiskal 2024 adalah:\n\n1. BMRI dengan total utang sebesar Rp 2113,7 T\n2. BBRI dengan total utang sebesar Rp 1669,8 T\n3. BBCA dengan total utang sebesar Rp 1177,4 T\n\nSnapshot_date: 2026-05-28"
   },
   {
     "question_id": "Q034",
@@ -448,7 +448,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Saham IDX30 yang mengalami penurunan harga terbesar dalam 30 hari terakhir adalah MBMA dengan persentase penurunan sebesar 32,48% per 2026-05-28 (Dokumen 1)."
   },
   {
     "question_id": "Q035",
@@ -462,7 +462,7 @@
       "H1",
       "H3"
     ],
-    "ground_truth": null
+    "ground_truth": "DATA_TIDAK_TERSEDIA: Harga penutupan saham PTBA pada akhir tahun 2024 tidak tersedia dalam dokumen yang diberikan. Dokumen hanya menyediakan informasi tentang harga penutupan terakhir pada 2026-05-26 dan perubahan harga harian serta 30 hari, serta laporan keuangan tahun 2021 dan 2025."
   },
   {
     "question_id": "Q036",
@@ -476,7 +476,7 @@
       "H1",
       "H3"
     ],
-    "ground_truth": null
+    "ground_truth": "DATA_TIDAK_TERSEDIA: Harga saham ISAT tidak tersedia dalam dokumen yang diberikan."
   },
   {
     "question_id": "Q037",
@@ -490,7 +490,7 @@
       "H1",
       "H3"
     ],
-    "ground_truth": null
+    "ground_truth": "DATA_TIDAK_TERSEDIA: Harga saham BRPT pada awal tahun 2025 tidak tersedia dalam dokumen yang diberikan. Dokumen hanya menyediakan informasi keuangan tahun 2021, 2022, dan 2025, tetapi tidak menyebutkan harga saham pada awal tahun 2025."
   },
   {
     "question_id": "Q038",
@@ -505,7 +505,7 @@
       "H3",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "DATA_TIDAK_TERSEDIA: Perubahan harga saham CPIN dari kuartal terakhir ke saat ini secara QoQ tidak dapat ditentukan karena tidak ada dokumen yang menyediakan informasi tentang harga saham CPIN pada kuartal sebelumnya."
   },
   {
     "question_id": "Q039",
@@ -519,7 +519,7 @@
       "H1",
       "H3"
     ],
-    "ground_truth": null
+    "ground_truth": "DATA_TIDAK_TERSEDIA: Harga saham BUMI tidak tersedia dalam dokumen yang diberikan."
   },
   {
     "question_id": "Q040",
@@ -533,7 +533,7 @@
       "H1",
       "H3"
     ],
-    "ground_truth": null
+    "ground_truth": "DATA_TIDAK_TERSEDIA: Rata-rata volume perdagangan EMTK dalam 90 hari terakhir tidak tersedia dalam dokumen yang diberikan."
   },
   {
     "question_id": "Q041",
@@ -550,7 +550,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Rata-rata ROE (Return on Equity) dari semua bank (BBCA, BBNI, BBRI, BMRI) di IDX30 pada tahun 2024 adalah 17,45%. (Sumber: aggregate_sector_banks, snapshot_date: 2026-05-28)"
   },
   {
     "question_id": "Q042",
@@ -569,7 +569,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Saham Basic Materials di IDX30 yang memiliki kapitalisasi pasar terbesar adalah BRPT (PT Barito Pacific Tbk.) dengan kapitalisasi pasar Rp 145,8 T per 2026-05-28. (Sumber: aggregate_sector_basic_materials, snapshot_date: 2026-05-28)"
   },
   {
     "question_id": "Q043",
@@ -588,7 +588,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Total kapitalisasi pasar sektor Oil, Gas & Coal di IDX30 saat ini adalah Rp 304,3 T (6 saham: AADI, ADRO, BUMI, MEDC, PGAS, PTBA), dengan market cap terbesar dipegang ADRO Rp 67,6 T. (Sumber: aggregate_sector_oil_gas_coal, snapshot_date: 2026-05-28)"
   },
   {
     "question_id": "Q044",
@@ -605,7 +605,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "INDF memiliki dividend yield TTM (Trailing Twelve Months) tertinggi di IDX30 dengan nilai 4,10% (Dokumen 2)."
   },
   {
     "question_id": "Q045",
@@ -621,7 +621,7 @@
       "H2",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Rasio P/E TTM (Trailing Twelve Months) saham TLKM adalah 14,07 sedangkan ISAT adalah 12,24, berdasarkan harga penutupan per 2026-05-26. ISAT memiliki P/E lebih rendah dari TLKM. (Sumber: valuation_TLKM dan valuation_ISAT, snapshot_date: 2026-05-28)"
   },
   {
     "question_id": "Q046",
@@ -635,7 +635,7 @@
       "H1",
       "H2"
     ],
-    "ground_truth": null
+    "ground_truth": "Harga penutupan terakhir PGEO sebagai satu-satunya saham Utilities di IDX30 adalah Rp 900 per 2026-05-26. (Sumber: Dokumen 1)"
   },
   {
     "question_id": "Q047",
@@ -658,7 +658,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Perbandingan kinerja harga 30 hari terakhir: sektor Banks (BBCA, BBNI, BBRI, BMRI) rata-rata -1,47%, sektor Oil, Gas & Coal (AADI, ADRO, BUMI, MEDC, PGAS, PTBA) rata-rata -14,15%. Sektor Banks mengungguli sektor Oil, Gas & Coal dalam 30 hari terakhir. (Sumber: aggregate_sector_banks dan aggregate_sector_oil_gas_coal, snapshot_date: 2026-05-28)"
   },
   {
     "question_id": "Q048",
@@ -673,7 +673,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Net profit margin tahun 2024: ICBP 9,75% (laba bersih Rp 7,1 T dari revenue Rp 72,6 T) dan INDF 7,46% (laba bersih Rp 8,6 T dari revenue Rp 115,8 T). ICBP memiliki net profit margin lebih tinggi dari INDF pada tahun 2024. (Sumber: financials_annual_ICBP_2024 dan financials_annual_INDF_2024, snapshot_date: 2026-05-28)"
   },
   {
     "question_id": "Q049",
@@ -692,7 +692,7 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Saham Basic Materials di IDX30 yang memiliki P/B (Price-to-Book) MRQ (Most Recent Quarter) terendah adalah INKP dengan rasio P/B 0,36x per 2026-05-28. (Sumber: aggregate_ranking_top_pb_lowest, snapshot_date: 2026-05-28)"
   },
   {
     "question_id": "Q050",
@@ -709,6 +709,6 @@
       "H1",
       "H4"
     ],
-    "ground_truth": null
+    "ground_truth": "Rata-rata pendapatan tahunan saham Banks (BBCA, BBNI, BBRI, BMRI) di IDX30 pada tahun 2024 adalah Rp 129,8 T. (Sumber: aggregate_sector_banks, snapshot_date: 2026-05-28)"
   }
 ]
