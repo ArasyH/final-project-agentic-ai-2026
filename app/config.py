@@ -44,6 +44,8 @@ MAX_EVIDENCE_AGE_HOURS = int(os.getenv("MAX_EVIDENCE_AGE_HOURS", 30))
 
 DEFAULT_EXPERIMENT_MODE = os.getenv("DEFAULT_EXPERIMENT_MODE", "mode_2_rag_only")
 REACT_MAX_ITERATIONS = int(os.getenv("REACT_MAX_ITERATIONS", "5"))
+# Batas karakter scratchpad sebelum trimming (pertahankan 2 blok terakhir)
+REACT_MAX_SCRATCHPAD_CHARS = int(os.getenv("REACT_MAX_SCRATCHPAD_CHARS", "3000"))
 
 # RAGAS evaluation — judge LLM fallback chain
 # Tambahkan API key di .env; model yang tidak punya key akan dilewati otomatis.
@@ -51,4 +53,10 @@ GOOGLE_API_KEY          = os.getenv("GOOGLE_API_KEY")
 MISTRAL_API_KEY         = os.getenv("MISTRAL_API_KEY")
 RAGAS_JUDGE_GOOGLE_MODEL  = os.getenv("RAGAS_JUDGE_GOOGLE_MODEL",  "gemini-2.5-flash")
 RAGAS_JUDGE_MISTRAL_MODEL = os.getenv("RAGAS_JUDGE_MISTRAL_MODEL", "mistral-small-latest")
+
+# Eksperimen komparatif model alternatif (Generator Gemini + Critic Mistral)
+# Tidak menggantikan model frozen (Groq Llama) — hanya untuk runner terpisah.
+GEMINI_GENERATOR_MODEL = os.getenv("GEMINI_GENERATOR_MODEL", "gemini-2.5-flash")
+MISTRAL_GENERATOR_MODEL = os.getenv("MISTRAL_GENERATOR_MODEL", "mistral-small-2603")
+MISTRAL_CRITIC_MODEL   = os.getenv("MISTRAL_CRITIC_MODEL",   "mistral-medium-latest")
  

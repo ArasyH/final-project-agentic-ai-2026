@@ -8,8 +8,22 @@ Satu tool: retrieve_from_kb (wraps RetrievalService).
 Events di-log ke trace_handle yang diterima dari caller (mode runner) — tidak ada
 sub-trace tersendiri. 1 request = 1 root trace bersih di Langfuse UI.
 
-Prompt version: REACT_PROMPT_V1 (Bahasa Indonesia).
+Prompt versions:
+  REACT_PROMPT_V1 — dipakai eksperimen 50Q (data final, JANGAN dihapus).
+  REACT_PROMPT_V2 — nonaktif: few-shot complete-trace menyebabkan model skip
+                    retrieve_from_kb (evidence_count=0, halluc rate 100%).
+  REACT_PROMPT_V3 — nonaktif: {fundamental_context} menyebabkan model merasa
+                    sudah punya domain knowledge → skip retrieve (evidence=0 76%).
+                    Klausul "akui keterbatasan" dieksploitasi sebagai escape hatch
+                    tanpa pernah memanggil retrieve_from_kb.
+  REACT_PROMPT_V4 — nonaktif: menghapus {fundamental_context} membuat model tidak
+                    punya alasan apapun untuk retrieve → ev=0 naik ke 98%.
+  REACT_PROMPT_V5 — aktif (C2): basis V1 + satu baris ticker hint + satu kalimat
+                    timestamp di Jawaban Final. Sesederhana V1 agar Llama-3.1-8B
+                    mengikuti format multi-turn.
+
 Max iterasi: REACT_MAX_ITERATIONS dari app/config.py (default 5).
+Scratchpad trim: REACT_MAX_SCRATCHPAD_CHARS dari app/config.py (default 3000).
 """
 import re
 import time
@@ -18,21 +32,21 @@ from typing import Any
 import groq
 from pydantic import BaseModel
 
-from app.config import REACT_MAX_ITERATIONS
+from app.config import REACT_MAX_ITERATIONS, REACT_MAX_SCRATCHPAD_CHARS
 from app.schemas import EvidenceItem
 from app.services.llm_service import build_generator_llm
 from app.services.retrieval_service import RetrievalService
 from app.services.telemetry_service import TelemetryService
 
 GENERATOR_TEMPERATURE: float = 0.0
-PROMPT_VERSION: str = "react_v1"
+PROMPT_VERSION: str = "react_v5"
 
 FAILSAFE_ANSWER: str = (
     "Maaf, sistem tidak dapat menghasilkan jawaban saat ini. "
     "Silakan ulangi pertanyaan atau hubungi administrator."
 )
 
-# Prompt Bahasa Indonesia — versioned, jangan ganti in-place (tambah _v2, _v3)
+# ── Prompt V1 — JANGAN dihapus; dipakai eksperimen 50Q (data sudah final) ─────
 REACT_PROMPT_V1 = """Anda adalah analis pasar saham Indonesia (IDX30).
 Jawab HANYA berdasarkan evidence dari knowledge base. Jangan mengarang angka, harga, atau fakta.
 
@@ -52,6 +66,174 @@ Pertanyaan: {question}
 
 {scratchpad}"""
 
+# ── Fundamental Knowledge — injeksi konteks domain IDX30 ─────────────────────
+# Versi ini berlaku untuk Generator dan tersedia sebagai konstanta terpisah
+# supaya mudah diperbarui tanpa menyentuh template prompt.
+FUNDAMENTAL_KNOWLEDGE_V1 = (
+    "Metrik fundamental IDX30 yang dapat dicari di knowledge base:\n"
+    "  PER (Price-to-Earnings Ratio), PBV (Price-to-Book Value),\n"
+    "  ROE (Return on Equity), EPS (Earnings per Share),\n"
+    "  DER (Debt-to-Equity Ratio), NPM (Net Profit Margin),\n"
+    "  Revenue/Pendapatan, Laba Bersih/Net Income,\n"
+    "  Market Cap/Kapitalisasi Pasar, Dividend Yield.\n"
+    "Sertakan nama metrik secara eksplisit di Input Aksi jika pertanyaan terkait fundamental."
+)
+
+# ── Prompt V2 — NONAKTIF (bug: complete-trace example menyebabkan skip retrieve) ──
+# Root cause: few-shot menampilkan full trace termasuk Jawaban Final, sehingga
+# Llama-3.1-8B shortcut ke Jawaban Final tanpa retrieve_from_kb (evidence_count=0).
+# JANGAN dihapus — dipertahankan sebagai catatan regresi.
+REACT_PROMPT_V2 = """Anda adalah analis pasar saham Indonesia dengan spesialisasi IDX30.
+Jawab HANYA berdasarkan evidence dari knowledge base. Jangan mengarang angka, harga, atau fakta.
+
+{ticker_context}
+
+Referensi metrik fundamental (gunakan untuk menyusun query KB yang tepat):
+{fundamental_context}
+
+Tool tersedia:
+- retrieve_from_kb: mengambil data relevan dari knowledge base IDX30
+
+Format WAJIB per langkah:
+Pikiran: [analisis singkat informasi apa yang dibutuhkan]
+Aksi: retrieve_from_kb
+Input Aksi: [query spesifik — cantumkan ticker/nama saham + metrik yang dicari]
+
+Jika evidence sudah cukup, gunakan:
+Pikiran: Saya sudah memiliki informasi yang cukup untuk menjawab.
+Jawaban Final: [jawaban berdasarkan evidence]. Data per [tanggal/periode dari evidence]. [Jika ada keterbatasan data, sebutkan secara eksplisit.]
+
+Contoh alur yang benar:
+Pertanyaan: Berapa harga penutupan BBCA?
+Pikiran: Perlu data harga penutupan BBCA dari knowledge base.
+Aksi: retrieve_from_kb
+Input Aksi: harga penutupan BBCA closing price terkini
+Observasi: [kb_0] BBCA: harga penutupan Rp 9.200 per saham, 2026-06-15. Volume 45,2 juta lot.
+Pikiran: Saya sudah memiliki informasi yang cukup untuk menjawab.
+Jawaban Final: Harga penutupan BBCA adalah Rp 9.200 per saham. Data per 15 Juni 2026.
+
+Pertanyaan: {question}
+
+{scratchpad}"""
+
+# ── Prompt V3 — NONAKTIF ──────────────────────────────────────────────────────
+# Root cause kegagalan V3:
+#   - {fundamental_context} menyediakan nama metrik IDX30 langsung di prompt →
+#     model merasa punya domain knowledge cukup → skip retrieve_from_kb (76% ev=0).
+#   - Klausul "akui keterbatasan" dieksploitasi: model menulis "tidak tersedia"
+#     TANPA pernah memanggil retrieve_from_kb terlebih dahulu.
+# JANGAN dihapus — dipertahankan sebagai catatan regresi.
+REACT_PROMPT_V3 = """Anda adalah analis pasar saham Indonesia dengan spesialisasi IDX30.
+Jawab HANYA berdasarkan evidence dari knowledge base. Jangan mengarang angka, harga, atau fakta.
+
+{ticker_context}
+
+Referensi metrik fundamental (gunakan untuk menyusun query KB yang tepat):
+{fundamental_context}
+
+Tool tersedia:
+- retrieve_from_kb: mengambil data relevan dari knowledge base IDX30
+
+ATURAN WAJIB:
+1. SELALU mulai dengan Pikiran → Aksi → Input Aksi. JANGAN langsung menulis Jawaban Final.
+2. Jawaban Final HANYA boleh ditulis SETELAH menerima minimal satu Observasi dari retrieve_from_kb.
+3. Jika evidence tidak ditemukan, akui keterbatasan — jangan mengarang fakta.
+
+Format per langkah retrieve:
+Pikiran: [analisis singkat informasi apa yang dibutuhkan]
+Aksi: retrieve_from_kb
+Input Aksi: [query spesifik — cantumkan ticker/nama saham + metrik yang dicari]
+
+Setelah mendapat Observasi dan evidence sudah cukup:
+Pikiran: Saya sudah memiliki informasi yang cukup untuk menjawab.
+Jawaban Final: [jawaban berdasarkan evidence]. Data per [tanggal/periode dari evidence]. [Jika ada keterbatasan data, sebutkan secara eksplisit.]
+
+Contoh langkah pertama (sistem akan memberi Observasi — jangan tulis Observasi sendiri):
+Pertanyaan: Berapa harga penutupan BBCA?
+Pikiran: Saya perlu mencari data harga penutupan BBCA di knowledge base.
+Aksi: retrieve_from_kb
+Input Aksi: harga penutupan BBCA closing price terkini
+
+Pertanyaan: {question}
+
+{scratchpad}"""
+
+# ── Prompt V4 — NONAKTIF ──────────────────────────────────────────────────────
+# Root cause kegagalan V4: menghapus fundamental_context dari V3 membuat model
+# tidak punya konten apapun → langsung menulis "tidak tersedia" tanpa retrieve.
+# ev=0 naik dari 76% (V3) menjadi 98% (V4). JANGAN dihapus — catatan regresi.
+# Fix A1 vs V3:
+#   - Hapus {fundamental_context}: tanpa domain knowledge bawaan, model WAJIB
+#     memanggil retrieve_from_kb untuk mendapat informasi apapun.
+#   - Perketat aturan "tidak tersedia": frasa ini HANYA boleh ditulis setelah
+#     ada Observasi (bukan sebagai escape hatch sebelum retrieve).
+#   - Ticker_context dipertahankan: tidak menyediakan nilai/metrik, hanya
+#     memberi arah pencarian — tidak mensubstitusi retrieval.
+#   - One-step example dipertahankan (tidak tampilkan Observasi/Jawaban Final
+#     di contoh agar model tidak shortcut ke Jawaban Final).
+REACT_PROMPT_V4 = """Anda adalah analis pasar saham Indonesia dengan spesialisasi IDX30.
+Jawab HANYA berdasarkan evidence yang Anda peroleh dari knowledge base melalui retrieve_from_kb.
+Jangan mengarang angka, harga, atau fakta apapun dari pengetahuan umum Anda.
+
+{ticker_context}
+
+Tool tersedia:
+- retrieve_from_kb: mengambil data relevan dari knowledge base IDX30
+
+ATURAN WAJIB:
+1. SELALU mulai dengan Pikiran → Aksi: retrieve_from_kb → Input Aksi.
+   JANGAN langsung menulis Jawaban Final.
+2. Jawaban Final HANYA boleh ditulis SETELAH mendapat minimal satu Observasi
+   dari retrieve_from_kb.
+3. Frasa "tidak tersedia" atau "tidak ada data" HANYA boleh muncul di Jawaban Final
+   setelah Observasi menunjukkan bahwa KB memang tidak memiliki data tersebut.
+   JANGAN tulis "tidak tersedia" sebelum ada Observasi.
+
+Format per langkah retrieve:
+Pikiran: [analisis singkat informasi apa yang dibutuhkan]
+Aksi: retrieve_from_kb
+Input Aksi: [query spesifik — cantumkan ticker + data yang dicari]
+
+Setelah mendapat Observasi dan evidence sudah cukup:
+Pikiran: Saya sudah memiliki informasi yang cukup untuk menjawab.
+Jawaban Final: [jawaban berdasarkan evidence dari Observasi]. Data per [tanggal dari evidence].
+
+Contoh langkah pertama (sistem akan memberi Observasi — JANGAN tulis Observasi sendiri):
+Pertanyaan: Berapa harga penutupan BBCA?
+Pikiran: Saya perlu mencari data harga penutupan BBCA dari knowledge base.
+Aksi: retrieve_from_kb
+Input Aksi: harga penutupan BBCA closing price
+
+Pertanyaan: {question}
+
+{scratchpad}"""
+
+
+# ── Prompt V5 — AKTIF (C2) ───────────────────────────────────────────────────
+# Basis: REACT_PROMPT_V1 (terbukti efektif: ev=0 hanya 12%).
+# Tambahan minimal vs V1:
+#   1. Satu baris ticker hint di awal — memberi arah pencarian tanpa menyediakan nilai.
+#   2. Satu kalimat timestamp di format Jawaban Final — instruksi eksplisit H3 prevention.
+# Tidak ada: ATURAN WAJIB bernomor, fundamental_context, ticker_context section,
+# aturan "tidak tersedia" — semua terbukti menyebabkan over-instruction pada Llama-3.1-8B.
+REACT_PROMPT_V5 = """Anda adalah analis pasar saham Indonesia (IDX30).
+Jawab HANYA berdasarkan evidence dari knowledge base. Jangan mengarang angka, harga, atau fakta.
+{ticker_hint}
+Tool tersedia:
+- retrieve_from_kb: mengambil data relevan dari knowledge base IDX30
+
+Format WAJIB — satu langkah per respons:
+Pikiran: [analisis singkat tentang informasi apa yang dibutuhkan]
+Aksi: retrieve_from_kb
+Input Aksi: [query singkat untuk knowledge base]
+
+Jika sudah cukup evidence, gunakan:
+Pikiran: Saya sudah memiliki informasi yang cukup untuk menjawab.
+Jawaban Final: [jawaban berdasarkan evidence saja; sertakan tanggal/periode data dari evidence]
+
+Pertanyaan: {question}
+
+{scratchpad}"""
 
 # ── Output schema (internal, tidak masuk schemas.py) ────────────────────────
 
@@ -128,6 +310,11 @@ class GeneratorAgent:
         trace_handle (jika disediakan oleh caller) — tidak ada sub-trace baru.
         1 request = 1 root trace bersih di Langfuse UI.
 
+        Scratchpad di-trim ke REACT_MAX_SCRATCHPAD_CHARS (2 blok terakhir dipertahankan)
+        untuk mencegah context overflow pada Llama-3.1-8B di iterasi akhir.
+        Force-final diinjeksi ke scratchpad pada iterasi terakhir agar model
+        tidak berakhir di error max_iterations_reached.
+
         Args:
             question: pertanyaan asli pengguna.
             session_id: ID sesi (dipertahankan di signature untuk dokumentasi).
@@ -145,8 +332,36 @@ class GeneratorAgent:
         all_evidence: list[EvidenceItem] = []
         self._current_retrieval_latency_ms = 0.0
 
+        # Ticker hint: satu baris ringkas, tidak menyediakan nilai/metrik.
+        ticker_hint = (
+            f"Saham relevan: {', '.join(tickers)}.\n"
+            if tickers
+            else ""
+        )
+
         for iteration in range(1, REACT_MAX_ITERATIONS + 1):
-            prompt = REACT_PROMPT_V1.format(question=question, scratchpad=scratchpad)
+            # ── Scratchpad trimming (cegah context overflow) ─────────────────
+            effective_scratchpad = scratchpad
+            if len(scratchpad) > REACT_MAX_SCRATCHPAD_CHARS:
+                blocks = scratchpad.strip().split("\n\n")
+                effective_scratchpad = (
+                    "[...iterasi sebelumnya disingkat...]\n\n"
+                    + "\n\n".join(blocks[-2:])
+                )
+
+            # ── Force-final di iterasi terakhir ──────────────────────────────
+            if iteration == REACT_MAX_ITERATIONS:
+                effective_scratchpad += (
+                    "\n[SISTEM: Ini iterasi terakhir yang tersedia. "
+                    "Gunakan evidence yang sudah dikumpulkan dan berikan "
+                    "Jawaban Final sekarang. Jangan lakukan retrieve lagi.]\n"
+                )
+
+            prompt = REACT_PROMPT_V5.format(
+                ticker_hint=ticker_hint,
+                question=question,
+                scratchpad=effective_scratchpad,
+            )
 
             try:
                 raw = self._llm.invoke(prompt).content
@@ -231,7 +446,7 @@ class GeneratorAgent:
                 f"Observasi: {observation}\n\n"
             )
 
-        # Max iterasi tercapai tanpa Jawaban Final
+        # Max iterasi tercapai tanpa Jawaban Final (force-final tidak berhasil)
         if trace_handle is not None:
             self._telemetry.event(
                 trace_handle,
