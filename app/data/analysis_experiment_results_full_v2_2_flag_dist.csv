@@ -1,0 +1,5 @@
+mode,H1,H2,H3,H4,total_flags
+Mode 1 (LLM Only),0,0,0,0,0
+Mode 2 (RAG Only),0,0,0,0,0
+Mode 3 (RAG+J&C),9,20,0,22,51
+Mode 4 (RAG+J&C+Cache),10,46,0,46,102

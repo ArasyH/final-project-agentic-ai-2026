@@ -1,0 +1,335 @@
+question_id,question,category,mode,answer,hallucination_flags,validator_status,cache_status,confidence,latency_ms_total,evidence_count,iterations_used,error,prompt_version
+Q001,Berapa harga penutupan terakhir saham BBCA?,price_snapshot,mode_1_llm_only,"Mohon maaf, saya tidak dapat menemukan informasi harga penutupan terakhir saham BBCA. Informasi harga saham dapat berubah-ubah tergantung pada kondisi pasar dan waktu. Saya sarankan Anda untuk memeriksa situs web resmi Bursa Efek Indonesia (BEI) atau platform perdagangan saham untuk mendapatkan informasi harga terkini.",,skipped,bypassed,0.4,914.47,0,,,n/a
+Q002,Berapa harga penutupan saham BBRI pada 30 April 2026?,price_snapshot,mode_1_llm_only,"Mohon maaf, saya tidak memiliki informasi terkini tentang harga penutupan saham BBRI pada 30 April 2026. Informasi tersebut belum dapat diverifikasi.",,skipped,bypassed,0.4,395.51,0,,,n/a
+Q003,Berapa harga tertinggi saham TLKM dalam 52 minggu terakhir?,price_snapshot,mode_1_llm_only,"Informasi harga saham TLKM (Telekomunikasi Indonesia, Tbk) dalam 52 minggu terakhir belum tersedia secara real-time. Namun, berdasarkan data historis, harga tertinggi saham TLKM dalam 52 minggu terakhir adalah sekitar Rp 1.440 per saham pada tanggal 23 Februari 2023.",,skipped,bypassed,0.4,758.01,0,,,n/a
+Q004,Berapa volume perdagangan saham ASII pada hari perdagangan terakhir?,price_snapshot,mode_1_llm_only,"Mohon maaf, saya tidak memiliki akses langsung ke data perdagangan saham terkini. Namun, saya dapat mencoba mencari informasi dari sumber online.
+
+Setelah mencari, saya tidak menemukan informasi yang akurat tentang volume perdagangan saham ASII pada hari perdagangan terakhir. Saya tidak ingin memberikan informasi yang tidak akurat, jadi saya akan mengatakan bahwa informasi belum dapat diverifikasi.",,skipped,bypassed,0.4,890.29,0,,,n/a
+Q005,Berapa harga terendah saham ADRO selama satu tahun terakhir?,price_snapshot,mode_1_llm_only,"Informasi harga saham ADRO selama satu tahun terakhir belum dapat diverifikasi secara real-time. Namun, berdasarkan data historis, harga terendah saham ADRO pada tahun 2023 adalah sekitar Rp 1.350 per saham.",,skipped,bypassed,0.4,370.68,0,,,n/a
+Q006,Berapa persen perubahan harga saham BMRI dalam 30 hari terakhir?,price_snapshot,mode_1_llm_only,"Informasi harga saham BMRI dalam 30 hari terakhir belum dapat diverifikasi secara real-time. Namun, berdasarkan data historis, perubahan harga saham BMRI dalam 30 hari terakhir sekitar 5-10%.",,skipped,bypassed,0.4,632.25,0,,,n/a
+Q007,Berapa nilai Moving Average (MA) 7 hari saham GOTO?,price_snapshot,mode_1_llm_only,"Mohon maaf, saya tidak memiliki akses langsung ke data saham GOTO. Namun, saya dapat mencoba mencari informasi terkini tentang saham GOTO.
+
+Setelah mencari informasi, saya tidak dapat menemukan data Moving Average (MA) 7 hari saham GOTO yang akurat. Informasi ini belum dapat diverifikasi.",,skipped,bypassed,0.4,716.66,0,,,n/a
+Q008,Berapa kapitalisasi pasar terkini saham UNVR?,price_snapshot,mode_1_llm_only,Informasi terkini tentang kapitalisasi pasar saham UNVR (Unilever Indonesia) belum tersedia. Saya sarankan untuk memeriksa situs web resmi Bursa Efek Indonesia (BEI) atau platform analisis keuangan lainnya untuk mendapatkan informasi terkini.,,skipped,bypassed,0.4,545.7,0,,,n/a
+Q009,Berapa volatilitas saham PTBA dalam 30 hari terakhir?,price_snapshot,mode_1_llm_only,"Mohon maaf, saya tidak memiliki akses langsung ke data saham terkini. Namun, saya dapat mencoba mencari informasi melalui sumber online.
+
+Menurut data yang saya temukan, volatilitas saham PTBA (PT Bakrie Tbk) dalam 30 hari terakhir sekitar 30-40%. Namun, perlu diingat bahwa informasi ini belum dapat diverifikasi secara pasti dan mungkin tidak akurat.
+
+Untuk informasi yang lebih akurat, saya sarankan Anda untuk memeriksa data langsung dari platform perdagangan saham atau situs web resmi PTBA.",,skipped,bypassed,0.4,627.95,0,,,n/a
+Q010,Berapa harga penutupan saham KLBF pada 31 Maret 2026?,price_snapshot,mode_1_llm_only,"Mohon maaf, saya tidak memiliki informasi terkini tentang harga penutupan saham KLBF pada 31 Maret 2026. Informasi tersebut belum dapat diverifikasi.",,skipped,bypassed,0.4,343.17,0,,,n/a
+Q011,Berapa rasio P/E (Price-to-Earnings) TTM (Trailing Twelve Months) saham BBNI?,fundamental_metric,mode_1_llm_only,"Informasi P/E TTM saham BBNI (Bank BNI) per 21 Juni 2026 belum dapat diverifikasi secara real-time. Namun, saya dapat memberikan informasi yang lebih lama atau data historis.
+
+Untuk mendapatkan informasi P/E TTM saham BBNI yang akurat, saya sarankan Anda untuk mengunjungi situs web resmi IDX (Indonesia Stock Exchange) atau platform analisis saham seperti Bloomberg, Yahoo Finance, atau Google Finance.",,skipped,bypassed,0.4,460.66,0,,,n/a
+Q012,Berapa rasio P/B (Price-to-Book) saham UNTR berdasarkan kuartal terakhir?,fundamental_metric,mode_1_llm_only,Informasi terkini tentang rasio P/B saham UNTR belum tersedia. Saya sarankan Anda untuk memeriksa situs web resmi Bursa Efek Indonesia (BEI) atau platform analisis saham untuk mendapatkan informasi terkini.,,skipped,bypassed,0.4,387.94,0,,,n/a
+Q013,Berapa ROE (Return on Equity) ANTM pada tahun 2024?,fundamental_metric,mode_1_llm_only,"Mohon maaf, saya tidak memiliki informasi terkini tentang ROE ANTM pada tahun 2024. Informasi tersebut belum dapat diverifikasi.",,skipped,bypassed,0.4,318.7,0,,,n/a
+Q014,Berapa dividend yield TTM (Trailing Twelve Months) saham PGAS?,fundamental_metric,mode_1_llm_only,"Informasi dividend yield TTM (Trailing Twelve Months) saham PGAS (Pertamina Gas) belum dapat diverifikasi secara real-time. Namun, berdasarkan data historis, dividend yield TTM PGAS sekitar 4,5% - 5,5%. Silakan periksa data terbaru untuk informasi yang lebih akurat.",,skipped,bypassed,0.4,531.58,0,,,n/a
+Q015,Berapa pendapatan tahunan ICBP pada tahun 2024?,fundamental_metric,mode_1_llm_only,Informasi tentang pendapatan tahunan ICBP pada tahun 2024 belum tersedia atau belum dapat diverifikasi.,,skipped,bypassed,0.4,389.39,0,,,n/a
+Q016,Berapa net profit margin INDF pada tahun 2023?,fundamental_metric,mode_1_llm_only,Informasi tentang net profit margin INDF (Indofood Sukses Makmur Tbk) pada tahun 2023 belum tersedia secara publik. Saya tidak dapat memberikan jawaban yang akurat.,,skipped,bypassed,0.4,455.35,0,,,n/a
+Q017,Berapa total utang INCO pada akhir tahun fiskal 2024?,fundamental_metric,mode_1_llm_only,"Mohon maaf, saya tidak memiliki informasi terkini tentang total utang INCO pada akhir tahun fiskal 2024. Informasi ini belum dapat diverifikasi.",,skipped,bypassed,0.4,365.48,0,,,n/a
+Q018,Berapa payout ratio JPFA terkini?,fundamental_metric,mode_1_llm_only,Informasi payout ratio JPFA (Japfa) terkini tidak tersedia di sini. Saya sarankan Anda untuk memeriksa situs resmi JPFA atau platform analisis keuangan untuk mendapatkan informasi terkini.,,skipped,bypassed,0.4,437.02,0,,,n/a
+Q019,Berapa EPS (Earnings Per Share) MEDC pada tahun 2024?,fundamental_metric,mode_1_llm_only,"Mohon maaf, saya tidak memiliki informasi terkini tentang EPS (Earnings Per Share) MEDC pada tahun 2024. Informasi ini belum dapat diverifikasi.",,skipped,bypassed,0.4,491.04,0,,,n/a
+Q020,Berapa Forward P/E (Forward Price-to-Earnings) AMRT?,fundamental_metric,mode_1_llm_only,Informasi Forward P/E (Forward Price-to-Earnings) AMRT belum dapat diverifikasi.,,skipped,bypassed,0.4,681.23,0,,,n/a
+Q021,Berapa pertumbuhan pendapatan TLKM dari tahun 2023 ke 2024?,fundamental_metric,mode_1_llm_only,"Informasi tentang pertumbuhan pendapatan TLKM (Telekomunikasi Indonesia, Tbk) dari tahun 2023 ke 2024 belum tersedia secara resmi. Saya tidak dapat memberikan informasi yang akurat tentang hal ini.",,skipped,bypassed,0.4,382.07,0,,,n/a
+Q022,Berapa total dividen yang dibayarkan BBCA selama tahun 2024?,fundamental_metric,mode_1_llm_only,Informasi tentang dividen BBCA (Bank BCA) untuk tahun 2024 belum tersedia secara resmi. Saya tidak dapat memberikan informasi yang akurat tentang total dividen yang dibayarkan BBCA selama tahun 2024.,,skipped,bypassed,0.4,622.54,0,,,n/a
+Q023,Berapa ROE (Return on Equity) INKP pada tahun 2022?,fundamental_metric,mode_1_llm_only,"Informasi ROE (Return on Equity) INKP pada tahun 2022 belum dapat diverifikasi secara langsung. Namun, berdasarkan data yang tersedia, ROE INKP pada tahun 2022 sekitar 12,34%.",,skipped,bypassed,0.4,379.25,0,,,n/a
+Q024,Berapa laba bersih MDKA pada tahun fiskal 2024?,fundamental_metric,mode_1_llm_only,"Mohon maaf, informasi tentang laba bersih MDKA pada tahun fiskal 2024 belum tersedia atau belum dapat diverifikasi.",,skipped,bypassed,0.4,346.47,0,,,n/a
+Q025,Apa 3 saham IDX30 dengan kapitalisasi pasar terbesar saat ini?,ranking,mode_1_llm_only,"Informasi terkini tentang kapitalisasi pasar IDX30 dapat berubah-ubah. Namun, berdasarkan data terakhir yang saya miliki, 3 saham IDX30 dengan kapitalisasi pasar terbesar saat ini adalah:
+
+1. Bank Mandiri (BMRI) - sekitar Rp 1.234 triliun
+2. Bank BCA (BCA) - sekitar Rp 1.123 triliun
+3. Bank BNI (BNI) - sekitar Rp 1.043 triliun
+
+Perlu diingat bahwa informasi ini belum dapat diverifikasi secara langsung dan dapat berubah-ubah tergantung pada kondisi pasar.",,skipped,bypassed,0.4,820.6,0,,,n/a
+Q026,Saham IDX30 mana yang memiliki ROE (Return on Equity) tertinggi pada tahun 2024?,ranking,mode_1_llm_only,Informasi tentang ROE (Return on Equity) IDX30 pada tahun 2024 belum tersedia secara resmi. Saya tidak dapat memberikan jawaban yang akurat.,,skipped,bypassed,0.4,521.45,0,,,n/a
+Q027,Saham IDX30 mana yang memiliki P/E (Price-to-Earnings) TTM (Trailing Twelve Months) terendah saat ini?,ranking,mode_1_llm_only,"Saya tidak memiliki akses langsung ke data saham terkini. Namun, saya dapat memberikan informasi yang umum dan dapat diakses melalui sumber online.
+
+Pada saat saya tidak memiliki informasi terkini, saya tidak dapat memberikan jawaban yang akurat. Namun, saya dapat memberikan informasi tentang cara mencari informasi P/E TTM terendah untuk IDX30.
+
+Anda dapat mencari informasi P/E TTM terendah untuk IDX30 melalui beberapa sumber online, seperti:
+
+1. Situs web IDX (Indonesia Stock Exchange)
+2. Situs web broker online, seperti Bursa Efek Indonesia (BEI) atau broker lainnya
+3. Aplikasi analisis saham, seperti Stockbit atau aplikasi lainnya
+
+Silakan mencari informasi terkini melalui sumber-sumber tersebut.",,skipped,bypassed,0.4,698.6,0,,,n/a
+Q028,Apa 3 saham IDX30 dengan dividend yield TTM (Trailing Twelve Months) tertinggi?,ranking,mode_1_llm_only,"Saya dapat memberikan informasi tentang saham IDX30 dengan dividend yield TTM tertinggi berdasarkan data terakhir yang saya miliki. Namun, perlu diingat bahwa informasi ini dapat berubah seiring waktu.
+
+Berikut adalah 3 saham IDX30 dengan dividend yield TTM tertinggi berdasarkan data terakhir saya miliki:
+
+1. **Bank Mandiri (BMRI)**: Dividend Yield TTM sekitar 7,43%
+2. **Bank Rakyat Indonesia (BRI)**: Dividend Yield TTM sekitar 6,83%
+3. **Bank Negara Indonesia (BNI)**: Dividend Yield TTM sekitar 6,55%
+
+Perlu diingat bahwa informasi ini belum dapat diverifikasi secara real-time dan dapat berubah seiring waktu.",,skipped,bypassed,0.4,547.19,0,,,n/a
+Q029,Bank mana di IDX30 yang memiliki ROE (Return on Equity) terbesar saat ini?,ranking,mode_1_llm_only,"Informasi terkini tentang ROE (Return on Equity) perusahaan-perusahaan di IDX30 tidak tersedia secara real-time. Namun, berdasarkan data terakhir yang saya miliki (sampai dengan 2023), perusahaan dengan ROE terbesar di IDX30 adalah:
+
+ * BRI (Bank Rakyat Indonesia, Tbk) dengan ROE sekitar 17,5% (data 2022)
+ * BTPN (Bank Tabungan Pensiunan Nasional, Tbk) dengan ROE sekitar 16,3% (data 2022)
+ * BCA (Bank Central Asia, Tbk) dengan ROE sekitar 15,6% (data 2022)
+
+Perlu diingat bahwa informasi ini belum dapat diverifikasi secara real-time dan mungkin telah berubah sejak data terakhir yang saya miliki.",,skipped,bypassed,0.4,728.02,0,,,n/a
+Q030,Saham IDX30 mana yang mencatat pertumbuhan pendapatan tahunan tertinggi pada tahun 2024?,ranking,mode_1_llm_only,"Informasi yang Anda minta belum dapat diverifikasi secara real-time. Namun, berdasarkan data yang tersedia hingga akhir tahun 2023, beberapa saham IDX30 yang mencatat pertumbuhan pendapatan tahunan yang signifikan adalah:
+
+- Bank Mandiri (BMRI): 15,6%
+- Bank Rakyat Indonesia (BRI): 14,3%
+- Bank Negara Indonesia (BNI): 13,4%
+- Indosat Ooredoo Hutchison (ISAT): 12,9%
+
+Perlu diingat bahwa data ini hanya sampai akhir tahun 2023 dan belum mencakup informasi terkini. Untuk informasi yang lebih akurat, silakan memeriksa sumber data yang terbaru.",,skipped,bypassed,0.4,578.66,0,,,n/a
+Q031,Apa 5 saham IDX30 dengan rasio P/B (Price-to-Book) terendah berdasarkan kuartal terakhir?,ranking,mode_1_llm_only,"Mohon menunggu sementara saya mencari informasi terkini. 
+
+Setelah mencari informasi, saya tidak dapat menemukan data yang akurat tentang rasio P/B terendah untuk saham IDX30. Namun, saya dapat memberikan informasi tentang 5 saham IDX30 dengan rasio P/B terendah berdasarkan data yang tersedia hingga kuartal terakhir (tidak dapat diverifikasi keakuratan data):
+
+1. **Bank Mandiri (BMRI)**: Rasio P/B sekitar 1,5
+2. **Bank Negara Indonesia (BNI)**: Rasio P/B sekitar 1,6
+3. **Bank Rakyat Indonesia (BRI)**: Rasio P/B sekitar 1,7
+4. **Indofood Sukses Makmur (INDF)**: Rasio P/B sekitar 2,1
+5. **Unilever Indonesia (UNVR)**: Rasio P/B sekitar 2,3
+
+Perlu diingat bahwa informasi ini belum dapat diverifikasi keakuratan data dan mungkin telah berubah sejak kuartal terakhir.",,skipped,bypassed,0.4,685.71,0,,,n/a
+Q032,"Saham IDX30 mana yang memiliki kinerja harga terbaik year-to-date 2026 (Year-to-Date, dari 1 Januari 2026)?",ranking,mode_1_llm_only,"Informasi terkini tentang kinerja harga IDX30 pada tahun 2026 belum tersedia secara resmi. Namun, berdasarkan data yang tersedia hingga akhir 2023, perlu diingat bahwa data tahun 2026 belum dapat diverifikasi.
+
+Jika Anda ingin informasi terkini, saya sarankan untuk memeriksa situs web resmi IDX atau platform analisis saham untuk mendapatkan informasi yang lebih akurat.",,skipped,bypassed,0.4,1558.18,0,,,n/a
+Q033,Apa 3 saham IDX30 dengan total utang terbesar pada akhir tahun fiskal 2024?,ranking,mode_1_llm_only,"Informasi yang Anda minta masih belum dapat diverifikasi secara akurat karena data tahun fiskal 2024 belum tersedia secara publik. Namun, berdasarkan data tahun fiskal 2023, 3 saham IDX30 dengan total utang terbesar adalah:
+
+1. Bank Mandiri (BMRI) - Rp 1.444 triliun
+2. Bank Rakyat Indonesia (BRI) - Rp 1.343 triliun
+3. Bank Negara Indonesia (BNI) - Rp 1.234 triliun
+
+Perlu diingat bahwa data ini dapat berubah pada tahun fiskal 2024 dan informasi ini belum dapat diverifikasi secara akurat.",,skipped,bypassed,0.4,554.03,0,,,n/a
+Q034,Saham IDX30 mana yang mengalami penurunan harga terbesar dalam 30 hari terakhir?,ranking,mode_1_llm_only,"Saya tidak memiliki akses langsung ke data saham terkini. Namun, saya dapat mencoba mencari informasi yang tersedia secara umum.
+
+Saya belum dapat menemukan informasi yang akurat tentang penurunan harga terbesar dalam 30 hari terakhir untuk IDX30. Saya sarankan Anda untuk memeriksa situs web IDX atau platform analisis saham untuk mendapatkan informasi yang lebih akurat dan terkini.",,skipped,bypassed,0.4,688.59,0,,,n/a
+Q035,Berapa harga penutupan saham PTBA pada akhir tahun 2024?,price_snapshot,mode_1_llm_only,"Mohon maaf, saya tidak dapat memprediksi harga saham di masa depan dengan akurasi. Informasi harga penutupan saham PTBA pada akhir tahun 2024 belum dapat diverifikasi.",,skipped,bypassed,0.4,406.59,0,,,n/a
+Q036,Berapa harga rata-rata saham ISAT selama bulan Januari 2026?,price_snapshot,mode_1_llm_only,"Mohon maaf, saya tidak memiliki akses langsung ke data saham terkini. Namun, saya dapat mencoba mencari informasi yang relevan.
+
+Setelah mencari, saya tidak menemukan informasi yang akurat tentang harga rata-rata saham ISAT selama bulan Januari 2026. Informasi ini belum dapat diverifikasi.",,skipped,bypassed,0.4,371.22,0,,,n/a
+Q037,Berapa harga saham BRPT pada awal tahun 2025?,price_snapshot,mode_1_llm_only,"Mohon maaf, saya tidak memiliki informasi tentang harga saham BRPT pada awal tahun 2025 karena data tersebut belum tersedia atau belum dapat diverifikasi.",,skipped,bypassed,0.4,518.8,0,,,n/a
+Q038,Bagaimana perubahan harga saham CPIN dari kuartal terakhir ke saat ini secara QoQ (Quarter-on-Quarter)?,price_snapshot,mode_1_llm_only,"Informasi harga saham CPIN per kuartal terakhir dan saat ini belum tersedia secara real-time. Namun, berdasarkan data historis, harga saham CPIN pada kuartal I 2023 sekitar Rp 1.350, sedangkan pada kuartal I 2022 sekitar Rp 1.150.
+
+Untuk mendapatkan informasi yang lebih akurat dan terkini, saya sarankan Anda untuk memeriksa data langsung dari platform keuangan atau situs web resmi perusahaan.",,skipped,bypassed,0.4,520.29,0,,,n/a
+Q039,Berapa harga tertinggi saham BUMI sepanjang tahun 2025?,price_snapshot,mode_1_llm_only,Informasi harga saham BUMI sepanjang tahun 2025 belum dapat diverifikasi.,,skipped,bypassed,0.4,300.52,0,,,n/a
+Q040,Berapa rata-rata volume perdagangan EMTK dalam 90 hari terakhir?,price_snapshot,mode_1_llm_only,"Mohon menunggu sebentar... 
+
+Saya telah mencari informasi tentang EMTK. Berdasarkan data yang tersedia, rata-rata volume perdagangan EMTK dalam 90 hari terakhir adalah sekitar 1,3 juta lembar saham per hari. Namun, perlu diingat bahwa informasi ini belum dapat diverifikasi secara pasti karena data dapat berubah-ubah.",,skipped,bypassed,0.4,425.31,0,,,n/a
+Q041,Berapa rata-rata ROE (Return on Equity) dari semua bank di IDX30 pada tahun 2024?,sector_query,mode_1_llm_only,"Mohon maaf, saya tidak memiliki akses ke data terkini tentang tahun 2024. Informasi tentang ROE (Return on Equity) dari semua bank di IDX30 pada tahun 2024 belum dapat diverifikasi.",,skipped,bypassed,0.4,448.93,0,,,n/a
+Q042,Saham Basic Materials mana di IDX30 yang memiliki kapitalisasi pasar terbesar?,sector_query,mode_1_llm_only,Saham Basic Materials dengan kapitalisasi pasar terbesar di IDX30 adalah PT Aneka Tambang Tbk (ANTM).,,skipped,bypassed,0.4,351.95,0,,,n/a
+Q043,"Berapa total kapitalisasi pasar sektor Oil, Gas & Coal di IDX30 saat ini?",sector_query,mode_1_llm_only,"Informasi yang Anda mintak belum dapat diverifikasi secara langsung. Namun, berdasarkan data terakhir yang saya miliki, kapitalisasi pasar beberapa perusahaan utama di sektor Oil, Gas & Coal di IDX30 adalah sebagai berikut:
+
+- Pertamina (PERT): sekitar 1,3 triliun rupiah
+- Medco Energi (MEDC): sekitar 1,2 triliun rupiah
+- PGN (PGAS): sekitar 1,1 triliun rupiah
+- Perusahaan lainnya di sektor Oil, Gas & Coal di IDX30 juga memiliki kapitalisasi pasar yang signifikan.
+
+Namun, perlu diingat bahwa total kapitalisasi pasar sektor Oil, Gas & Coal di IDX30 tidak dapat diverifikasi secara akurat tanpa data terbaru.",,skipped,bypassed,0.4,630.37,0,,,n/a
+Q044,Saham Food & Beverage mana di IDX30 yang memiliki dividend yield TTM (Trailing Twelve Months) tertinggi?,sector_query,mode_1_llm_only,"Informasi yang saya miliki saat ini adalah sebagai berikut:
+
+- Saham dengan dividend yield TTM tertinggi di IDX30 adalah Indofood Sukses Makmur (INDF) dengan dividend yield sekitar 4,35% (per data 31 Desember 2022).
+- Perlu diingat bahwa informasi ini belum dapat diverifikasi secara real-time dan mungkin telah berubah sejak data terakhir yang saya miliki.
+
+Untuk informasi yang lebih akurat, saya sarankan Anda untuk memeriksa data terbaru dari situs web IDX atau platform analisis saham lainnya.",,skipped,bypassed,0.4,525.41,0,,,n/a
+Q045,Bandingkan rasio P/E (Price-to-Earnings) TTM (Trailing Twelve Months) antara TLKM dan ISAT.,sector_query,mode_1_llm_only,Informasi terkini tentang rasio P/E TTM TLKM dan ISAT belum tersedia. Saya sarankan untuk memeriksa situs web resmi Bursa Efek Indonesia (BEI) atau platform analisis saham untuk mendapatkan informasi terkini.,,skipped,bypassed,0.4,406.49,0,,,n/a
+Q046,Berapa harga penutupan terakhir PGEO sebagai satu-satunya saham Utilities di IDX30?,sector_query,mode_1_llm_only,Saya tidak memiliki informasi harga penutupan terakhir PGEO. Informasi harga saham dapat diperoleh dari situs web IDX atau platform perdagangan saham.,,skipped,bypassed,0.4,400.96,0,,,n/a
+Q047,"Bandingkan kinerja harga 30 hari terakhir antara sektor Banks dan sektor Oil, Gas & Coal di IDX30.",sector_query,mode_1_llm_only,"Saya dapat memberikan informasi tentang kinerja harga 30 hari terakhir antara sektor Banks dan sektor Oil, Gas & Coal di IDX30. Namun, perlu diingat bahwa informasi ini dapat berubah-ubah dan tidak dapat diverifikasi secara pasti.
+
+Berikut adalah informasi yang saya dapatkan:
+
+- Sektor Banks (IDX30): 
+ - Harga tertinggi 30 hari terakhir: sekitar 1.200 - 1.300 (dalam rupiah)
+ - Harga terendah 30 hari terakhir: sekitar 1.000 - 1.100 (dalam rupiah)
+ - Perubahan harga 30 hari terakhir: sekitar 10% - 20% (dalam rupiah)
+
+- Sektor Oil, Gas & Coal (IDX30):
+ - Harga tertinggi 30 hari terakhir: sekitar 1.500 - 1.600 (dalam rupiah)
+ - Harga terendah 30 hari terakhir: sekitar 1.200 - 1.300 (dalam rupiah)
+ - Perubahan harga 30 hari terakhir: sekitar 5% - 15% (dalam rupiah)
+
+Dari informasi di atas, dapat dilihat bahwa sektor Oil, Gas & Coal memiliki kinerja harga yang lebih stabil dibandingkan dengan sektor Banks. Namun, perlu diingat bahwa informasi ini belum dapat diverifikasi secara pasti dan dapat berubah-ubah.",,skipped,bypassed,0.4,666.41,0,,,n/a
+Q048,Bandingkan net profit margin antara ICBP dan INDF pada tahun 2024.,sector_query,mode_1_llm_only,"Mohon maaf, saya tidak memiliki informasi tentang laporan keuangan tahun 2024 untuk ICBP dan INDF. Informasi yang saya miliki hanya sampai tahun 2022.",,skipped,bypassed,0.4,338.28,0,,,n/a
+Q049,Saham Basic Materials mana di IDX30 yang memiliki P/B (Price-to-Book) MRQ (Most Recent Quarter) terendah?,sector_query,mode_1_llm_only,"Saya tidak memiliki informasi terkini tentang P/B MRQ saham Basic Materials di IDX30. Namun, saya dapat mencoba mencari informasi yang tersedia. 
+
+Saat ini, saham Basic Materials di IDX30 yang memiliki P/B MRQ terendah adalah PT Indofood Sukses Makmur Tbk (INDF) dengan P/B MRQ sekitar 2,35. Namun, perlu diingat bahwa informasi ini belum dapat diverifikasi secara pasti dan mungkin telah berubah sejak saat saya menjawab pertanyaan ini.",,skipped,bypassed,0.4,488.24,0,,,n/a
+Q050,Berapa rata-rata pendapatan tahunan saham Banks di IDX30 pada tahun 2024?,sector_query,mode_1_llm_only,Informasi tentang rata-rata pendapatan tahunan saham Banks di IDX30 pada tahun 2024 belum tersedia secara publik. Saya tidak dapat memberikan jawaban yang akurat karena data tersebut belum dapat diverifikasi.,,skipped,bypassed,0.4,458.96,0,,,n/a
+Q001,Berapa harga penutupan terakhir saham BBCA?,price_snapshot,mode_2_rag_only,Harga penutupan terakhir saham BBCA adalah Rp 5.975 per 2026-05-26.,,skipped,bypassed,0.7,10181.39,3,,,n/a
+Q002,Berapa harga penutupan saham BBRI pada 30 April 2026?,price_snapshot,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,9380.7,3,,,n/a
+Q003,Berapa harga tertinggi saham TLKM dalam 52 minggu terakhir?,price_snapshot,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8708.17,3,,,n/a
+Q004,Berapa volume perdagangan saham ASII pada hari perdagangan terakhir?,price_snapshot,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,9167.94,3,,,n/a
+Q005,Berapa harga terendah saham ADRO selama satu tahun terakhir?,price_snapshot,mode_2_rag_only,"52-week low ADRO adalah Rp 1.625, yang terjadi pada tanggal 2025-10-08.",,skipped,bypassed,0.7,8634.34,3,,,n/a
+Q006,Berapa persen perubahan harga saham BMRI dalam 30 hari terakhir?,price_snapshot,mode_2_rag_only,"-2,13%",,skipped,bypassed,0.7,9530.17,3,,,n/a
+Q007,Berapa nilai Moving Average (MA) 7 hari saham GOTO?,price_snapshot,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8243.1,3,,,n/a
+Q008,Berapa kapitalisasi pasar terkini saham UNVR?,price_snapshot,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,9122.53,3,,,n/a
+Q009,Berapa volatilitas saham PTBA dalam 30 hari terakhir?,price_snapshot,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,9263.65,3,,,n/a
+Q010,Berapa harga penutupan saham KLBF pada 31 Maret 2026?,price_snapshot,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8519.16,3,,,n/a
+Q011,Berapa rasio P/E (Price-to-Earnings) TTM (Trailing Twelve Months) saham BBNI?,fundamental_metric,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,10284.39,3,,,n/a
+Q012,Berapa rasio P/B (Price-to-Book) saham UNTR berdasarkan kuartal terakhir?,fundamental_metric,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,9516.33,3,,,n/a
+Q013,Berapa ROE (Return on Equity) ANTM pada tahun 2024?,fundamental_metric,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,9557.17,3,,,n/a
+Q014,Berapa dividend yield TTM (Trailing Twelve Months) saham PGAS?,fundamental_metric,mode_2_rag_only,"Dividend yield TTM (Trailing Twelve Months) saham PGAS adalah 9,61%.",,skipped,bypassed,0.7,8614.31,3,,,n/a
+Q015,Berapa pendapatan tahunan ICBP pada tahun 2024?,fundamental_metric,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8488.26,3,,,n/a
+Q016,Berapa net profit margin INDF pada tahun 2023?,fundamental_metric,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8541.6,3,,,n/a
+Q017,Berapa total utang INCO pada akhir tahun fiskal 2024?,fundamental_metric,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8392.01,3,,,n/a
+Q018,Berapa payout ratio JPFA terkini?,fundamental_metric,mode_2_rag_only,"Untuk menghitung payout ratio, kita memerlukan informasi tentang dividen per saham (dividend per share) dan EPS (Earnings Per Share) terkini. Namun, informasi tentang dividen per saham tidak tersedia dalam konteks yang diberikan.
+
+Jadi, saya tidak dapat menghitung payout ratio JPFA terkini.",,skipped,bypassed,0.7,10054.66,3,,,n/a
+Q019,Berapa EPS (Earnings Per Share) MEDC pada tahun 2024?,fundamental_metric,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,9639.0,3,,,n/a
+Q020,Berapa Forward P/E (Forward Price-to-Earnings) AMRT?,fundamental_metric,mode_2_rag_only,"Forward P/E AMRT adalah 9,96.",,skipped,bypassed,0.7,9985.54,3,,,n/a
+Q021,Berapa pertumbuhan pendapatan TLKM dari tahun 2023 ke 2024?,fundamental_metric,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,9410.25,3,,,n/a
+Q022,Berapa total dividen yang dibayarkan BBCA selama tahun 2024?,fundamental_metric,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8938.87,3,,,n/a
+Q023,Berapa ROE (Return on Equity) INKP pada tahun 2022?,fundamental_metric,mode_2_rag_only,"ROE (Return on Equity) INKP pada tahun 2022 adalah 15,30%.",,skipped,bypassed,0.7,8856.82,3,,,n/a
+Q024,Berapa laba bersih MDKA pada tahun fiskal 2024?,fundamental_metric,mode_2_rag_only,Laba bersih MDKA pada tahun fiskal 2024 adalah Rp -900.948.346.642.,,skipped,bypassed,0.7,9019.49,3,,,n/a
+Q025,Apa 3 saham IDX30 dengan kapitalisasi pasar terbesar saat ini?,ranking,mode_2_rag_only,"Berdasarkan konteks yang diberikan, 3 saham IDX30 dengan kapitalisasi pasar terbesar saat ini adalah:
+
+1. BBCA (Rp 729,2 T)
+2. BBRI (Rp 460,6 T)
+3. BMRI (Rp 381,6 T)",,skipped,bypassed,0.7,9274.54,3,,,n/a
+Q026,Saham IDX30 mana yang memiliki ROE (Return on Equity) tertinggi pada tahun 2024?,ranking,mode_2_rag_only,"Saham UNVR memiliki ROE (Return on Equity) tertinggi pada tahun 2024 dengan nilai 156,74%.",,skipped,bypassed,0.7,8893.67,3,,,n/a
+Q027,Saham IDX30 mana yang memiliki P/E (Price-to-Earnings) TTM (Trailing Twelve Months) terendah saat ini?,ranking,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8542.12,3,,,n/a
+Q028,Apa 3 saham IDX30 dengan dividend yield TTM (Trailing Twelve Months) tertinggi?,ranking,mode_2_rag_only,"Berdasarkan informasi yang tersedia, 3 saham IDX30 dengan dividend yield TTM (Trailing Twelve Months) tertinggi adalah:
+
+1. ADRO dengan dividend yield TTM 13,56%
+2. PTBA dengan dividend yield TTM 11,71%
+3. BMRI dengan dividend yield TTM 11,55%",,skipped,bypassed,0.7,8645.24,3,,,n/a
+Q029,Bank mana di IDX30 yang memiliki ROE (Return on Equity) terbesar saat ini?,ranking,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8176.21,3,,,n/a
+Q030,Saham IDX30 mana yang mencatat pertumbuhan pendapatan tahunan tertinggi pada tahun 2024?,ranking,mode_2_rag_only,"ANTM (58,57%)",,skipped,bypassed,0.7,8958.34,3,,,n/a
+Q031,Apa 5 saham IDX30 dengan rasio P/B (Price-to-Book) terendah berdasarkan kuartal terakhir?,ranking,mode_2_rag_only,"Berdasarkan informasi yang tersedia, 5 saham IDX30 dengan rasio P/B (Price-to-Book) terendah berdasarkan kuartal terakhir adalah:
+
+1. INKP (0,36x)
+2. INDF (0,78x)
+3. ADRO (0,81x)
+4. MEDC (0,84x)
+5. BBNI (0,88x)",,skipped,bypassed,0.7,9139.18,3,,,n/a
+Q032,"Saham IDX30 mana yang memiliki kinerja harga terbaik year-to-date 2026 (Year-to-Date, dari 1 Januari 2026)?",ranking,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8535.57,3,,,n/a
+Q033,Apa 3 saham IDX30 dengan total utang terbesar pada akhir tahun fiskal 2024?,ranking,mode_2_rag_only,"Berdasarkan informasi yang tersedia, 3 saham IDX30 dengan total utang terbesar pada akhir tahun fiskal 2024 adalah:
+
+1. BMRI (Rp 2113,7 T)
+2. BBRI (Rp 1669,8 T)
+3. BBCA (Rp 1177,4 T)",,skipped,bypassed,0.7,9079.55,3,,,n/a
+Q034,Saham IDX30 mana yang mengalami penurunan harga terbesar dalam 30 hari terakhir?,ranking,mode_2_rag_only,"Saham IDX30 yang mengalami penurunan harga terbesar dalam 30 hari terakhir adalah MBMA dengan persentase penurunan sebesar -32,48%.",,skipped,bypassed,0.7,9478.11,3,,,n/a
+Q035,Berapa harga penutupan saham PTBA pada akhir tahun 2024?,price_snapshot,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8342.37,3,,,n/a
+Q036,Berapa harga rata-rata saham ISAT selama bulan Januari 2026?,price_snapshot,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8744.9,3,,,n/a
+Q037,Berapa harga saham BRPT pada awal tahun 2025?,price_snapshot,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,10053.11,3,,,n/a
+Q038,Bagaimana perubahan harga saham CPIN dari kuartal terakhir ke saat ini secara QoQ (Quarter-on-Quarter)?,price_snapshot,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,9192.53,3,,,n/a
+Q039,Berapa harga tertinggi saham BUMI sepanjang tahun 2025?,price_snapshot,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,9217.25,3,,,n/a
+Q040,Berapa rata-rata volume perdagangan EMTK dalam 90 hari terakhir?,price_snapshot,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8573.18,3,,,n/a
+Q041,Berapa rata-rata ROE (Return on Equity) dari semua bank di IDX30 pada tahun 2024?,sector_query,mode_2_rag_only,"Untuk menghitung rata-rata ROE (Return on Equity) dari semua bank di IDX30 pada tahun 2024, kita perlu mengetahui ROE dari semua bank tersebut. Berdasarkan informasi yang tersedia, ROE dari bank di IDX30 pada tahun 2024 adalah:
+
+1. BBRI: 18,98%
+2. JPFA: 18,22%
+3. AMRT: 17,79%
+4. BMRI: 17,79%
+
+ROE dari bank lainnya tidak tersedia. Jadi, kita hanya dapat menggunakan data yang tersedia untuk menghitung rata-rata ROE.
+
+Rata-rata ROE = (18,98 + 18,22 + 17,79 + 17,79) / 4
+Rata-rata ROE = 73,78 / 4
+Rata-rata ROE = 18,45%
+
+Namun, perlu diingat bahwa rata-rata ini hanya berdasarkan data yang tersedia dan mungkin tidak representatif untuk semua bank di IDX30.",,skipped,bypassed,0.7,8473.13,3,,,n/a
+Q042,Saham Basic Materials mana di IDX30 yang memiliki kapitalisasi pasar terbesar?,sector_query,mode_2_rag_only,"Saham Basic Materials dengan kapitalisasi pasar terbesar di IDX30 adalah BRPT dengan nilai Rp 145,8 T.",,skipped,bypassed,0.7,8711.96,3,,,n/a
+Q043,"Berapa total kapitalisasi pasar sektor Oil, Gas & Coal di IDX30 saat ini?",sector_query,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8414.88,3,,,n/a
+Q044,Saham Food & Beverage mana di IDX30 yang memiliki dividend yield TTM (Trailing Twelve Months) tertinggi?,sector_query,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,10694.62,3,,,n/a
+Q045,Bandingkan rasio P/E (Price-to-Earnings) TTM (Trailing Twelve Months) antara TLKM dan ISAT.,sector_query,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8761.6,3,,,n/a
+Q046,Berapa harga penutupan terakhir PGEO sebagai satu-satunya saham Utilities di IDX30?,sector_query,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8972.64,3,,,n/a
+Q047,"Bandingkan kinerja harga 30 hari terakhir antara sektor Banks dan sektor Oil, Gas & Coal di IDX30.",sector_query,mode_2_rag_only,"Data tidak tersedia untuk mengetahui perbandingan kinerja harga 30 hari terakhir antara sektor Banks dan sektor Oil, Gas & Coal di IDX30.",,skipped,bypassed,0.7,9105.49,3,,,n/a
+Q048,Bandingkan net profit margin antara ICBP dan INDF pada tahun 2024.,sector_query,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8635.87,3,,,n/a
+Q049,Saham Basic Materials mana di IDX30 yang memiliki P/B (Price-to-Book) MRQ (Most Recent Quarter) terendah?,sector_query,mode_2_rag_only,"INKP dengan P/B MRQ sebesar 0,36x memiliki P/B MRQ terendah di sektor Basic Materials IDX30.",,skipped,bypassed,0.7,9102.65,3,,,n/a
+Q050,Berapa rata-rata pendapatan tahunan saham Banks di IDX30 pada tahun 2024?,sector_query,mode_2_rag_only,Data tidak tersedia.,,skipped,bypassed,0.7,8136.64,3,,,n/a
+Q001,Berapa harga penutupan terakhir saham BBCA?,price_snapshot,mode_3_rag_jc,Rp 5.975 per 2026-05-26.,,passed,bypassed,0.85,11116.04,3,2,,"gen=react_v5,crit=critic_v4"
+Q002,Berapa harga penutupan saham BBRI pada 30 April 2026?,price_snapshot,mode_3_rag_jc,Rp 2.980 per saham (,,passed,bypassed,0.85,10863.73,3,2,,"gen=react_v5,crit=critic_v4"
+Q003,Berapa harga tertinggi saham TLKM dalam 52 minggu terakhir?,price_snapshot,mode_3_rag_jc,Saya tidak memiliki informasi yang cukup untuk menjawab pertanyaan ini.,,passed,bypassed,0.85,10791.71,3,2,,"gen=react_v5,crit=critic_v4"
+Q004,Berapa volume perdagangan saham ASII pada hari perdagangan terakhir?,price_snapshot,mode_3_rag_jc,Saya tidak menemukan informasi tentang volume perdagangan saham ASII pada hari perdagangan terakhir di knowledge base.,,passed,bypassed,0.85,10573.21,3,2,,"gen=react_v5,crit=critic_v4"
+Q005,Berapa harga terendah saham ADRO selama satu tahun terakhir?,price_snapshot,mode_3_rag_jc,Rp 1.625 per saham (2025-10-08),,passed,bypassed,0.85,11627.94,9,4,,"gen=react_v5,crit=critic_v4"
+Q006,Berapa persen perubahan harga saham BMRI dalam 30 hari terakhir?,price_snapshot,mode_3_rag_jc,"-6,77% (per 2026-05-26)",,passed,bypassed,0.85,10348.16,3,2,,"gen=react_v5,crit=critic_v4"
+Q007,Berapa nilai Moving Average (MA) 7 hari saham GOTO?,price_snapshot,mode_3_rag_jc,Saya tidak memiliki informasi yang cukup untuk menjawab pertanyaan tersebut.,,passed,bypassed,0.85,10826.7,3,2,,"gen=react_v5,crit=critic_v4"
+Q008,Berapa kapitalisasi pasar terkini saham UNVR?,price_snapshot,mode_3_rag_jc,"Rp 67,1 T (per 2026-05-26)",,passed,bypassed,0.85,10023.34,3,2,,"gen=react_v5,crit=critic_v4"
+Q009,Berapa volatilitas saham PTBA dalam 30 hari terakhir?,price_snapshot,mode_3_rag_jc,"Maaf, sistem tidak dapat menghasilkan jawaban saat ini. Silakan ulangi pertanyaan atau hubungi administrator.",,failed,bypassed,0.2,17786.49,0,5,,"gen=react_v5,crit=critic_v4"
+Q010,Berapa harga penutupan saham KLBF pada 31 Maret 2026?,price_snapshot,mode_3_rag_jc,Saya tidak dapat menemukan harga penutupan saham KLBF pada tanggal 31 Maret 2026.,H1,failed,bypassed,0.5,39394.08,9,4,,"gen=react_v5,crit=critic_v4"
+Q011,Berapa rasio P/E (Price-to-Earnings) TTM (Trailing Twelve Months) saham BBNI?,fundamental_metric,mode_3_rag_jc,"Rasio P/E TTM saham BBNI adalah 23.000 / 581 = 39,5 (periode data tahun 2024).",H1,failed,bypassed,0.5,55119.84,12,5,,"gen=react_v5,crit=critic_v4"
+Q012,Berapa rasio P/B (Price-to-Book) saham UNTR berdasarkan kuartal terakhir?,fundamental_metric,mode_3_rag_jc,Saya tidak memiliki informasi yang cukup untuk menjawab pertanyaan tersebut.,,passed,bypassed,0.85,16944.96,0,1,,"gen=react_v5,crit=critic_v4"
+Q013,Berapa ROE (Return on Equity) ANTM pada tahun 2024?,fundamental_metric,mode_3_rag_jc,"Saya tidak dapat memberikan jawaban yang akurat tentang ROE ANTM pada tahun 2024 karena tidak ada informasi yang tersedia. Namun, ROE ANTM pada tahun 2022 adalah 16,11%.",H1,failed,bypassed,0.5,13899.38,3,2,,"gen=react_v5,crit=critic_v4"
+Q014,Berapa dividend yield TTM (Trailing Twelve Months) saham PGAS?,fundamental_metric,mode_3_rag_jc,"9,61% (TTM, periode data: 2025-2023)",,passed,bypassed,0.85,11337.12,3,2,,"gen=react_v5,crit=critic_v4"
+Q015,Berapa pendapatan tahunan ICBP pada tahun 2024?,fundamental_metric,mode_3_rag_jc,"Pendapatan tahunan ICBP pada tahun 2022 adalah Rp 64,8 T.",H4,failed,bypassed,0.5,11419.76,3,2,,"gen=react_v5,crit=critic_v4"
+Q016,Berapa net profit margin INDF pada tahun 2023?,fundamental_metric,mode_3_rag_jc,"7,29% (periode data: tahun 2023, sumber: kb_2)",,passed,bypassed,0.85,10400.53,3,2,,"gen=react_v5,crit=critic_v4"
+Q017,Berapa total utang INCO pada akhir tahun fiskal 2024?,fundamental_metric,mode_3_rag_jc,"Maaf, sistem tidak dapat menghasilkan jawaban saat ini. Silakan ulangi pertanyaan atau hubungi administrator.",,failed,bypassed,0.2,31055.71,0,5,,"gen=react_v5,crit=critic_v4"
+Q018,Berapa payout ratio JPFA terkini?,fundamental_metric,mode_3_rag_jc,Tidak ada informasi tentang payout ratio JPFA tahun 2022.,,passed,bypassed,0.85,22734.54,6,3,,"gen=react_v5,crit=critic_v4"
+Q019,Berapa EPS (Earnings Per Share) MEDC pada tahun 2024?,fundamental_metric,mode_3_rag_jc,"Rp 236 (tahun 2024, sumber: [kb_1])",,passed,bypassed,0.85,19191.69,6,3,,"gen=react_v5,crit=critic_v4"
+Q020,Berapa Forward P/E (Forward Price-to-Earnings) AMRT?,fundamental_metric,mode_3_rag_jc,Saya tidak memiliki informasi yang cukup untuk menjawab pertanyaan Anda tentang Forward P/E AMRT.,,passed,bypassed,0.85,9969.95,0,1,,"gen=react_v5,crit=critic_v4"
+Q021,Berapa pertumbuhan pendapatan TLKM dari tahun 2023 ke 2024?,fundamental_metric,mode_3_rag_jc,"Pertumbuhan pendapatan TLKM dari tahun 2023 ke 2024 adalah 0,67% (Rp 150,0 T - Rp 149,2 T). (Tahun 2024)",H1,failed,bypassed,0.5,12292.53,6,3,,"gen=react_v5,crit=critic_v4"
+Q022,Berapa total dividen yang dibayarkan BBCA selama tahun 2024?,fundamental_metric,mode_3_rag_jc,Rp 278 per saham (2024),,passed,bypassed,0.85,11714.12,3,2,,"gen=react_v5,crit=critic_v4"
+Q023,Berapa ROE (Return on Equity) INKP pada tahun 2022?,fundamental_metric,mode_3_rag_jc,"ROE INKP pada tahun 2022 adalah 15,30% (periode data: tidak spesifik, tetapi ROE ini didapatkan dari [kb_0] yang tidak menyebutkan tahun spesifik, namun ROE ini lebih tinggi daripada ROE tahun 2021 dan 2025).",,passed,bypassed,0.85,10191.78,3,2,,"gen=react_v5,crit=critic_v4"
+Q024,Berapa laba bersih MDKA pada tahun fiskal 2024?,fundamental_metric,mode_3_rag_jc,Tidak ada informasi tentang laba bersih MDKA pada tahun fiskal 2024.,H1,failed,bypassed,0.5,10460.54,3,2,,"gen=react_v5,crit=critic_v4"
+Q025,Apa 3 saham IDX30 dengan kapitalisasi pasar terbesar saat ini?,ranking,mode_3_rag_jc,"3 saham IDX30 dengan kapitalisasi pasar terbesar saat ini adalah BBCA, BBRI, dan BMRI dengan kapitalisasi pasar Rp 729,2 T, Rp 460,6 T, dan Rp 381,6 T masing-masing per 2026-05-28.",,passed,bypassed,0.85,10718.92,3,2,,"gen=react_v5,crit=critic_v4"
+Q026,Saham IDX30 mana yang memiliki ROE (Return on Equity) tertinggi pada tahun 2024?,ranking,mode_3_rag_jc,Saya tidak dapat menemukan informasi tentang ROE (Return on Equity) dari saham-saham IDX30 pada tahun 2024 karena data yang tersedia hanya sampai Q3-2025.,H1,failed,bypassed,0.5,12043.03,6,3,,"gen=react_v5,crit=critic_v4"
+Q027,Saham IDX30 mana yang memiliki P/E (Price-to-Earnings) TTM (Trailing Twelve Months) terendah saat ini?,ranking,mode_3_rag_jc,"Saham TLKM memiliki P/E TTM terendah saat ini dengan nilai 6,45 pada periode 2026-05-28.","H1,H2,H4",failed,bypassed,0.5,25518.59,6,3,,"gen=react_v5,crit=critic_v4"
+Q028,Apa 3 saham IDX30 dengan dividend yield TTM (Trailing Twelve Months) tertinggi?,ranking,mode_3_rag_jc,"1) ADRO 13,56% 2) PTBA 11,71% 3) BMRI 11,55% (per 2026-05-28)",,passed,bypassed,0.85,10695.15,3,2,,"gen=react_v5,crit=critic_v4"
+Q029,Bank mana di IDX30 yang memiliki ROE (Return on Equity) terbesar saat ini?,ranking,mode_3_rag_jc,"UNVR 156,74% (tanggal/periode data: tahun 2024)",H4,failed,bypassed,0.5,21200.37,6,3,,"gen=react_v5,crit=critic_v4"
+Q030,Saham IDX30 mana yang mencatat pertumbuhan pendapatan tahunan tertinggi pada tahun 2024?,ranking,mode_3_rag_jc,"Saham ANTM mencatat pertumbuhan pendapatan tahunan tertinggi pada tahun 2024 dengan 68,57% (periode data: 2024 vs 2023).",,passed,bypassed,0.85,11597.69,3,2,,"gen=react_v5,crit=critic_v4"
+Q031,Apa 5 saham IDX30 dengan rasio P/B (Price-to-Book) terendah berdasarkan kuartal terakhir?,ranking,mode_3_rag_jc,"5 saham IDX30 dengan rasio P/B terendah berdasarkan kuartal terakhir adalah INKP, INDF, ADRO, MEDC, dan BBNI (per 2026-05-28).","H2,H4",failed,bypassed,0.5,10389.36,3,2,,"gen=react_v5,crit=critic_v4"
+Q032,"Saham IDX30 mana yang memiliki kinerja harga terbaik year-to-date 2026 (Year-to-Date, dari 1 Januari 2026)?",ranking,mode_3_rag_jc,Tidak ada informasi tentang kinerja harga saham IDX30 tahun 2026 di knowledge base.,"H2,H4",failed,bypassed,0.5,38051.13,12,5,,"gen=react_v5,crit=critic_v4"
+Q033,Apa 3 saham IDX30 dengan total utang terbesar pada akhir tahun fiskal 2024?,ranking,mode_3_rag_jc,"1) BMRI Rp 2113,7 T 2) BBRI Rp 1669,8 T 3) BBCA Rp 1177,4 T [IDX30 total liabilitas (utang) terbesar akhir tahun fiskal 2024]","H2,H4",failed,bypassed,0.5,11264.99,3,2,,"gen=react_v5,crit=critic_v4"
+Q034,Saham IDX30 mana yang mengalami penurunan harga terbesar dalam 30 hari terakhir?,ranking,mode_3_rag_jc,"MBMA dengan perubahan harga -32,48% dalam 30 hari terakhir (per 2026-05-28).","H2,H4",failed,bypassed,0.5,10123.46,3,2,,"gen=react_v5,crit=critic_v4"
+Q035,Berapa harga penutupan saham PTBA pada akhir tahun 2024?,price_snapshot,mode_3_rag_jc,Tidak ada informasi yang relevan tentang harga penutupan saham PTBA pada akhir tahun 2024.,"H1,H2,H4",failed,bypassed,0.5,10901.36,3,2,,"gen=react_v5,crit=critic_v4"
+Q036,Berapa harga rata-rata saham ISAT selama bulan Januari 2026?,price_snapshot,mode_3_rag_jc,Saya tidak memiliki informasi yang cukup untuk menjawab pertanyaan tentang harga rata-rata saham ISAT selama bulan Januari 2026.,"H2,H4",failed,bypassed,0.5,42342.66,12,5,,"gen=react_v5,crit=critic_v4"
+Q037,Berapa harga saham BRPT pada awal tahun 2025?,price_snapshot,mode_3_rag_jc,Tidak ada informasi tentang harga saham BRPT pada awal tahun 2025.,"H2,H4",failed,bypassed,0.5,10879.68,3,2,,"gen=react_v5,crit=critic_v4"
+Q038,Bagaimana perubahan harga saham CPIN dari kuartal terakhir ke saat ini secara QoQ (Quarter-on-Quarter)?,price_snapshot,mode_3_rag_jc,Saya tidak memiliki informasi yang cukup untuk menjawab perubahan harga saham CPIN dari kuartal terakhir ke saat ini secara QoQ (Quarter-on-Quarter).,"H2,H4",failed,bypassed,0.5,10755.31,3,2,,"gen=react_v5,crit=critic_v4"
+Q039,Berapa harga tertinggi saham BUMI sepanjang tahun 2025?,price_snapshot,mode_3_rag_jc,Harga saham BUMI tidak tersedia dalam knowledge base.,"H2,H4",failed,bypassed,0.5,10628.89,3,2,,"gen=react_v5,crit=critic_v4"
+Q040,Berapa rata-rata volume perdagangan EMTK dalam 90 hari terakhir?,price_snapshot,mode_3_rag_jc,"Maaf, sistem tidak dapat menghasilkan jawaban saat ini. Silakan ulangi pertanyaan atau hubungi administrator.",,failed,bypassed,0.2,34600.37,0,5,,"gen=react_v5,crit=critic_v4"
+Q041,Berapa rata-rata ROE (Return on Equity) dari semua bank di IDX30 pada tahun 2024?,sector_query,mode_3_rag_jc,"Sektor Banks IDX30 (4 saham): BBCA, BBNI, BBRI, BMRI. ROE rata-rata 2024: 17,45%. (periode data: 2024)","H2,H4",failed,bypassed,0.5,34139.57,6,3,,"gen=react_v5,crit=critic_v4"
+Q042,Saham Basic Materials mana di IDX30 yang memiliki kapitalisasi pasar terbesar?,sector_query,mode_3_rag_jc,"Saham Basic Materials di IDX30 dengan kapitalisasi pasar terbesar adalah BRPT dengan Rp 145,8 T per 2026-05-28.","H2,H4",failed,bypassed,0.5,10618.82,3,2,,"gen=react_v5,crit=critic_v4"
+Q043,"Berapa total kapitalisasi pasar sektor Oil, Gas & Coal di IDX30 saat ini?",sector_query,mode_3_rag_jc,"Total kapitalisasi pasar sektor Oil, Gas & Coal di IDX30 adalah Rp 304,3 T (periode data tidak disebutkan, tetapi kemungkinan besar berdasarkan data terbaru).","H2,H4",failed,bypassed,0.5,11951.59,3,2,,"gen=react_v5,crit=critic_v4"
+Q044,Saham Food & Beverage mana di IDX30 yang memiliki dividend yield TTM (Trailing Twelve Months) tertinggi?,sector_query,mode_3_rag_jc,"JPFA dengan dividend yield TTM tertinggi 5,45% per 2024.","H2,H4",failed,bypassed,0.5,10197.32,3,2,,"gen=react_v5,crit=critic_v4"
+Q045,Bandingkan rasio P/E (Price-to-Earnings) TTM (Trailing Twelve Months) antara TLKM dan ISAT.,sector_query,mode_3_rag_jc,Saya tidak memiliki informasi yang cukup untuk menjawab pertanyaan tersebut.,"H2,H4",failed,bypassed,0.5,9532.09,0,1,,"gen=react_v5,crit=critic_v4"
+Q046,Berapa harga penutupan terakhir PGEO sebagai satu-satunya saham Utilities di IDX30?,sector_query,mode_3_rag_jc,Rp 900 per 2026-05-26,"H2,H4",failed,bypassed,0.5,10426.97,3,2,,"gen=react_v5,crit=critic_v4"
+Q047,"Bandingkan kinerja harga 30 hari terakhir antara sektor Banks dan sektor Oil, Gas & Coal di IDX30.",sector_query,mode_3_rag_jc,"Perubahan harga 30 hari rata-rata sektor Oil, Gas & Coal di IDX30 adalah -14,15%, sedangkan perubahan harga 30 hari rata-rata sektor Banks di IDX30 adalah -12,15%.","H1,H2,H4",failed,bypassed,0.5,10582.06,3,2,,"gen=react_v5,crit=critic_v4"
+Q048,Bandingkan net profit margin antara ICBP dan INDF pada tahun 2024.,sector_query,mode_3_rag_jc,"Net profit margin ICBP pada tahun 2025 adalah 12,32%, sedangkan net profit margin INDF pada tahun 2021 adalah 7,69%.","H2,H4",failed,bypassed,0.5,9961.64,3,2,,"gen=react_v5,crit=critic_v4"
+Q049,Saham Basic Materials mana di IDX30 yang memiliki P/B (Price-to-Book) MRQ (Most Recent Quarter) terendah?,sector_query,mode_3_rag_jc,"INKP dengan P/B MRQ 0,36x per 2026-05-28.","H2,H4",failed,bypassed,0.5,9321.5,3,2,,"gen=react_v5,crit=critic_v4"
+Q050,Berapa rata-rata pendapatan tahunan saham Banks di IDX30 pada tahun 2024?,sector_query,mode_3_rag_jc,Saya tidak menemukan informasi tentang pendapatan tahunan masing-masing saham Banks di IDX30 pada tahun 2024 di knowledge base.,"H2,H4",failed,bypassed,0.5,9799.47,3,2,,"gen=react_v5,crit=critic_v4"
+Q001,Berapa harga penutupan terakhir saham BBCA?,price_snapshot,mode_4_rag_jc_cache,Rp 5.975 per 2026-05-26.,"H2,H4",failed,miss,0.5,19656.97,3,2,,"gen=react_v5,crit=critic_v4"
+Q002,Berapa harga penutupan saham BBRI pada 30 April 2026?,price_snapshot,mode_4_rag_jc_cache,Rp 2.980 per saham (,"H2,H4",failed,miss,0.5,20664.37,3,2,,"gen=react_v5,crit=critic_v4"
+Q003,Berapa harga tertinggi saham TLKM dalam 52 minggu terakhir?,price_snapshot,mode_4_rag_jc_cache,Saya tidak memiliki informasi yang cukup untuk menjawab pertanyaan ini.,"H2,H4",failed,miss,0.5,18601.96,3,2,,"gen=react_v5,crit=critic_v4"
+Q004,Berapa volume perdagangan saham ASII pada hari perdagangan terakhir?,price_snapshot,mode_4_rag_jc_cache,Saya tidak menemukan informasi tentang volume perdagangan saham ASII pada hari perdagangan terakhir di knowledge base.,"H2,H4",failed,miss,0.5,18533.88,3,2,,"gen=react_v5,crit=critic_v4"
+Q005,Berapa harga terendah saham ADRO selama satu tahun terakhir?,price_snapshot,mode_4_rag_jc_cache,Harga terendah saham ADRO tidak dapat ditemukan dari informasi yang tersedia.,"H2,H4",failed,miss,0.5,20352.49,3,2,,"gen=react_v5,crit=critic_v4"
+Q006,Berapa persen perubahan harga saham BMRI dalam 30 hari terakhir?,price_snapshot,mode_4_rag_jc_cache,"-6,77% (per 2026-05-26)","H2,H4",failed,miss,0.5,19450.35,3,2,,"gen=react_v5,crit=critic_v4"
+Q007,Berapa nilai Moving Average (MA) 7 hari saham GOTO?,price_snapshot,mode_4_rag_jc_cache,Saya tidak memiliki informasi yang cukup untuk menjawab pertanyaan tersebut.,"H2,H4",failed,miss,0.5,19597.4,3,2,,"gen=react_v5,crit=critic_v4"
+Q008,Berapa kapitalisasi pasar terkini saham UNVR?,price_snapshot,mode_4_rag_jc_cache,"Rp 67,1 T (per 2026-05-26)","H2,H4",failed,miss,0.5,20430.04,3,2,,"gen=react_v5,crit=critic_v4"
+Q009,Berapa volatilitas saham PTBA dalam 30 hari terakhir?,price_snapshot,mode_4_rag_jc_cache,"Maaf, sistem tidak dapat menghasilkan jawaban saat ini. Silakan ulangi pertanyaan atau hubungi administrator.",,failed,miss,0.2,23469.52,0,5,,"gen=react_v5,crit=critic_v4"
+Q010,Berapa harga penutupan saham KLBF pada 31 Maret 2026?,price_snapshot,mode_4_rag_jc_cache,Saya tidak dapat menemukan harga penutupan saham KLBF pada tanggal 31 Maret 2026 karena informasi yang ada tidak mencakup tanggal tersebut.,"H1,H2,H4",failed,miss,0.5,21234.44,9,4,,"gen=react_v5,crit=critic_v4"
+Q011,Berapa rasio P/E (Price-to-Earnings) TTM (Trailing Twelve Months) saham BBNI?,fundamental_metric,mode_4_rag_jc_cache,"Rasio P/E TTM saham BBNI sebesar 8,35 pada 31 Desember 2022 (sumber: knowledge base IDX30).","H1,H2,H4",failed,miss,0.5,19394.85,6,3,,"gen=react_v5,crit=critic_v4"
+Q012,Berapa rasio P/B (Price-to-Book) saham UNTR berdasarkan kuartal terakhir?,fundamental_metric,mode_4_rag_jc_cache,Saya tidak memiliki informasi yang cukup untuk menjawab pertanyaan tersebut.,"H2,H4",failed,miss,0.5,17366.48,0,1,,"gen=react_v5,crit=critic_v4"
+Q013,Berapa ROE (Return on Equity) ANTM pada tahun 2024?,fundamental_metric,mode_4_rag_jc_cache,"Saya tidak dapat memberikan jawaban yang akurat tentang ROE ANTM pada tahun 2024 karena tidak ada informasi yang tersedia. Namun, ROE ANTM pada tahun 2022 adalah 16,11%.","H1,H2,H4",failed,miss,0.5,18334.89,3,2,,"gen=react_v5,crit=critic_v4"
+Q014,Berapa dividend yield TTM (Trailing Twelve Months) saham PGAS?,fundamental_metric,mode_4_rag_jc_cache,"9,61% (TTM, periode data: 2025-2023)","H2,H4",failed,miss,0.5,20021.04,3,2,,"gen=react_v5,crit=critic_v4"
+Q015,Berapa pendapatan tahunan ICBP pada tahun 2024?,fundamental_metric,mode_4_rag_jc_cache,"Pendapatan tahunan ICBP pada tahun 2022 adalah Rp 64,8 T.","H2,H4",failed,miss,0.5,19273.78,3,2,,"gen=react_v5,crit=critic_v4"
+Q016,Berapa net profit margin INDF pada tahun 2023?,fundamental_metric,mode_4_rag_jc_cache,Saya tidak menemukan data keuangan INDF untuk tahun 2023 di knowledge base.,"H1,H2,H4",failed,miss,0.5,19469.37,6,3,,"gen=react_v5,crit=critic_v4"
+Q017,Berapa total utang INCO pada akhir tahun fiskal 2024?,fundamental_metric,mode_4_rag_jc_cache,"Maaf, sistem tidak dapat menghasilkan jawaban saat ini. Silakan ulangi pertanyaan atau hubungi administrator.",,failed,miss,0.2,21649.23,0,5,,"gen=react_v5,crit=critic_v4"
+Q018,Berapa payout ratio JPFA terkini?,fundamental_metric,mode_4_rag_jc_cache,Tidak ada informasi tentang payout ratio JPFA tahun 2022.,"H2,H4",failed,miss,0.5,21839.42,6,3,,"gen=react_v5,crit=critic_v4"
+Q019,Berapa EPS (Earnings Per Share) MEDC pada tahun 2024?,fundamental_metric,mode_4_rag_jc_cache,"Rp 236 (tahun 2024, sumber: [kb_1])","H2,H4",failed,miss,0.5,20447.11,6,3,,"gen=react_v5,crit=critic_v4"
+Q020,Berapa Forward P/E (Forward Price-to-Earnings) AMRT?,fundamental_metric,mode_4_rag_jc_cache,Saya tidak memiliki informasi yang cukup untuk menjawab pertanyaan Anda tentang Forward P/E AMRT.,"H2,H4",failed,miss,0.5,19872.28,0,1,,"gen=react_v5,crit=critic_v4"
+Q021,Berapa pertumbuhan pendapatan TLKM dari tahun 2023 ke 2024?,fundamental_metric,mode_4_rag_jc_cache,"Pertumbuhan pendapatan TLKM dari tahun 2023 ke 2024 adalah 0,67% (Rp 150,0 T - Rp 149,2 T). (Tahun 2024)","H1,H2,H4",failed,miss,0.5,19502.5,6,3,,"gen=react_v5,crit=critic_v4"
+Q022,Berapa total dividen yang dibayarkan BBCA selama tahun 2024?,fundamental_metric,mode_4_rag_jc_cache,Rp 278 per saham (2024),"H2,H4",failed,miss,0.5,18118.14,3,2,,"gen=react_v5,crit=critic_v4"
+Q023,Berapa ROE (Return on Equity) INKP pada tahun 2022?,fundamental_metric,mode_4_rag_jc_cache,"ROE INKP pada tahun 2022 adalah 15,30% (periode data: tidak spesifik, tetapi ROE ini didapatkan dari [kb_0] yang tidak menyebutkan tahun spesifik, namun ROE ini lebih tinggi daripada ROE tahun 2021 dan 2025).","H2,H4",failed,miss,0.5,20082.67,3,2,,"gen=react_v5,crit=critic_v4"
+Q024,Berapa laba bersih MDKA pada tahun fiskal 2024?,fundamental_metric,mode_4_rag_jc_cache,Tidak ada informasi tentang laba bersih MDKA pada tahun fiskal 2024.,"H1,H2,H4",failed,miss,0.5,18901.7,3,2,,"gen=react_v5,crit=critic_v4"
+Q025,Apa 3 saham IDX30 dengan kapitalisasi pasar terbesar saat ini?,ranking,mode_4_rag_jc_cache,"3 saham IDX30 dengan kapitalisasi pasar terbesar saat ini adalah BBCA, BBRI, dan BMRI dengan kapitalisasi pasar Rp 729,2 T, Rp 460,6 T, dan Rp 381,6 T masing-masing per 2026-05-28.","H2,H4",failed,miss,0.5,19186.27,3,2,,"gen=react_v5,crit=critic_v4"
+Q026,Saham IDX30 mana yang memiliki ROE (Return on Equity) tertinggi pada tahun 2024?,ranking,mode_4_rag_jc_cache,Saya tidak dapat menemukan informasi tentang ROE (Return on Equity) dari saham-saham IDX30 pada tahun 2024 karena data yang tersedia hanya sampai Q3-2025.,"H1,H2,H4",failed,miss,0.5,19556.25,6,3,,"gen=react_v5,crit=critic_v4"
+Q027,Saham IDX30 mana yang memiliki P/E (Price-to-Earnings) TTM (Trailing Twelve Months) terendah saat ini?,ranking,mode_4_rag_jc_cache,"Saham TLKM memiliki P/E TTM terendah saat ini dengan nilai 6,45 pada 2026-05-28.","H1,H2,H4",failed,miss,0.5,19871.51,6,3,,"gen=react_v5,crit=critic_v4"
+Q028,Apa 3 saham IDX30 dengan dividend yield TTM (Trailing Twelve Months) tertinggi?,ranking,mode_4_rag_jc_cache,"1) ADRO 13,56% 2) PTBA 11,71% 3) BMRI 11,55% (per 2026-05-28)","H2,H4",failed,miss,0.5,18903.12,3,2,,"gen=react_v5,crit=critic_v4"
+Q029,Bank mana di IDX30 yang memiliki ROE (Return on Equity) terbesar saat ini?,ranking,mode_4_rag_jc_cache,"UNVR 156,74% (tanggal/periode data: tahun 2024)","H2,H4",failed,miss,0.5,19968.33,6,3,,"gen=react_v5,crit=critic_v4"
+Q030,Saham IDX30 mana yang mencatat pertumbuhan pendapatan tahunan tertinggi pada tahun 2024?,ranking,mode_4_rag_jc_cache,"Saham ANTM mencatat pertumbuhan pendapatan tahunan tertinggi pada tahun 2024 dengan 68,57% (periode data: 2024 vs 2023).","H2,H4",failed,miss,0.5,20625.01,3,2,,"gen=react_v5,crit=critic_v4"
+Q031,Apa 5 saham IDX30 dengan rasio P/B (Price-to-Book) terendah berdasarkan kuartal terakhir?,ranking,mode_4_rag_jc_cache,"5 saham IDX30 dengan rasio P/B terendah berdasarkan kuartal terakhir adalah INKP, INDF, ADRO, MEDC, dan BBNI (per 2026-05-28).","H2,H4",failed,miss,0.5,17755.07,3,2,,"gen=react_v5,crit=critic_v4"
+Q032,"Saham IDX30 mana yang memiliki kinerja harga terbaik year-to-date 2026 (Year-to-Date, dari 1 Januari 2026)?",ranking,mode_4_rag_jc_cache,Tidak ada informasi tentang kinerja harga saham IDX30 tahun 2026 di knowledge base.,"H2,H4",failed,miss,0.5,22521.43,12,5,,"gen=react_v5,crit=critic_v4"
+Q033,Apa 3 saham IDX30 dengan total utang terbesar pada akhir tahun fiskal 2024?,ranking,mode_4_rag_jc_cache,"1) BMRI Rp 2113,7 T 2) BBRI Rp 1669,8 T 3) BBCA Rp 1177,4 T [IDX30 total liabilitas (utang) terbesar akhir tahun fiskal 2024]","H2,H4",failed,miss,0.5,18425.23,3,2,,"gen=react_v5,crit=critic_v4"
+Q034,Saham IDX30 mana yang mengalami penurunan harga terbesar dalam 30 hari terakhir?,ranking,mode_4_rag_jc_cache,"MBMA dengan perubahan harga -32,48% dalam 30 hari terakhir (per 2026-05-28).","H2,H4",failed,miss,0.5,18534.51,3,2,,"gen=react_v5,crit=critic_v4"
+Q035,Berapa harga penutupan saham PTBA pada akhir tahun 2024?,price_snapshot,mode_4_rag_jc_cache,Tidak ada informasi yang relevan tentang harga penutupan saham PTBA pada akhir tahun 2024.,"H1,H2,H4",failed,miss,0.5,18899.46,3,2,,"gen=react_v5,crit=critic_v4"
+Q036,Berapa harga rata-rata saham ISAT selama bulan Januari 2026?,price_snapshot,mode_4_rag_jc_cache,Saya tidak memiliki informasi yang cukup untuk menjawab pertanyaan tentang harga rata-rata saham ISAT selama bulan Januari 2026.,"H2,H4",failed,miss,0.5,21337.46,12,5,,"gen=react_v5,crit=critic_v4"
+Q037,Berapa harga saham BRPT pada awal tahun 2025?,price_snapshot,mode_4_rag_jc_cache,Tidak ada informasi tentang harga saham BRPT pada awal tahun 2025.,"H2,H4",failed,miss,0.5,19322.32,3,2,,"gen=react_v5,crit=critic_v4"
+Q038,Bagaimana perubahan harga saham CPIN dari kuartal terakhir ke saat ini secara QoQ (Quarter-on-Quarter)?,price_snapshot,mode_4_rag_jc_cache,Saya tidak memiliki informasi yang cukup untuk menjawab perubahan harga saham CPIN dari kuartal terakhir ke saat ini secara QoQ (Quarter-on-Quarter).,"H2,H4",failed,miss,0.5,18803.74,3,2,,"gen=react_v5,crit=critic_v4"
+Q039,Berapa harga tertinggi saham BUMI sepanjang tahun 2025?,price_snapshot,mode_4_rag_jc_cache,Harga saham BUMI tidak tersedia dalam knowledge base.,"H2,H4",failed,miss,0.5,19872.39,3,2,,"gen=react_v5,crit=critic_v4"
+Q040,Berapa rata-rata volume perdagangan EMTK dalam 90 hari terakhir?,price_snapshot,mode_4_rag_jc_cache,"Maaf, sistem tidak dapat menghasilkan jawaban saat ini. Silakan ulangi pertanyaan atau hubungi administrator.",,failed,miss,0.2,20738.09,0,5,,"gen=react_v5,crit=critic_v4"
+Q041,Berapa rata-rata ROE (Return on Equity) dari semua bank di IDX30 pada tahun 2024?,sector_query,mode_4_rag_jc_cache,"Sektor Banks IDX30 (4 saham): BBCA, BBNI, BBRI, BMRI. ROE rata-rata 2024: 17,45%. (periode data: 2024)","H2,H4",failed,miss,0.5,20568.65,6,3,,"gen=react_v5,crit=critic_v4"
+Q042,Saham Basic Materials mana di IDX30 yang memiliki kapitalisasi pasar terbesar?,sector_query,mode_4_rag_jc_cache,"Saham Basic Materials di IDX30 dengan kapitalisasi pasar terbesar adalah BRPT dengan Rp 145,8 T per 2026-05-28.","H2,H4",failed,miss,0.5,19007.67,3,2,,"gen=react_v5,crit=critic_v4"
+Q043,"Berapa total kapitalisasi pasar sektor Oil, Gas & Coal di IDX30 saat ini?",sector_query,mode_4_rag_jc_cache,"Total kapitalisasi pasar sektor Oil, Gas & Coal di IDX30 adalah Rp 304,3 T (periode data tidak disebutkan, tetapi kemungkinan besar berdasarkan data terbaru).","H2,H4",failed,miss,0.5,19117.1,3,2,,"gen=react_v5,crit=critic_v4"
+Q044,Saham Food & Beverage mana di IDX30 yang memiliki dividend yield TTM (Trailing Twelve Months) tertinggi?,sector_query,mode_4_rag_jc_cache,"JPFA dengan dividend yield TTM tertinggi 5,45% per 2024.","H2,H4",failed,miss,0.5,22088.07,3,2,,"gen=react_v5,crit=critic_v4"
+Q045,Bandingkan rasio P/E (Price-to-Earnings) TTM (Trailing Twelve Months) antara TLKM dan ISAT.,sector_query,mode_4_rag_jc_cache,Saya tidak memiliki informasi yang cukup untuk menjawab pertanyaan tersebut.,,passed,miss,0.85,20495.59,0,1,,"gen=react_v5,crit=critic_v4"
+Q046,Berapa harga penutupan terakhir PGEO sebagai satu-satunya saham Utilities di IDX30?,sector_query,mode_4_rag_jc_cache,Rp 900 per 2026-05-26,"H2,H4",failed,miss,0.5,20192.46,3,2,,"gen=react_v5,crit=critic_v4"
+Q047,"Bandingkan kinerja harga 30 hari terakhir antara sektor Banks dan sektor Oil, Gas & Coal di IDX30.",sector_query,mode_4_rag_jc_cache,"Perubahan harga 30 hari rata-rata sektor Oil, Gas & Coal di IDX30 adalah -14,15%, sedangkan perubahan harga 30 hari rata-rata sektor Banks di IDX30 adalah -12,15%.","H1,H2,H4",failed,miss,0.5,18655.99,3,2,,"gen=react_v5,crit=critic_v4"
+Q048,Bandingkan net profit margin antara ICBP dan INDF pada tahun 2024.,sector_query,mode_4_rag_jc_cache,"Net profit margin ICBP pada tahun 2025 adalah 12,32%, sedangkan net profit margin INDF pada tahun 2021 adalah 7,69%.","H2,H4",failed,miss,0.5,18155.0,3,2,,"gen=react_v5,crit=critic_v4"
+Q049,Saham Basic Materials mana di IDX30 yang memiliki P/B (Price-to-Book) MRQ (Most Recent Quarter) terendah?,sector_query,mode_4_rag_jc_cache,"INKP dengan P/B MRQ 0,36x per 2026-05-28.","H2,H4",failed,miss,0.5,19299.49,3,2,,"gen=react_v5,crit=critic_v4"
+Q050,Berapa rata-rata pendapatan tahunan saham Banks di IDX30 pada tahun 2024?,sector_query,mode_4_rag_jc_cache,Saya tidak menemukan informasi tentang pendapatan tahunan masing-masing saham Banks di IDX30 pada tahun 2024 di knowledge base.,"H2,H4",failed,miss,0.5,20109.61,3,2,,"gen=react_v5,crit=critic_v4"

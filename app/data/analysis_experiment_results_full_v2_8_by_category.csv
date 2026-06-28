@@ -1,0 +1,5 @@
+category,mode_1_llm_only,mode_2_rag_only,mode_3_rag_jc,mode_4_rag_jc_cache
+fundamental_metric,0.0,0.0,35.71,92.86
+price_snapshot,0.0,0.0,37.5,87.5
+ranking,0.0,0.0,70.0,100.0
+sector_query,0.0,0.0,100.0,90.0

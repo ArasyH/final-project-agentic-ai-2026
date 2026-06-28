@@ -1,0 +1,5 @@
+mode,n_questions,faithfulness_mean,faithfulness_sd,answer_relevancy_mean,answer_relevancy_sd,context_precision_mean,context_precision_sd,context_recall_mean,context_recall_sd,models_used
+Mode 1 (LLM Only),50,,,0.1306,0.328,,,,,llama-3.3-70b-versatile
+Mode 2 (RAG Only),50,0.3222,0.44,0.2919,0.4087,0.6042,0.4608,0.6682,0.424,"llama-3.1-8b-instant, llama-3.3-70b-versatile, mistral-small-latest"
+Mode 3 (RAG+J&C),50,0.4667,0.4492,0.3799,0.3672,0.66,0.4492,0.6293,0.4468,mistral-small-latest
+Mode 4 (RAG+J&C+Cache),50,0.5267,0.4706,0.3499,0.3775,0.6667,0.4492,0.6293,0.4468,mistral-small-latest

@@ -1,0 +1,3 @@
+mode,mean,sd,median,q1,q3,max
+Mode 3 (RAG+J&C),2.52,1.09,2.0,2.0,3.0,5
+Mode 4 (RAG+J&C+Cache),2.46,1.01,2.0,2.0,3.0,5

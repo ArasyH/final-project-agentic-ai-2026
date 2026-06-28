@@ -1,0 +1,5 @@
+mode,passed,failed,skipped,pass_pct
+Mode 1 (LLM Only),0,0,50,0.0
+Mode 2 (RAG Only),0,0,50,0.0
+Mode 3 (RAG+J&C),19,31,0,38.0
+Mode 4 (RAG+J&C+Cache),1,49,0,2.0

@@ -1,0 +1,5 @@
+mode,mean,sd,median,q1,q3,ev0_count,ev0_pct
+Mode 1 (LLM Only),0.0,0.0,0.0,0.0,0.0,50,100.0
+Mode 2 (RAG Only),3.0,0.0,3.0,3.0,3.0,0,0.0
+Mode 3 (RAG+J&C),3.84,2.85,3.0,3.0,3.0,6,12.0
+Mode 4 (RAG+J&C+Cache),3.66,2.52,3.0,3.0,3.0,6,12.0

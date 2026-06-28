@@ -1,0 +1,5 @@
+mode,q_flagged,total_q,hallucination_rate_pct,selisih_absolut_pp,selisih_relatif_pct
+Mode 1 (LLM Only),0,50,0.0,-,-
+Mode 2 (RAG Only),0,50,0.0,+0.0 pp,N/A
+Mode 3 (RAG+J&C),28,50,56.0,+56.0 pp,N/A
+Mode 4 (RAG+J&C+Cache),46,50,92.0,+92.0 pp,N/A
