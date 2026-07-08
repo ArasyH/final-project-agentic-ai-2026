@@ -21,7 +21,7 @@
   torch>=2.0
   
   # Observability
-  langfuse==3.4.16
+  langfuse==3.14.6
 
   # API server (dependency transitif app/)
   fastapi>=0.115
