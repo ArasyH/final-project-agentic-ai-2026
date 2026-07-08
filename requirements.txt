@@ -16,8 +16,9 @@
   transformers>=4.50
   huggingface-hub>=0.30
 
-  # PyTorch — pakai versi CPU untuk hemat disk (~200MB vs 900MB CUDA)
-  --extra-index-url https://download.pytorch.org/whl/cpu
+  # PyTorch — install dari PyPI default (torch>=2.x sudah CPU-friendly untuk Linux x86_64)
+  # Extra-index-url PyTorch dihapus karena `uv` (dipakai Streamlit Cloud) conflict
+  # dengan requests==2.28.1 di index tsb vs requests>=2.32.5 yg dibutuhkan langchain.
   torch>=2.0
   
   # Observability
