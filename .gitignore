@@ -8,14 +8,21 @@ __pycache__/
 
 # Virtual environment
 venv/
+.venv/
 .env
 
 # Logs
 *.log
 
+# APP DATA 
+app/data
+
+# DRAFT LAPORAN
+/drafttugasakhir
 # ETL temporary data
 etl/raw_data/
 etl/processed_data/
+etl/logs/
 
 # IDE / OS
 .DS_Store
@@ -37,3 +44,7 @@ proses.ipynb
 test_chromadbconn.py
 test.py
 app/evaluate_ragas.ipynb
+evaluation_dataset_finish.json
+evaluation_dataset.json
+smoke_test_results.json
+smoke_test.py

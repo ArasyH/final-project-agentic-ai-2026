@@ -176,6 +176,29 @@ def _run_rag_jc_pipeline(
             "iterations_used": gen_output.iterations_used,
             "guardrails_status": guardrail_result.overall_status,
             "critic_verdict": critic_verdict.overall_verdict,
+            "critic_details": {
+                "H1": {
+                    "flag": critic_verdict.H1_unsupported_numeric.flag,
+                    "rationale": critic_verdict.H1_unsupported_numeric.rationale,
+                },
+                "H2": {
+                    "flag": critic_verdict.H2_fabricated_metric.flag,
+                    "rationale": critic_verdict.H2_fabricated_metric.rationale,
+                },
+                "H3": {
+                    "flag": critic_verdict.H3_stale_timestamp.flag,
+                    "rationale": critic_verdict.H3_stale_timestamp.rationale,
+                },
+                "H4": {
+                    "flag": critic_verdict.H4_incorrect_inference.flag,
+                    "rationale": critic_verdict.H4_incorrect_inference.rationale,
+                },
+            },
+            "guardrails_details": {
+                "H1": guardrail_result.H1_unsupported_numeric,
+                "H3": guardrail_result.H3_stale_timestamp,
+                "no_investment_recommendation": guardrail_result.no_investment_recommendation,
+            },
         },
     )
 

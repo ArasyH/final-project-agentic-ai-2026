@@ -13,3 +13,4 @@ groq==0.37.1
 fastapi==0.136.0
 python-dotenv==1.2.2
 pytest==9.0.3
+streamlit>=1.35
